@@ -66,6 +66,7 @@ function openSetting(id, lvl, serial) {
 	$addClass("#_tr-" + serial, "active")
 	onModalOpen()
 	$html("#modal-title", "보물 수정")
+	$html("#tr-one-setting-serial","#"+serial)
 }
 function openSelection() {
 	$removeClass("#tr-setting", "hidden")
@@ -87,11 +88,25 @@ function removeTreasure() {
 	} else openNextTreasure()
 	onTreasureChange()
 }
+
+
+function getCount(){
+	let count = prompt('복제할 갯수를 입력하세요',"1")
+	if(Number(count) < 1 || Number(count) > 100 || isNaN(Number(count))){
+		alert("1~100 사이의 숫자를 입력하세요")
+		return 0
+	}
+	return Number(count)
+}
 function copyTreasure() {
 	if (State.settingTr === -1) return
-	const node = addTreasure(Number(State.settingTr), Number(State.settingLvl))
+	let count = getCount()
+	if(count<=0) return
 
-	openSetting(Number($data(node, "id")), Number($data(node, "lvl")), Number($data(node, "serial")))
+	for(let i=0;i<count;++i)
+		addTreasure(Number(State.settingTr), Number(State.settingLvl))
+	// openSetting(Number($data(node, "id")), Number($data(node, "lvl")), Number($data(node, "serial")))
+	clearSetting()
 	if (isMobile()) {
 		closeModal()
 	}
