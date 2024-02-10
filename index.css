@@ -358,7 +358,17 @@ h1{
     font-family: "cookierun";
     color: rgb(81, 57, 0);
 }
-
+#share-area{
+    max-height: 200px;
+    max-width: 400px;
+    overflow:auto;
+    word-break: break-all;
+    padding: 5px;
+    background-color: white;
+    display: inline-block;
+    text-decoration: underline;
+    cursor: pointer;
+}
 @media only screen and (max-width: 700px) {
 
     #tr-setting{

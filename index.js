@@ -32,7 +32,7 @@ function setSetting(id, lvl) {
 	$removeClass("#tr-setting-tr", "hidden")
 	const tr = TR_DICT.get(Number(id))
 	let html = treasureBody(tr, lvl)
-	console.log(lvl)
+	//console.log(lvl)
 	const name = tr.id < 100 ? tr.name : getRewardTreasureName(tr.minscore)
 	$html("#tr-setting-tr-name", name)
 	$html("#tr-setting-tr", html)
@@ -293,6 +293,8 @@ function removeAll() {
 	clearSetting()
 	$(".tr-displayed").forEach((e) => e.remove())
 	onTreasureChange()
+    $removeClass(".empty-tr-temp","hidden")
+
 }
 
 function decodeState(encodedString){
@@ -327,8 +329,12 @@ function save() {
     alert("세팅이 브라우저에 저장되었습니다")
 }
 function share(){
-    navigator.clipboard.writeText(window.location.href.split('?')[0]+"?state="+ encodeCurrentState())
-	alert("링크가 클립보드에 복사되었습니다")
+    let link=window.location.href.split('?')[0]+"?state="+ encodeCurrentState()
+    navigator.clipboard.writeText(link)
+    .then(() => {
+        alert("링크가 클립보드에 복사되었습니다")
+    })
+    $html("#share-area",link)
 }
 function load(){
     let str = localStorage.getItem("cookierun-crystal-state")
@@ -359,7 +365,10 @@ function onTreasureChange() {
 		total += getValues(tr, lvl)[0]
 		maxprob *= getValues(tr, lvl)[1] / 100
 	}
+    let result = round(maxprob * 100, -6) 
+    if(Math.abs(0-result) < 0.0000001) result ="0.000001% 미만"
+    else result +="%"
 	$html("#total-exp", round(totalexp, -4))
 	$html("#total-max", total)
-	$html("#total-max-prob", round(maxprob * 100, -6))
+	$html("#total-max-prob",result )
 }
