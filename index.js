@@ -92,6 +92,7 @@ function removeTreasure() {
 
 function getCount(){
 	let count = prompt('복제할 갯수를 입력하세요',"1")
+	if(count===null) return 0
 	if(Number(count) < 1 || Number(count) > 100 || isNaN(Number(count))){
 		alert("1~100 사이의 숫자를 입력하세요")
 		return 0
@@ -316,7 +317,7 @@ function decodeState(encodedString){
     var str = atob(encodedString);
 
     const trs = str.split(",")
-    for(const tr of trs){
+    for(const tr of trs.reverse()){
         if(!tr || tr==="") continue
         const [id,lvl] = tr.split("-")
         addTreasure(Number(id),Number(lvl))
