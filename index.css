@@ -1,0 +1,383 @@
+@font-face {
+    font-family: "cookierun";
+    src: url("font/CookieRun.ttf");
+}
+@font-face {
+    font-family: "cookierun black";
+    src: url("font/CookieRun_Black.ttf");
+}
+html{
+    font-family: "cookierun";
+    text-align: center;
+    --col-secondary:   #87B426;
+    --col-secondary-light:   #96c72d;
+    --col-secondary-dark:#5B781D;
+    --col-primary:#25A5C2;
+    --col-primary-dark:#166678;
+    --col-primary-light:#25A5C2;
+    --col-red:#E45536;
+    --col-red-light:#EE6F4F;
+    --col-red-dark:#8F2B16;
+
+    --col-bg:#DAD5CA;
+    --col-bg-dark:#BEBDB8;
+    --col-purple:#8958C5;
+    --col-bg-light:#EFEDE8;
+    --col-yellow:#FFD403;
+    background-color: var(--col-bg-light);
+    zoom: 70%;
+
+    box-sizing: content-box;
+}
+body{
+    margin: 0;
+    min-height: 100vh;
+}
+footer{margin-top: 300px;
+    text-align: left;
+    padding: 40px;
+    background-color: var(--col-bg-dark);
+}
+.stroke{
+    -webkit-text-stroke: 2px rgb(81, 57, 0);
+}
+h1{
+    font-family: "cookierun black";
+
+    color: var(--col-yellow);
+}
+.shadow{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.179);
+    z-index: 4;
+}
+.hidden{
+    visibility: collapse;
+    display: none;
+}
+.modal{
+    position: fixed;
+    top:50vh;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: min(90%,1000px);
+    height: 600px;
+    z-index: 5;
+}
+.popup{
+    border: 4px solid var(--col-primary);
+    background-color: var(--col-bg-light);
+    border-radius: 20px;
+}
+.popup-content{
+    box-shadow: inset rgba(0, 0, 0, 0.5) 0px 2px 4px 1px;
+    height: 540px;
+}
+.popup-toolbar{
+    width: 100%;
+    height: 60px;
+    background-color:  var(--col-primary);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-title{
+    color: white;
+    font-size: 25px;
+    margin-left: 30px;
+    /* -webkit-text-stroke:2px var(--col-primary-dark); */
+}
+
+.btn.btn-gray{
+    
+    background: 
+    linear-gradient(155deg,white 0%, white 8px,transparent 13px,transparent 100%),
+    linear-gradient(to bottom,  #999999 0%,   #999999 2%,transparent 10%,transparent 90%,
+    #999999 98%,   #999999 100%),
+    #828181;
+    -webkit-text-stroke:2px rgb(82, 82, 82);
+}
+
+.btn.btn-secondary{
+    
+    background: 
+    linear-gradient(155deg,white 0%, white 8px,transparent 13px,transparent 100%),
+    linear-gradient(to bottom,var(--col-secondary-light) 0%, var(--col-secondary-light) 2%,transparent 10%,transparent 90%,
+    var(--col-secondary-light) 98%, var(--col-secondary-light) 100%),
+    var(--col-secondary);
+    -webkit-text-stroke:2px var(--col-secondary-dark);
+    border: 3px solid var(--col-secondary-dark);
+
+}
+.btn.btn-primary
+{
+   
+    background: 
+    linear-gradient(155deg,#aaefff 0%, #aaefff 8px,transparent 13px,transparent 100%),
+    linear-gradient(to bottom,var(--col-primary-light) 0%, var(--col-primary-light) 2%,transparent 10%,transparent 90%,
+    var(--col-primary-light) 98%, var(--col-primary-light) 100%),
+    var(--col-primary);
+
+    -webkit-text-stroke:2px var(--col-primary-dark);
+    border: 3px solid var(--col-primary-dark);
+
+}
+.btn.btn-red{
+    background: 
+    linear-gradient(155deg,white 0%, white 8px,transparent 13px,transparent 100%),
+    linear-gradient(to bottom,var(--col-red-light) 0%, var(--col-red-light) 2%,transparent 10%,transparent 90%,
+    var(--col-red-light) 98%, var(--col-red-light) 100%),
+    var(--col-red);
+
+    -webkit-text-stroke:2px var(--col-red-dark);
+    border: 3px solid var(--col-red-dark);
+
+}
+
+.btn{
+    font-family: "cookierun black";
+    color: white;
+    font-weight: bolder;
+    border: 3px solid rgb(82, 82, 82);
+    cursor: pointer;
+    padding: 5px 15px;
+    font-size: 30px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    border-radius: 50px;
+    box-shadow: rgba(0, 0, 0, 0.179) 0px 2px 4px 1px;
+}
+.btn.wide{
+    padding: 5px 30px;
+
+}
+
+.popup-close{
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-color:  rgb(150, 149, 149);
+    justify-self: flex-end;
+    -webkit-text-stroke:0px beige !important;
+}
+#tr-setting-close{
+    display: none;
+}
+.btn.selected{
+    filter: brightness(0.8);
+}
+.btn.disabled
+{
+    filter: brightness(0.8);
+    cursor: not-allowed;
+}
+    .btn.gold{
+        color: var(--col-yellow);
+        -webkit-text-stroke: 2px rgb(152, 113, 15);
+
+    }
+.btn:hover{
+    filter: brightness(0.8);
+}
+.container{
+    display: inline-block;
+    padding: 10px;
+    /* background-color: var(--col-bg); */
+    width:min(1200px,95%);
+}
+.empty-tr{
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    border:4px solid var(--col-bg-light);
+    background: var(--col-bg-dark);
+
+    padding: 4px;
+    margin: 5px;
+    position: relative;
+}
+.empty-tr > div{
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(to bottom,var(--col-bg) 0%,var(--col-bg-dark) 100%);
+    border-radius: 12px;
+    padding: 4px;
+}
+.tr-add{
+    font-family: "cookierun";
+
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1;
+    font-size:60px;
+    color:gray;
+    cursor: pointer;
+}
+.tr{
+    /* display: inline-block; */
+    width: 80px;
+    height: 80px;
+    margin: 5px;
+    position: relative;
+    cursor: pointer;
+    
+}
+.tr-displayed{
+    border-radius: 20px;
+}
+.tr-displayed.active{
+    outline: 5px solid red;
+}
+.tr:hover{
+    transform: scale(1.1);
+    
+}
+.tr-add-hover{
+    font-family: "cookierun black";
+
+    position: absolute;
+    bottom: -10px;
+    right: 5px;
+    z-index: 1;
+    font-size:50px;
+    color:var(--col-yellow);
+    -webkit-text-stroke: 2px black;
+
+}
+.tr-add:hover{
+    font-size:70px;
+}
+.tr img{
+    width: 80px;
+    height: 80px;
+}
+.tr .tr-img{
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top:0;
+    left: 0;;
+    z-index: 1;
+}
+.tr .tr-lvl{
+    font-family: "cookierun black";
+
+    position: absolute;
+    bottom:0px;
+    right: 3px;
+    z-index: 2;
+    font-size: 30px;
+    -webkit-text-stroke:2px black;
+    color: white;
+}
+.tr-lvl.lvl-9{
+    color: var(--col-yellow);
+}
+
+#treasures{
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+}
+.treasures{
+    background-color: var(--col-bg);
+    margin-right: 3px;
+    padding: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap:wrap;
+    align-content: flex-start;
+    box-shadow: inset rgba(0, 0, 0, 0.5) 0px 2px 4px 1px;
+
+    border: 4px solid var(--col-primary);
+    /* background-color: var(--col-bg-light); */
+    border-radius: 20px;
+    /* min-height: 600px; */
+}
+#tr-setting{
+    position: sticky;
+    top:0;
+    height: 600px;
+}
+.tr-setting-container{
+    /* width: 100%; */
+    padding: 10px;
+    /* display: inline-block; */
+    /* max-width: 500px; */
+    height: 500px;
+    overflow: auto;
+    /* background-color: rebeccapurple;; */
+}
+.tr-setting-name{
+    /* display: inline-block; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--col-purple);
+}
+.tr-setting-desc{
+    font-size: 18px;
+}
+
+.tr-select-category{
+    color: white;
+    background-color: var(--col-bg-dark);
+    font-size: 20px;
+    line-height: 24px;
+    border-radius: 12px;
+    margin: 4px;
+    padding: 2px;
+}
+.tr-select-container{
+    margin-right: 3px;
+    padding: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap:wrap;
+    align-content: flex-start;
+}
+
+#lvl-9-checkbox{
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+.resulttext{
+    font-family: "cookierun";
+    color: rgb(81, 57, 0);
+}
+
+@media only screen and (max-width: 700px) {
+
+    #tr-setting{
+        position: fixed;
+        top:50vh;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: min(90%,1000px);
+        height: 600px;
+        z-index: 5;
+    }
+    #tr-setting-close{
+        display: inline-block;
+    }
+    #treasures{
+        display: block;
+    }
+    html.scroll-lock{
+        height: 100vh;
+        overflow: hidden;
+    }
+}

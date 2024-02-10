@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<head>
+	<title>쿠키런 크리스탈 기댓값 계산기</title>
+	<link rel="icon" type="image/x-icon" href="img/shop_icon_gem.png" />
+
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<!-- <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+	<link href="index.css" rel="stylesheet" />
+
+	<!-- <script src="assets/vendor/jquery/jquery.min.js"></script> -->
+	<!-- <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+	<script src="jquery.js"></script>
+
+	<script src="index.js"></script>
+	<script src="treasures.js"></script>
+</head>
+<body>
+	<h1 class="stroke"><img src="img/shop_icon_gem.png" style="width: 30px" />쿠키런 크리스탈 기댓값 계산기</h1>
+	<div class="shadow hidden"></div>
+
+	<div class="container" id="treasures">
+		<div class="treasures">
+			<div class="empty-tr" id="tr-add-btn">
+				<div></div>
+				<b class="tr-add">+</b>
+			</div>
+			<div class="empty-tr empty-tr-temp">
+				<div></div>
+			</div>
+			<div class="empty-tr empty-tr-temp">
+				<div></div>
+			</div>
+			<div class="empty-tr empty-tr-temp">
+				<div></div>
+			</div>
+			<div class="empty-tr empty-tr-temp">
+				<div></div>
+			</div>
+		</div>
+		<div class="popup" id="tr-setting">
+			<div class="popup-toolbar">
+				<b class="popup-title" id="modal-title">보물 추가</b>
+				<span class="btn btn-gray popup-close" id="tr-setting-close"> &times; </span>
+			</div>
+			<div class="popup-content">
+				<div class="tr-setting-container" id="tr-selection">
+					<div class="setting-checkbox-container">
+						<input type="checkbox" id="lvl-9-checkbox" />
+						<label for="lvl-9-checkbox" style="font-size: 20px">9강으로 추가 </label>
+					</div>
+					<div class="tr-select-category">뽑기 보물</div>
+					<div class="tr-select-container" id="tr-selection-gacha">
+						<!-- <div class="tr">
+              <img src="img/frame.png">
+              <img class="tr-img" src="img/tr/14.webp">
+              <img class="tr-img" src="img/passive.png">
+              <b class="tr-add-hover">+</b>
+            </div> -->
+					</div>
+					<div class="tr-select-category">쿠키/펫 만렙보물</div>
+					<div class="tr-select-container" id="tr-selection-cookiepet"></div>
+					<div class="tr-select-category">레벨 트로피</div>
+					<div class="tr-select-container" id="tr-selection-level"></div>
+					<div class="tr-select-category">한정판 보물</div>
+					<div class="tr-select-container" id="tr-selection-limited"></div>
+					<div class="tr-select-category">격변 전 증표</div>
+					<div class="tr-select-container" id="tr-selection-reward"></div>
+				</div>
+				<br />
+				<div class="tr-setting-container hidden" id="tr-one-setting">
+					<div class="tr-setting-name">
+						<div class="tr" id="tr-setting-tr">
+							<img src="img/frame.png" />
+							<img class="tr-img" src="img/tr/14.webp" id="tr-setting-img" />
+							<img class="tr-img" src="img/passive.png" />
+							<b class="tr-lvl">+1</b>
+						</div>
+						<div class="empty-tr hidden" id="tr-setting-empty-tr">
+							<div></div>
+						</div>
+						<b id="tr-setting-tr-name"></b>
+					</div>
+					<div class="tr-setting-desc" id="tr-setting-desc">..</div>
+					<div style="font-size: 20px">
+						1일 기댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /><b id="tr-setting-exp"> 0.43</b
+						>개
+					</div>
+					<div></div>
+					<div>
+						<button class="btn-primary btn wide tr-btn" id="tr-copy-btn">복제</button>
+						<button class="btn-secondary btn gold wide tr-btn" id="tr-9-btn">+9</button>
+					</div>
+					<div>
+						<button class="btn-secondary btn tr-btn" id="tr-1-btn">+1</button>
+						<button class="btn-secondary btn tr-btn" id="tr-2-btn">+2</button>
+						<button class="btn-secondary btn tr-btn" id="tr-3-btn">+3</button>
+						<button class="btn-secondary btn tr-btn" id="tr-4-btn">+4</button>
+					</div>
+					<div>
+						<button class="btn-secondary btn tr-btn" id="tr-5-btn">+5</button>
+						<button class="btn-secondary btn tr-btn" id="tr-6-btn">+6</button>
+						<button class="btn-secondary btn tr-btn" id="tr-7-btn">+7</button>
+						<button class="btn-secondary btn tr-btn" id="tr-8-btn">+8</button>
+					</div>
+					<div>
+						<button class="btn-gray btn wide tr-btn" id="tr-0-btn">+0</button>
+						<button class="btn-red btn wide tr-btn" id="tr-remove-btn">삭제</button>
+					</div>
+					<div style="text-align: right">
+						<button class="btn-secondary btn" id="tr-next-btn">&#x1F80A;</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--     
+    <button class="btn-red btn">시작</button>
+    <button class="btn-primary btn">시작</button>
+    <button class="btn-gray btn gold">시작</button>
+
+    <button class="btn-secondary btn">시작123456789</button>
+    <div class="empty-tr">
+      <div>
+      </div>
+    </div>
+    <div class="empty-tr">
+      <div>
+      </div>
+      <b class="tr-add">+</b>
+    </div>
+    <div class="tr">
+      <img src="img/frame.png">
+      <img class="tr-img" src="img/tr/14.webp">
+      <img  class="tr-img" src="img/passive.png">
+      <b class="tr-lvl">+1</b>
+    </div> -->
+	</div>
+
+	<div class="container">
+    
+		<h1 class="resulttext">
+			1일 기댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-exp">0</b>개
+		</h1>
+		<h1 class="resulttext">
+			1일 최댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
+		</h1>
+    <p style="font-size: 20px;">(확률:<span id="total-max-prob">100</span>%)</p>
+		<div>
+			<button class="btn-primary btn" id="save-btn">저장하기</button>
+      <button class="btn-secondary btn" id="share-btn">공유하기</button>
+      <button class="btn-secondary btn" id="load-btn">불러오기</button>
+			<button class="btn-red btn" id="clear-btn">전체 삭제</button>
+		</div>
+	</div>
+  
+<footer >
+  <li>1~8강 사이의 발동 확률은 100% 정확하지 않을 수 있습니다.</li>
+  <li>깨어난 용의 분노 업데이트시 지급한 기록 트로피 보물들은 자료가 충분하지 않아 추가하지 않았습니다.</li>
+  <li>버그제보: jkvin114@gmail.com.</li>
+</footer>
+</body>
