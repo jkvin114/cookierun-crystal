@@ -111,6 +111,8 @@ function copyTreasure() {
 	if (isMobile()) {
 		closeModal()
 	}
+	gtag('event', 'tr_copy',{count:count});
+
 }
 
 function setTreasureLvl(lvl) {
@@ -136,6 +138,7 @@ function setTreasureLvl(lvl) {
 	State.settingLvl = lvl
 	setSetting(State.settingTr, lvl)
     onTreasureChange()
+	gtag('event', 'tr_level_change',{});
 }
 
 function openNextTreasure(stopOnNotFound) {
@@ -230,6 +233,13 @@ function main() {
     let query = new URLSearchParams(window.location.search)
     if(query.has("state"))
     decodeState(query.get("state"))
+	$one("#lvl-9-checkbox").addEventListener("change",function(e){
+		change9Checkbox(e.currentTarget.checked)
+	})
+}
+function change9Checkbox(checked){
+	if(checked) $removeClass(".tr-selection .lvl-9","hidden")
+	else $addClass(".tr-selection .lvl-9","hidden")
 }
 
 function selectionTreasure(tr) {
@@ -242,9 +252,11 @@ function selectionTreasure(tr) {
         <img src="img/${tr.a ? "frame-a" : "frame"}.png">
         <img class="tr-img" src="${src}">
         <img class="tr-img" src="img/passive.png">
-        <b class="tr-add-hover">+</b>
+		<b class="tr-lvl lvl-9 hidden">+9</b>
     </div>
     `
+	//        <b class="tr-add-hover">+</b>
+
 }
 function displayedTreasure(tr, lvl, serial) {
 	if (!lvl) lvl = 0
@@ -312,6 +324,8 @@ function removeAll() {
 	onTreasureChange()
     $removeClass(".empty-tr-temp","hidden")
 	clearSearchQueryString()
+	gtag('event', 'remove_all',{});
+
 }
 function clearSearchQueryString() {
 	const newUrl = window.location.origin + window.location.pathname;
@@ -352,6 +366,7 @@ function showToast(msg) {
   
 function save() {
     if (!confirm("세팅을 브라우저에 저장하시겠습니까? 기존에 저장한 세팅은 삭제됩니다.")) return
+	gtag('event', 'save',{});
 
     const str = encodeCurrentState()
     // console.log(str)
@@ -365,6 +380,8 @@ function share(){
     .then(() => {
         showToast("링크가 클립보드에 복사되었습니다")
     })
+	gtag('event', 'share',{});
+
     $html("#share-area",link)
 }
 function load(){
@@ -373,6 +390,8 @@ function load(){
         showToast("저장된 세팅이 없습니다")
         return
     }
+	gtag('event', 'load',{});
+
     if (!confirm("저장된 세팅을 불러오시겠습니까? 현재 세팅은 삭제됩니다.")) return
     $(".tr-displayed").forEach((e) => e.remove())
     clearSetting()
@@ -414,7 +433,6 @@ function displayMaxProb(maxprob){
 		$html("#total-max-prob-lotto",`로또 1등 확률의 ${round(diff,-1)}배`)
 	else 
 		$html("#total-max-prob-lotto",`로또 1등보다 ${round(1/diff,-1)}배 어려움`)
-
 }
 /**
     recalculate total expected value * 
@@ -435,14 +453,14 @@ function onTreasureChange() {
 		maxprob *= p
 		minprob *= (1-p)
 
-		variance += getVar(tr,lvl)
+		variance += p*(1-p)
 	}
 
 	$html("#total-exp", round(totalexp, -4))
 	$html("#total-max", total)
 	$html("#total-min-prob",pToPercent(minprob) )
 	$html("#total-max-prob",pToPercent(maxprob) )
-	// $html("#total-std",round(variance,-4))
+	//  $html("#total-std",round(variance*total,-4))
 }
 
 function simulate(){
