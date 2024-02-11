@@ -465,6 +465,8 @@ function checkProb() {
 		showToast("1 이상 숫자를 입력하세요")
 		return
 	}
+	gtag("event", "check_prob", {})
+
 	let p = 1 - normalcdf(mean, std, num)
 	$html("#check-prob-result",((num > max) ?"0%": (pToPercent(p,-2)))+"(으)로 "+num+"개 이상 획득")
 }
@@ -478,7 +480,7 @@ async function simulate() {
 	$removeClass("#loading", "hidden")
 	$addClass("#sim-result-container", "hidden")
 	$addClass(".lvl-9-report","hidden")
-
+	gtag("event", "simulation", {})
 	await sleep(300)
 
 	let n = 1000 * Math.sqrt(count)
