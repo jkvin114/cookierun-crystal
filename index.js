@@ -517,7 +517,7 @@ async function simulate() {
 	let lvl9record = []
 	let lvl9ExpLine = {}
 	let lvl9totalexp = 0
-	if (avgLvl < 5) {
+	if (avgLvl < 8.3) {
 		for (let i = 0; i < n; ++i) {
 			let total = 0
 			for (const elem of $(".tr-displayed")) {
