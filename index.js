@@ -105,7 +105,7 @@ function setTreasureLvl(lvl) {
 	State.settingLvl = lvl
 	setSetting(State.settingTr, lvl)
 	onTreasureChange()
-	gtag("event", "tr_level_change", {})
+	//gtag("event", "tr_level_change", {})
 }
 
 
@@ -481,6 +481,7 @@ async function simulate() {
 	$addClass("#sim-result-container", "hidden")
 	$addClass(".lvl-9-report","hidden")
 	gtag("event", "simulation", {})
+	$html("#check-prob-result","")
 	await sleep(300)
 
 	let n = 1000 * Math.sqrt(count)
