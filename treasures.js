@@ -3,6 +3,7 @@ const TYPE = {
 	CookiePet: 1,
 	Level: 2,
 	Limited: 3,
+	Trophy:4
 }
 const TREASURES = [
 	{
@@ -213,6 +214,288 @@ const TREASURES = [
 		type: TYPE.Level,
         webp:true
 	},
+	{
+		id: 201,
+		name: "새싹1 등급의 소중한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 50,
+		type: TYPE.Trophy
+	},
+	{
+		id: 202,
+		name: "새싹2 등급의 소중한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 50,
+		type: TYPE.Trophy
+	},
+	{
+		id: 203,
+		name: "새싹3 등급의 소중한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 50,
+		type: TYPE.Trophy
+	},
+	{
+		id: 204,
+		name: "새싹4 등급의 소중한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 50,
+		type: TYPE.Trophy
+	},
+	{
+		id: 205,
+		name: "새싹5 등급의 소중한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 50,
+		type: TYPE.Trophy
+	},
+	{
+		id: 206,
+		name: "중수1 등급의 대단한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 51,
+		type: TYPE.Trophy
+	},
+	{
+		id: 207,
+		name: "중수2 등급의 대단한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 51,
+		type: TYPE.Trophy
+	},{
+		id: 208,
+		name: "중수3 등급의 대단한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 51,
+		type: TYPE.Trophy
+	},{
+		id: 209,
+		name: "중수4 등급의 대단한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 51,
+		type: TYPE.Trophy
+	},{
+		id: 210,
+		name: "중수5 등급의 대단한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 51,
+		type: TYPE.Trophy
+	},{
+		id: 211,
+		name: "고수1 등급의 엄청난 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 52,
+		type: TYPE.Trophy
+	},
+	{
+		id: 212,
+		name: "고수2 등급의 엄청난 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 52,
+		type: TYPE.Trophy
+	},
+	{
+		id: 213,
+		name: "고수3 등급의 엄청난 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 52,
+		type: TYPE.Trophy
+	},
+	{
+		id: 214,
+		name: "고수4 등급의 엄청난 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 52,
+		type: TYPE.Trophy
+	},
+	{
+		id: 215,
+		name: "고수5 등급의 엄청난 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 52,
+		type: TYPE.Trophy
+	},
+	{
+		id: 216,
+		name: "영웅1 등급의 히어로 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 53,
+		type: TYPE.Trophy
+	},
+	{
+		id: 217,
+		name: "영웅2 등급의 히어로 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 53,
+		type: TYPE.Trophy
+	},{
+		id: 218,
+		name: "영웅3 등급의 히어로 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 53,
+		type: TYPE.Trophy
+	},{
+		id: 219,
+		name: "영웅4 등급의 히어로 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 53,
+		type: TYPE.Trophy
+	},{
+		id: 220,
+		name: "영웅5 등급의 히어로 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 53,
+		type: TYPE.Trophy
+	},
+	{
+		id: 221,
+		name: "초인1 등급의 위대한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 54,
+		type: TYPE.Trophy
+	},
+	{
+		id: 222,
+		name: "초인2 등급의 위대한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 54,
+		type: TYPE.Trophy
+	},{
+		id: 223,
+		name: "초인3 등급의 위대한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 54,
+		type: TYPE.Trophy
+	},{
+		id: 224,
+		name: "초인4 등급의 위대한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 54,
+		type: TYPE.Trophy
+	},{
+		id: 225,
+		name: "초인5 등급의 위대한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 54,
+		type: TYPE.Trophy
+	},
+	{
+		id: 226,
+		name: "제왕1 등급의 환상적인 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 56,
+		type: TYPE.Trophy
+	},
+	{
+		id: 227,
+		name: "제왕2 등급의 환상적인 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 56,
+		type: TYPE.Trophy
+	},
+	{
+		id: 228,
+		name: "제왕3 등급의 환상적인 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 56,
+		type: TYPE.Trophy
+	},
+	{
+		id: 229,
+		name: "제왕4 등급의 환상적인 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 56,
+		type: TYPE.Trophy
+	},
+	{
+		id: 230,
+		name: "제왕5 등급의 환상적인 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 56,
+		type: TYPE.Trophy
+	},
+	{
+		id: 231,
+		name: "전설1 등급의 레전드 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 58,
+		type: TYPE.Trophy
+	},
+	{
+		id: 231,
+		name: "전설1 등급의 레전드 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 58,
+		type: TYPE.Trophy
+	},{
+		id: 232,
+		name: "전설2 등급의 레전드 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 58,
+		type: TYPE.Trophy
+	},{
+		id: 233,
+		name: "전설3 등급의 레전드 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 58,
+		type: TYPE.Trophy
+	},{
+		id: 234,
+		name: "전설4 등급의 레전드 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 58,
+		type: TYPE.Trophy
+	},{
+		id: 235,
+		name: "전설5 등급의 레전드 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 58,
+		type: TYPE.Trophy
+	},
+	{
+		id: 236,
+		name: "신 등급의 휘황찬란한 영광 트로피",
+		amt: 1,
+		minp: 40,
+		maxp: 60,
+		type: TYPE.Trophy
+	},
 ]
 const REWARD_TREASURES = [
 	{
@@ -381,12 +664,25 @@ function getProb(p, maxp, lvl) {
 	if (lvl <= 0) return p
 	if (lvl >= 9) return maxp
     if(p === maxp) return p
-	if (Number.isInteger((maxp - p) / 9)) {
-		return round(p + ((maxp - p) / 9) * lvl,-2)
-	} else if(maxp - p < 9){
-		return round(p + floor((maxp - p) / 9,-1) * lvl,-2)
+
+	let diff = maxp - p
+	if (Number.isInteger(diff / 9)) {
+		return round(p + (diff / 9) * lvl,-2)
 	}
-    else{
-		return round(p + floor((maxp - p) / 9,-1) * lvl,-2)
+    else if(Number.isInteger(diff / 10)){
+		return round(p + diff / 10 * lvl,-2)
 	}
+	else {
+		return round(p + floor(diff / 9,-1) * lvl,-2)
+	}
+}
+function isRewardTr(tr){
+	return tr.id >= 100 && tr.id < 200
+}
+function getImg(tr){
+	let isReward = isRewardTr(tr)
+	let src = `img/tr/${tr.id}.` + (tr.webp ? "webp" : "png")
+	if (isReward) src = `img/tr/reward/tr_reward_${tr.minscore}00.` + (tr.webp ? "webp" : "png")
+	if(tr.id>=200) src = `img/tr/trophy/trophy (${tr.id-200}).png`
+	return src
 }

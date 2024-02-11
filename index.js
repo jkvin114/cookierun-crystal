@@ -1,18 +1,3 @@
-function floor(num, digit) {
-	if (!digit) digit = 0
-
-	num = num * 10 ** -digit
-
-	return Math.floor(num) / 10 ** -digit
-}
-function round(num, digit) {
-	if (!digit) digit = 0
-
-	num = num * 10 ** -digit
-
-	return Math.round(num) / 10 ** -digit
-}
-
 const State = {
 	selectionOpen: true,
 	settingOpen: false,
@@ -21,19 +6,19 @@ const State = {
 	settingLvl: -1,
 	settingTr: -1,
 }
+const sleep = (m) => new Promise((r) => setTimeout(r, m))
 
 const TR_DICT = new Map() // id => treasure obj
 function isMobile() {
 	return window.innerWidth < 700
 }
 function setSetting(id, lvl) {
-    
 	$addClass("#tr-setting-empty-tr", "hidden")
 	$removeClass("#tr-setting-tr", "hidden")
 	const tr = TR_DICT.get(Number(id))
 	let html = treasureBody(tr, lvl)
 	//console.log(lvl)
-	const name = tr.id < 100 ? tr.name : getRewardTreasureName(tr.minscore)
+	const name = !isRewardTr(tr) ? tr.name : getRewardTreasureName(tr.minscore)
 	$html("#tr-setting-tr-name", name)
 	$html("#tr-setting-tr", html)
 	$html("#tr-setting-desc", getDesc(tr, lvl))
@@ -66,7 +51,7 @@ function openSetting(id, lvl, serial) {
 	$addClass("#_tr-" + serial, "active")
 	onModalOpen()
 	$html("#modal-title", "보물 수정")
-	$html("#tr-one-setting-serial","#"+serial)
+	$html("#tr-one-setting-serial", "#" + serial)
 }
 function openSelection() {
 	$removeClass("#tr-setting", "hidden")
@@ -89,11 +74,10 @@ function removeTreasure() {
 	onTreasureChange()
 }
 
-
-function getCount(){
-	let count = prompt('복제할 갯수를 입력하세요',"1")
-	if(count===null) return 0
-	if(Number(count) < 1 || Number(count) > 100 || isNaN(Number(count))){
+function getCount() {
+	let count = prompt("복제할 갯수를 입력하세요", "1")
+	if (count === null) return 0
+	if (Number(count) < 1 || Number(count) > 100 || isNaN(Number(count))) {
 		showToast("1~100 사이의 숫자를 입력하세요")
 		return 0
 	}
@@ -102,26 +86,33 @@ function getCount(){
 function copyTreasure() {
 	if (State.settingTr === -1) return
 	let count = getCount()
-	if(count<=0) return
+	if (count <= 0) return
 
-	for(let i=0;i<count;++i)
-		addTreasure(Number(State.settingTr), Number(State.settingLvl))
+	for (let i = 0; i < count; ++i) addTreasure(Number(State.settingTr), Number(State.settingLvl))
 	// openSetting(Number($data(node, "id")), Number($data(node, "lvl")), Number($data(node, "serial")))
 	clearSetting()
 	if (isMobile()) {
 		closeModal()
 	}
-	gtag('event', 'tr_copy',{count:count});
-
+	gtag("event", "tr_copy", { count: count })
 }
 
 function setTreasureLvl(lvl) {
 	if (State.settingTr === -1) return
 
 	if (State.settingLvl < 0 || State.settingLvl === lvl) return
-	$data($one("#_tr-" + State.settingSerial), "lvl", String(lvl))
+	changeTreasureLvl(lvl,State.settingSerial)
+	State.settingLvl = lvl
+	setSetting(State.settingTr, lvl)
+	onTreasureChange()
+	gtag("event", "tr_level_change", {})
+}
 
-	let elem = $one("#_tr-" + State.settingSerial + " .tr-lvl")
+
+function changeTreasureLvl(lvl,serial){
+	$data($one("#_tr-" + serial), "lvl", String(lvl))
+
+	let elem = $one("#_tr-" + serial + " .tr-lvl")
 	if (elem) {
 		if (lvl === 0) elem.remove()
 		else if (lvl === 9) {
@@ -133,12 +124,8 @@ function setTreasureLvl(lvl) {
 		}
 	} else if (lvl > 0) {
 		let html = ` <b class="tr-lvl ${lvl === 9 ? "lvl-9" : ""}">+${lvl}</b>`
-		$append($one("#_tr-" + State.settingSerial), html)
+		$append($one("#_tr-" + serial), html)
 	}
-	State.settingLvl = lvl
-	setSetting(State.settingTr, lvl)
-    onTreasureChange()
-	gtag('event', 'tr_level_change',{});
 }
 
 function openNextTreasure(stopOnNotFound) {
@@ -183,7 +170,7 @@ function addTreasure(id, lvl) {
 
 	State.maxSerial++
 	$one("#tr-add-btn").after(node)
-    $addClass(".empty-tr-temp","hidden")
+	$addClass(".empty-tr-temp", "hidden")
 	onTreasureChange()
 	return node
 }
@@ -198,7 +185,6 @@ function clearSetting() {
 	$html("#tr-setting-tr-name", "보물을 선택하세요")
 	$removeClass(".tr-displayed", "active")
 	$addClass("#tr-next-btn", "disabled")
-
 	;(State.settingSerial = -1), (State.settingLvl = -1), (State.settingTr = -1)
 }
 function main() {
@@ -225,38 +211,48 @@ function main() {
 	})
 	$onclick("#clear-btn", removeAll)
 	$onclick("#save-btn", save)
-    $onclick("#share-btn",share)
-    $onclick("#load-btn",load)
-	$onclick(".shadow",closeModal)
-	//$onclick("#sim-btn",simulate)
+	$onclick("#share-btn", share)
+	$onclick("#load-btn", load)
+	$onclick(".shadow", closeModal)
+	$onclick("#sim-btn", simulate)
 	settingEventListener()
-    let query = new URLSearchParams(window.location.search)
-    if(query.has("state"))
-    decodeState(query.get("state"))
-	$one("#lvl-9-checkbox").addEventListener("change",function(e){
+	let query = new URLSearchParams(window.location.search)
+	if (query.has("state")) decodeState(query.get("state"))
+	$one("#lvl-9-checkbox").addEventListener("change", function (e) {
 		change9Checkbox(e.currentTarget.checked)
 	})
+	$onclick("#check-prob-btn", checkProb)
+	$onclick("#to-lvl9-btn",toLvl9)
 }
-function change9Checkbox(checked){
-	if(checked) $removeClass(".tr-selection .lvl-9","hidden")
-	else $addClass(".tr-selection .lvl-9","hidden")
+function change9Checkbox(checked) {
+	if (checked) $removeClass(".tr-selection .lvl-9", "hidden")
+	else $addClass(".tr-selection .lvl-9", "hidden")
+}
+function toLvl9(){
+	if (!confirm("정말 모든 보물을 9강으로 변경하시겠습니까?")) return
+	for (const elem of $(".tr-displayed")) {
+		let serial = Number($data(elem, "serial"))
+		changeTreasureLvl(9,serial)
+	}
+	onTreasureChange()
+	window.scroll(0, 0)
+
 }
 
 function selectionTreasure(tr) {
-	let isReward = tr.id >= 100
+	let isReward = isRewardTr(tr)
 	let src = `img/tr/${tr.id}.` + (tr.webp ? "webp" : "png")
 	if (isReward) src = `img/tr/reward/tr_reward_${tr.minscore}00.` + (tr.webp ? "webp" : "png")
 	let name = !isReward ? tr.name : getRewardTreasureName(tr.minscore)
 	return `
     <div class="tr tr-selection" title="${name}" data-id='${tr.id}'>
         <img src="img/${tr.a ? "frame-a" : "frame"}.png">
-        <img class="tr-img" src="${src}">
+        <img class="tr-img" src="${getImg(tr)}">
         <img class="tr-img" src="img/passive.png">
 		<b class="tr-lvl lvl-9 hidden">+9</b>
     </div>
     `
 	//        <b class="tr-add-hover">+</b>
-
 }
 function displayedTreasure(tr, lvl, serial) {
 	if (!lvl) lvl = 0
@@ -277,14 +273,14 @@ function displayedTreasure(tr, lvl, serial) {
 
 function treasureBody(tr, lvl) {
 	if (!lvl) lvl = 0
-	let isReward = tr.id >= 100
+	let isReward = isRewardTr(tr)
 	let src = `img/tr/${tr.id}.` + (tr.webp ? "webp" : "png")
 	if (isReward) src = `img/tr/reward/tr_reward_${tr.minscore}00.` + (tr.webp ? "webp" : "png")
 	let lvl9 = lvl === 9 ? "lvl-9" : ""
 
 	let lvltext = lvl > 0 ? '<b class="tr-lvl ' + lvl9 + '">+' + lvl + "</b>" : ""
 	return ` <img src="img/${tr.a ? "frame-a" : "frame"}.png">
-    <img class="tr-img" src="${src}">
+    <img class="tr-img" src="${getImg(tr)}">
     <img class="tr-img" src="img/passive.png">
     ${lvltext}`
 }
@@ -295,6 +291,7 @@ function initSelectionWindow() {
 	let $limited = ""
 	let $level = ""
 	let $reward = ""
+	let $trophy=""
 
 	for (const tr of TREASURES) {
 		TR_DICT.set(tr.id, tr)
@@ -303,6 +300,7 @@ function initSelectionWindow() {
 		else if (tr.type === TYPE.CookiePet) $cookiepet += str
 		else if (tr.type === TYPE.Limited) $limited += str
 		else if (tr.type === TYPE.Level) $level += str
+		else if (tr.type === TYPE.Trophy) $trophy += str
 	}
 	for (const tr of REWARD_TREASURES) {
 		TR_DICT.set(tr.id, tr)
@@ -315,6 +313,8 @@ function initSelectionWindow() {
 
 	$one("#tr-selection-level").innerHTML = $level
 	$one("#tr-selection-reward").innerHTML = $reward
+	$one("#tr-selection-trophy").innerHTML = $trophy
+
 }
 function removeAll() {
 	if (!confirm("정말 모든 보물을 삭제하시겠습니까?")) return
@@ -322,161 +322,370 @@ function removeAll() {
 	clearSetting()
 	$(".tr-displayed").forEach((e) => e.remove())
 	onTreasureChange()
-    $removeClass(".empty-tr-temp","hidden")
+	$removeClass(".empty-tr-temp", "hidden")
 	clearSearchQueryString()
-	gtag('event', 'remove_all',{});
-
+	gtag("event", "remove_all", {})
 }
 function clearSearchQueryString() {
-	const newUrl = window.location.origin + window.location.pathname;
-	window.history.replaceState({}, document.title, newUrl);
-  }
-  
-function decodeState(encodedString){
-    var str = atob(encodedString);
-
-    const trs = str.split(",")
-    for(const tr of trs.reverse()){
-        if(!tr || tr==="") continue
-        const [id,lvl] = tr.split("-")
-        addTreasure(Number(id),Number(lvl))
-    }
+	const newUrl = window.location.origin + window.location.pathname
+	window.history.replaceState({}, document.title, newUrl)
 }
 
-function encodeCurrentState(){
-    let str= ""
-    for (const elem of $(".tr-displayed")) {
+function decodeState(encodedString) {
+	var str = atob(encodedString)
+
+	const trs = str.split(",")
+	for (const tr of trs.reverse()) {
+		if (!tr || tr === "") continue
+		const [id, lvl] = tr.split("-")
+		addTreasure(Number(id), Number(lvl))
+	}
+}
+
+function encodeCurrentState() {
+	let str = ""
+	for (const elem of $(".tr-displayed")) {
 		let id = Number($data(elem, "id"))
 		let lvl = Number($data(elem, "lvl"))
-        str += `${id}-${lvl},`
-    }
-    var encodedString = btoa(str);
+		str += `${id}-${lvl},`
+	}
+	var encodedString = btoa(str)
 
-    return encodedString
+	return encodedString
 }
 let toastTimeout = null
 function showToast(msg) {
-	if(toastTimeout) clearTimeout(toastTimeout)
+	if (toastTimeout) clearTimeout(toastTimeout)
 
-	const toast = document.getElementById('toast');
-	toast.textContent = msg;
-	toast.classList.add('show');
-	toastTimeout=setTimeout(()=>$one("#toast").classList.remove('show'), 1500); // Adjust the duration as needed (in milliseconds)
-  }
-  
+	const toast = document.getElementById("toast")
+	toast.textContent = msg
+	toast.classList.add("show")
+	toastTimeout = setTimeout(() => $one("#toast").classList.remove("show"), 1500) // Adjust the duration as needed (in milliseconds)
+}
+
 function save() {
-    if (!confirm("세팅을 브라우저에 저장하시겠습니까? 기존에 저장한 세팅은 삭제됩니다.")) return
-	gtag('event', 'save',{});
+	const str = encodeCurrentState()
+	if(!str || str===""){
+		showToast("저장할 세팅이 없습니다")
+		return
+	}
+	if (!confirm("세팅을 브라우저에 저장하시겠습니까? 기존에 저장한 세팅은 삭제됩니다.")) return
+	gtag("event", "save", {})
 
-    const str = encodeCurrentState()
-    // console.log(str)
-    localStorage.setItem("cookierun-crystal-state",str)
-    // alert("세팅이 브라우저에 저장되었습니다")
-	showToast("세팅이 브라우저에 저장되었습니다") 
+	
+	// console.log(str)
+	localStorage.setItem("cookierun-crystal-state", str)
+	// alert("세팅이 브라우저에 저장되었습니다")
+	showToast("세팅이 브라우저에 저장되었습니다")
 }
-function share(){
-    let link=window.location.href.split('?')[0]+"?state="+ encodeCurrentState()
-    navigator.clipboard.writeText(link)
-    .then(() => {
-        showToast("링크가 클립보드에 복사되었습니다")
-    })
-	gtag('event', 'share',{});
+function share() {
+	let str = encodeCurrentState()
+	let link = window.location.href.split("?")[0] + (str===""?"" : ("?state=" + str))
+	navigator.clipboard.writeText(link).then(() => {
+		showToast("링크가 클립보드에 복사되었습니다")
+	})
+	window.history.replaceState({}, document.title, link)
+	gtag("event", "share", {})
 
-    $html("#share-area",link)
+	// $html("#share-area", link)
 }
-function load(){
-    let str = localStorage.getItem("cookierun-crystal-state")
-    if(!str || str==="") {
-        showToast("저장된 세팅이 없습니다")
-        return
-    }
-	gtag('event', 'load',{});
+function load() {
+	let str = localStorage.getItem("cookierun-crystal-state")
+	if (!str || str === "") {
+		showToast("저장된 세팅이 없습니다")
+		return
+	}
+	gtag("event", "load", {})
 
-    if (!confirm("저장된 세팅을 불러오시겠습니까? 현재 세팅은 삭제됩니다.")) return
-    $(".tr-displayed").forEach((e) => e.remove())
-    clearSetting()
-    decodeState(str)
-    window.scroll(0,0)
+	if (!confirm("저장된 세팅을 불러오시겠습니까? 현재 세팅은 삭제됩니다.")) return
+	$(".tr-displayed").forEach((e) => e.remove())
+	clearSetting()
+	decodeState(str)
+	window.scroll(0, 0)
 }
 window.onload = main
 
-function pToPercent(p){
-	let result = round(p * 100, -6)
-    if(Math.abs(0-result) < 0.0000001) result ="0.000001% 미만"
-    else result +="%"
+function pToPercent(p,digit) {
+	if(!digit) digit=-6
+	let result = round(p * 100, digit)
+	if (Math.abs(0 - result) < 0.0000001) result = "0.000001% 미만"
+	else result += "%"
 	return result
 }
-function calcStd(numbers) {
-  // Calculate the mean (average) of the numbers
-  const mean = numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
 
-  // Calculate the squared differences from the mean
-  const squaredDifferences = numbers.map(num => Math.pow(num - mean, 2));
-
-  // Calculate the variance (average of squared differences)
-  const variance = squaredDifferences.reduce((acc, val) => acc + val, 0) / numbers.length;
-
-  // Calculate the standard deviation (square root of variance)
-  const standardDeviation = Math.sqrt(variance);
-
-  return standardDeviation;
-}
-
-const LOTTO_PROB = 1/8145060
-
-function displayMaxProb(maxprob){
-	$html("#total-max-prob",pToPercent(maxprob) )
-	let p=maxprob
-	if(p <= Number.MIN_VALUE || p>0.00001) return
-	let diff = p/LOTTO_PROB
-	if(diff > 1)
-		$html("#total-max-prob-lotto",`로또 1등 확률의 ${round(diff,-1)}배`)
-	else 
-		$html("#total-max-prob-lotto",`로또 1등보다 ${round(1/diff,-1)}배 어려움`)
-}
 /**
     recalculate total expected value * 
  */
 function onTreasureChange() {
-	let total = 0
+	const [maxamt, totalexp, maxprob, minprob] = calcStats()
+	$html("#total-exp", round(totalexp, -4))
+	$html("#total-max", maxamt)
+	$html("#total-min-prob", pToPercent(minprob))
+	$html("#total-max-prob", pToPercent(maxprob))
+	let months= $(".months-val")
+	let mohthtotal = totalexp * 30
+	months[0].innerHTML = Math.floor(mohthtotal/20)
+	let val1= Math.floor(mohthtotal/25)
+	let val2 = (Math.floor(mohthtotal/20))
+	months[1].innerHTML = val1===val2 ? val1 :  val1+"~" +val2
+	
+	val1= Math.floor(mohthtotal/119)
+	val2 = (Math.floor(mohthtotal/108))
+	months[2].innerHTML = val1===val2 ? val1 :  val1+"~" +val2
+
+	//  $html("#total-std",round(variance*total,-4))
+}
+
+function calcStats() {
+	let maxamt = 0
 	let totalexp = 0
 	let maxprob = 1
 	let minprob = 1
-	let variance = 0
 	for (const elem of $(".tr-displayed")) {
 		let id = Number($data(elem, "id"))
 		let lvl = Number($data(elem, "lvl"))
 		const tr = TR_DICT.get(id)
 		totalexp += getExpectedValue(tr, lvl)
-		total += getValues(tr, lvl)[0]
+		maxamt += getValues(tr, lvl)[0]
 		let p = getValues(tr, lvl)[1] / 100
 		maxprob *= p
-		minprob *= (1-p)
-
-		variance += p*(1-p)
+		minprob *= 1 - p
 	}
-
-	$html("#total-exp", round(totalexp, -4))
-	$html("#total-max", total)
-	$html("#total-min-prob",pToPercent(minprob) )
-	$html("#total-max-prob",pToPercent(maxprob) )
-	//  $html("#total-std",round(variance*total,-4))
+	return [maxamt, totalexp, maxprob, minprob]
 }
 
-function simulate(){
-	let n=5000
-	let record=[]
-	let str=""
-	for(let i=0;i<n;++i){
-		let total=0
+function checkProb() {
+	const elem = $one("#check-prob-btn")
+	let std = Number($data(elem, "std"))
+	let mean = Number($data(elem, "mean"))
+	let max = Number($data(elem, "max"))
+	if(!std) return
+	let num = Number($one("#check-prob-input").value)
+	if (!num || isNaN(num) || num < 0) {
+		showToast("1 이상 숫자를 입력하세요")
+		return
+	}
+	let p = 1 - normalcdf(mean, std, num)
+	$html("#check-prob-result",((num > max) ?"0%": (pToPercent(p,-2)))+"(으)로 "+num+"개 이상 획득")
+}
+
+async function simulate() {
+	let count = $(".tr-displayed").length
+	if (count === 0) {
+		showToast("보물이 없습니다")
+		return
+	}
+	$removeClass("#loading", "hidden")
+	$addClass("#sim-result-container", "hidden")
+	$addClass(".lvl-9-report","hidden")
+
+	await sleep(300)
+
+	let n = 1000 * Math.sqrt(count)
+	let record = []
+	let maxAmt = 0 //보물 하나당 최대 크리스탈
+	let avgLvl = 0
+
+	const [maxtotal, totalexp] = calcStats()
+	const quantiles = [0.1, 0.25, 0.5, 0.75]
+	for (let i = 0; i < n; ++i) {
+		let total = 0
 		for (const elem of $(".tr-displayed")) {
 			let id = Number($data(elem, "id"))
 			let lvl = Number($data(elem, "lvl"))
 			const tr = TR_DICT.get(id)
-			let amt = sample(tr,lvl)
-			total+=amt
+			const [baseamt, _] = getValues(tr, lvl)
+			let amt = sample(tr, lvl)
+			total += amt
+			if (i === 0) {
+				maxAmt = Math.max(maxAmt, baseamt)
+				avgLvl += lvl
+			}
 		}
 		record.push(total)
 	}
-	console.log(calcStd(record))
+	avgLvl /= count
+
+	const [mean, std] = calcStd(record)
+	let range = Math.max(1.5, std * 3)
+	let minRange = Math.max(0, mean - range)
+	let maxRange = mean + Math.max(maxAmt + 1, range)
+
+	let lvl9record = []
+	let lvl9ExpLine = {}
+	let lvl9totalexp = 0
+	if (avgLvl < 5) {
+		for (let i = 0; i < n; ++i) {
+			let total = 0
+			for (const elem of $(".tr-displayed")) {
+				let id = Number($data(elem, "id"))
+				const tr = TR_DICT.get(id)
+				total += sample(tr, 9)
+				if (i === 0) {
+					lvl9totalexp += getExpectedValue(tr, 9)
+				}
+			}
+			lvl9record.push(total)
+		}
+
+		const [mean9, std9] = calcStd(lvl9record)
+		let range9 = Math.max(1.5, std9 * 3)
+		maxRange = Math.max(maxRange, mean9 + Math.max(maxAmt + 1, range9))
+
+		lvl9ExpLine = {
+			// Add a plot line for the mean value
+			color: "green",
+			dashStyle: "solid",
+			value: lvl9totalexp, // Set the value to the mean value
+			width: 2,
+			zIndex: 1,
+			label: {
+				text: "올 9강시:" + round(lvl9totalexp, -1), // Label text for the mean value
+				align: "center",
+				style: {
+					color: "green",
+					fontWeight: "bold",
+					fontSize: "20px",
+				},
+			},
+		}
+		let quantileDesc9=""
+		$removeClass(".lvl-9-report","hidden")
+		$(".lvl-9-report-val")[0].innerHTML = pToPercent((lvl9totalexp - totalexp) / totalexp,-2)
+		for (const q of quantiles) {
+			let quantile = calculateQuantile(lvl9totalexp, std9, q)
+			quantileDesc9 += `<li>${pToPercent(1 - q)}로 <b>${Math.max(0, round(quantile))}개</b> 이상 획득
+			</li>`
+		}
+		$html("#quantiles-9", quantileDesc9)
+
+	}
+
+	// if(avgLvl)
+	// let cdf = 1 - normalcdf(totalexp, std, 2)
+	
+	let quantileDesc = ""
+
+	const elem = $one("#check-prob-btn")
+	$data(elem, "mean", totalexp)
+	$data(elem, "std", std)
+	$data(elem, "max", maxtotal)
+	for (const q of quantiles) {
+		let quantile = calculateQuantile(totalexp, std, q)
+		quantileDesc += `<li>${pToPercent(1 - q)}로 <b>${Math.max(0, round(quantile))}개</b> 이상 획득
+		</li>`
+	}
+	$html("#quantiles", quantileDesc)
+
+	Highcharts.chart("distribution", {
+		style: {
+			fontSize: "20px",
+		},
+		chart: {
+			type: "bellcurve",
+			backgroundColor: "#f5f3ee",
+			margin: [50, 10, 90, 10],
+		},
+		title: {
+			text: "크리스탈 갯수 예측치",
+		},
+		xAxis: {
+			min: minRange, // Set the minimum value of the x-axis
+			max: maxRange, // Set the maximum value of the x-axis
+			title: {
+				text: "크리스탈 갯수",
+			},
+			labels: {
+				style: {
+					fontSize: "15px", // Set the font size for x-axis labels
+				},
+			},
+			minTickInterval: 1,
+			plotLines: [
+				{
+					// Add a plot line for the mean value
+					color: "#E45536",
+					dashStyle: "solid",
+					value: totalexp, // Set the value to the mean value
+					width: 2,
+					zIndex: 1,
+					label: {
+						text: "기댓값:" + round(totalexp, -1), // Label text for the mean value
+						align: "center",
+						style: {
+							color: "#E45536",
+							fontWeight: "bold",
+							fontSize: "20px",
+						},
+					},
+				},
+				lvl9ExpLine,
+			],
+		},
+		yAxis: {
+			title: {
+				text: "확률",
+			},
+			labels: {
+				enabled: false,
+			},
+		},
+		tooltip: {
+			enabled: false, // Disable tooltips
+		},
+		series: [
+			{
+				name: "현재 예측치",
+				type: "bellcurve",
+				xAxis: 0,
+				yAxis: 0,
+				baseSeries: 1,
+				intervals: 100,
+				fillOpacity: 0.5,
+				zIndex: -1,
+				area: {
+					states: {
+						hover: {
+							enabled: false,
+						},
+					},
+				},
+			},
+			{
+				name: "Data",
+				type: "scatter",
+				data: record,
+				visible: false,
+				showInLegend: false,
+			},
+			{
+				name: "올 9강시 예측치",
+				type: "bellcurve",
+				xAxis: 0,
+				yAxis: 0,
+				baseSeries: 3,
+				intervals: 100,
+				color: "#FFD403",
+				fillOpacity: 0.5,
+				zIndex: -1,
+				area: {
+					states: {
+						hover: {
+							enabled: false,
+						},
+					},
+				},
+			},
+			{
+				name: "Data",
+				type: "scatter",
+				data: lvl9record,
+				visible: false,
+				showInLegend: false,
+			},
+		],
+	})
+
+	$addClass("#loading", "hidden")
+	$removeClass("#sim-result-container", "hidden")
 }

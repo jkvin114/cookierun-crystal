@@ -4,25 +4,31 @@
 	<link rel="icon" type="image/x-icon" href="img/shop_icon_gem.png" />
 
 	<meta charset="utf-8" />
-	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="width=device-width, initial-scale=0.9" name="viewport" />
 	<!-- <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
 	<link href="index.css" rel="stylesheet" />
 
 	<!-- <script src="assets/vendor/jquery/jquery.min.js"></script> -->
 	<!-- <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 	<script src="jquery.js"></script>
+	<script src="math.js"></script>
 
 	<script src="index.js"></script>
 	<script src="treasures.js"></script>
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-8F7TD8KPXW"></script>
 	<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
+		window.dataLayer = window.dataLayer || []
+		function gtag() {
+			dataLayer.push(arguments)
+		}
+		gtag("js", new Date())
 
-	gtag('config', 'G-8F7TD8KPXW');
+		gtag("config", "G-8F7TD8KPXW")
 	</script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+
+	<script src="https://code.highcharts.com/modules/histogram-bellcurve.js"></script>
 </head>
 <body>
 	<h1 class="stroke"><img src="img/shop_icon_gem.png" style="width: 30px" />쿠키런 크리스탈 기댓값 계산기</h1>
@@ -75,6 +81,8 @@
 					<div class="tr-select-container" id="tr-selection-limited"></div>
 					<div class="tr-select-category">격변 전 증표</div>
 					<div class="tr-select-container" id="tr-selection-reward"></div>
+					<div class="tr-select-category">3주년 트로피</div>
+					<div class="tr-select-container" id="tr-selection-trophy"></div>
 				</div>
 				<br />
 				<div class="tr-setting-container hidden" id="tr-one-setting">
@@ -148,53 +156,101 @@
 	</div>
 
 	<div class="container">
-    
-		<h2 class="resulttext">
-			1일 기댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-exp">0</b>개
-		</h2>
-		<h2 class="resulttext">
-			1일 최댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> 
-			<b id="total-max">0</b>개
-		</h2>
-		<span style="font-size: 20px;">
-			(확률:<span id="total-max-prob">100%</span>)
-			<!-- <br><span id="total-max-prob-lotto"></span> -->
-	</span>
-		<h2 class="resulttext">
-			1일 최솟값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
-		</h2>
-		<span style="font-size: 20px;">(확률:<span id="total-min-prob">100%</span>)</span>
-		<!-- <h2 class="resulttext">표준편차: <b id="total-std"></b></h2> -->
+		<div class="text-container">
+			<h2 class="resulttext">
+				1일 기댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-exp">0</b>개
+			</h2>
+			<h2 class="resulttext">
+				1일 최댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
+			</h2>
+			<span style="font-size: 20px">
+				(확률:<span id="total-max-prob">100%</span>)
+				<!-- <br><span id="total-max-prob-lotto"></span> -->
+			</span>
+			<h2 class="resulttext">
+				1일 최솟값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
+			</h2>
+			<span style="font-size: 20px">(확률:<span id="total-min-prob">100%</span>)</span>
+			<!-- <h2 class="resulttext">표준편차: <b id="total-std"></b></h2> -->
+			<hr />
+			<h2 class="resulttext">한달동안 매일매일 출석하면?</h2>
+			<span class="months"
+				><img src="img/pet_egg.png" height="50px" style="vertical-align: middle" /> 펫 뽑기
+				<b class="months-val">0</b>개</span
+			>
+			<span class="months"
+				><img src="img/ticket.png" height="50px" style="vertical-align: middle" /> 보물 뽑기
+				<b class="months-val">0</b>개</span
+			>
+			<span class="months"
+				><img src="img/treasure_box.png" height="50px" style="vertical-align: middle" /> 6+1 보물 뽑기
+				<b class="months-val">0</b>개</span
+			>
+		</div>
+		<br /><br />
 		<div>
 			<button class="btn-primary btn" id="save-btn">저장하기</button>
-      <button class="btn-secondary btn" id="share-btn">공유하기</button>
-      <button class="btn-secondary btn" id="load-btn">불러오기</button>
+			<button class="btn-secondary btn" id="share-btn">공유하기</button>
+			<button class="btn-secondary btn" id="load-btn">불러오기</button>
 			<button class="btn-red btn" id="clear-btn">전체 삭제</button>
 		</div>
-	</div><br>
-  <div id="share-area">
-  </div><br>
-  <div style="text-align: left; display: inline-block;" id="desc-area" class="container">
-	<li>보물 여러개 한번에 추가하는 법: </li>
-	<ol>
-		<li>원하는 보물을 추가한다</li>
-		<li>추가한 보물을 선택한 후 '복제' 클릭</li>
-		<li>원하는 추가량을 입력</li>
-	</ol>
-	<li>저장하기: 브라우저에 보물 세팅을 저장해 언제든 다시 불러올 수 있습니다</li>
-	<li>공유하기: 현재 보물 세팅을 포함한 사이트 링크를 공유할 수 있습니다</li>
-	<li>불러오기: 저장해 놓았던 보물 세팅을 불러옵니다</li>
-	
-  </div>
-  <div>
-	<!-- <button class="btn-primary btn" id="sim-btn">시뮬레이션</button> -->
+	</div>
+	<br />
+	<div id="share-area"></div>
+	<br />
+	<div class="container">
+		<div style="text-align: left; display: inline-block" id="desc-area">
+			<li>보물 여러개 한번에 추가하는 법:</li>
+			<ol>
+				<li>원하는 보물을 추가한다</li>
+				<li>추가한 보물을 선택한 후 '복제' 클릭</li>
+				<li>원하는 추가량을 입력</li>
+			</ol>
+			<li>저장하기: 브라우저에 보물 세팅을 저장해 언제든 다시 불러올 수 있습니다</li>
+			<li>공유하기: 현재 보물 세팅을 포함한 사이트 링크를 공유할 수 있습니다</li>
+			<li>불러오기: 저장해 놓았던 보물 세팅을 불러옵니다</li>
+		</div>
+	</div>
 
-  </div>
-  <div id="toast" class="toast"></div>
+	<div class="container">
+		<button class="btn-primary btn" id="sim-btn">예상 보상범위 계산</button>
+	</div>
+	<div class="container hidden" id="loading">
+		<br />
+		<br /><br /><br /><br />
+		<img src="img/loading.gif" width="70px" />
+	</div>
+	<div class="container hidden" id="sim-result-container">
+		<div id="distribution"></div>
+		<br />
+		<br />
+		<div id="sim-result" class="">
+			<div>
+				<img src="img/cart.png" width="90px" style="position: absolute; top:10px;right: 10px;" />
+				<p id="quantiles"></p>
+				<hr />
 
-<footer >
-  <li>1~8강 사이의 발동 확률은 100% 정확하지 않을 수 있습니다.</li>
-  <li>깨어난 용의 분노 업데이트시 지급한 기록 트로피 보물들은 자료가 충분하지 않아 추가하지 않았습니다.</li>
-  <li>버그제보: jkvin114@gmail.com.</li>
-</footer>
+				<div>
+					<input type="text" placeholder="출석보상 갯수 입력" id="check-prob-input" /><br />
+					<button class="btn-secondary btn" id="check-prob-btn">보상 확률 예측</button>
+					<h3 id="check-prob-result"></h3>
+					<sub><li>보물 갯수가 충분히 많지 않으면 100% 정확하지 않을 수 있습니다. 참고용으로만 사용하세요.</li> </sub>
+				</div>
+
+				<hr class="lvl-9-report hidden" />
+				<div class="lvl-9-report hidden">
+					<h2 id="lvl-9-report-title ">올 9강시:</h2>
+						<span class="months">기댓값 <b class="lvl-9-report-val"></b> 상승!</span> 
+						<p id="quantiles-9"></p>
+					<button id="to-lvl9-btn" class="btn-primary btn"> 모두 9강으로 변경</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="toast" class="toast"></div>
+
+	<footer>
+		<li>1~8강 사이의 발동 확률은 100% 정확하지 않을 수 있습니다.</li>
+		<li>버그제보: jkvin114@gmail.com.</li>
+	</footer>
 </body>

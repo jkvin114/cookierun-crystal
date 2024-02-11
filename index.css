@@ -23,6 +23,7 @@ html{
     --col-bg-dark:#BEBDB8;
     --col-purple:#8958C5;
     --col-bg-light:#EFEDE8;
+    --col-bg-lighter:#f5f3ee;
     --col-yellow:#FFD403;
     background-color: var(--col-bg-light);
     zoom: 70%;
@@ -38,8 +39,16 @@ footer{margin-top: 300px;
     padding: 40px;
     background-color: var(--col-bg-dark);
 }
+input[type=text]{
+    font-size: 25px;
+    padding: 5px;
+    border: 2px solid rgb(103, 103, 103);
+    margin: 5px;
+    background-color: var(--col-bg-lighter);
+    border-radius:30px ;
+}
 .stroke{
-    -webkit-text-stroke: 2px rgb(81, 57, 0);
+    -webkit-text-stroke: 2px rgb(163, 114, 0);
 }
 h1{
     font-family: "cookierun black";
@@ -47,7 +56,7 @@ h1{
     color: var(--col-yellow);
 }
 .shadow{
-    position: absolute;
+    position: fixed;
     top:0;
     left: 0;
     width: 100%;
@@ -57,7 +66,7 @@ h1{
 }
 .hidden{
     visibility: collapse;
-    display: none;
+    display: none !important;
 }
 .modal{
     position: fixed;
@@ -254,9 +263,9 @@ h1{
     -webkit-text-stroke: 2px black;
 
 }
-.tr-add:hover{
+/* .tr-add:hover{
     font-size:70px;
-}
+} */
 .tr img{
     width: 80px;
     height: 80px;
@@ -374,17 +383,57 @@ h1{
     top:63px;
     left: 3px;
 }
-#desc-area
-{
-    background-color: var(--col-bg);
+.text-container{
+    
+    background-color: var(--col-bg-lighter);
     padding: 10px;
     
     border: 4px solid var(--col-primary);
     /* background-color: var(--col-bg-light); */
-    border-radius: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px 1px;
+}
+#desc-area
+{
+    background-color: var(--col-bg-lighter);
+    padding: 10px;
+    
+    /* border: 4px solid var(--col-primary); */
+    /* background-color: var(--col-bg-light); */
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px 1px;
+
+}
+#loading{
+    display: inline-block;
+}
+#distribution{
+    height: 600px;
+}
+#sim-result{
+    text-align: left;
+    display: inline-block;
+    font-size: large;
+    background-color: var(--col-bg-lighter);
+    padding: 10px;
+    
+    border: 4px solid var(--col-primary);
+    /* background-color: var(--col-bg-light); */
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px 1px;
+    color:rgb(99, 57, 23);
+    /* display: grid;
+    grid-template-columns: 100px auto; */
+    position: relative;
+}
+.months{
+    display: block;
+    font-size: 25px;
 }
 @media only screen and (max-width: 700px) {
-
+    #distribution{
+        height: 400px;
+    }
     #tr-setting{
         position: fixed;
         top:50vh;
@@ -403,6 +452,9 @@ h1{
     html.scroll-lock{
         height: 100vh;
         overflow: hidden;
+    }
+    .mobile-hidden{
+        display: none;
     }
 }
 
