@@ -382,7 +382,6 @@ h1{
     border: 4px solid var(--col-primary);
     /* background-color: var(--col-bg-light); */
     border-radius: 20px;
-    margin: 10px;
 }
 @media only screen and (max-width: 700px) {
 
@@ -406,3 +405,22 @@ h1{
         overflow: hidden;
     }
 }
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .toast.show {
+    opacity: 1;
+    visibility: visible;
+  }

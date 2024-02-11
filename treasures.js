@@ -350,9 +350,19 @@ function getDesc(treasure,lvl) {
     const [amt,prob] = getValues(treasure,lvl)
     return `출석시 크리스탈 ${amt}개를 ${prob}% 확률로 획득`
 }
+function sample(treasure,lvl){
+    const [amt,prob] = getValues(treasure,lvl)
+	return Math.random() * 100 < prob ? amt :0
+}
 function getExpectedValue(treasure,lvl){
     const [amt,prob] = getValues(treasure,lvl)
     return round(amt * prob /100,-4)
+}
+function getVar(treasure,lvl){
+    const [amt,prob] = getValues(treasure,lvl)
+	let p=prob /100
+	// console.log(amt * p * (1-p))
+    return amt * p * (1-p)
 }
 function getScoreStr(score) {
 	if (score === 100) return "1억"
