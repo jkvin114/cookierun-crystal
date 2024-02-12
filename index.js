@@ -5,6 +5,9 @@ const State = {
 	settingSerial: -1,
 	settingLvl: -1,
 	settingTr: -1,
+	resultHidden:false,
+	currentExpVal:0,
+	attendanceReward:""
 }
 const sleep = (m) => new Promise((r) => setTimeout(r, m))
 
@@ -62,6 +65,7 @@ function openSelection() {
 }
 
 function closeModal() {
+	closeAttendance()
 	$addClass("#tr-setting", "hidden")
 	onModalClose()
 }
@@ -200,9 +204,15 @@ function main() {
 		// console.log(id)
 
 		addTreasure(id, $one("#lvl-9-checkbox").checked ? 9 : 0)
+		window.scroll(0, 0)
+
 	})
 	$onclick("#tr-setting-close", closeModal)
 	$onclick("#tr-add-btn", function () {
+		$removeClass("#tr-setting", "hidden")
+		openSelection()
+	})
+	$onclick("#tr-add-floating-btn", function () {
 		$removeClass("#tr-setting", "hidden")
 		openSelection()
 	})
@@ -218,11 +228,48 @@ function main() {
 	settingEventListener()
 	let query = new URLSearchParams(window.location.search)
 	if (query.has("state")) decodeState(query.get("state"))
+	if (query.has("reward")) decodeRewardAndShow(query.get("reward"))
+
 	$one("#lvl-9-checkbox").addEventListener("change", function (e) {
 		change9Checkbox(e.currentTarget.checked)
 	})
 	$onclick("#check-prob-btn", checkProb)
 	$onclick("#to-lvl9-btn",toLvl9)
+	$onclick("#result-hide-btn",toggleResult)
+	// $onclick(".counter",function(e){
+	// 	e.currentTarget.innerHTML = Number(e.currentTarget.innerHTML) + 1
+	// })
+	$onclick("#growth-btn",()=>showGrowth(State.currentExpVal))
+	$onclick("#attend-btn",()=>{
+		gtag("event", "attendance", {})
+		let rewards = genAttendenceReward()
+		showAttendence(rewards)
+	})
+	$onclick("#close-attend-btn",closeAttendance)
+	$onclick("#share-attend-btn",share)
+}
+function shareAttendance(){
+
+}
+function closeAttendance(){
+	$addClass("#attendance-modal","hidden")
+	State.attendanceReward=""
+	onModalClose()
+}
+
+function toggleResult(){
+	if(State.resultHidden){
+		State.resultHidden=false
+		$removeClass("#hidden-result","hidden")
+		$html("#result-hide-btn","숨기기 &#9664;")
+
+	}
+	else{
+		State.resultHidden=true
+		$addClass("#hidden-result","hidden")
+		$html("#result-hide-btn","펼치기 &#9660;")
+
+	}
 }
 function change9Checkbox(checked) {
 	if (checked) $removeClass(".tr-selection .lvl-9", "hidden")
@@ -353,6 +400,7 @@ function encodeCurrentState() {
 
 	return encodedString
 }
+
 let toastTimeout = null
 function showToast(msg) {
 	if (toastTimeout) clearTimeout(toastTimeout)
@@ -380,7 +428,10 @@ function save() {
 }
 function share() {
 	let str = encodeCurrentState()
-	let link = window.location.href.split("?")[0] + (str===""?"" : ("?state=" + str))
+	let rewardstr = State.attendanceReward
+	let link = window.location.href.split("?")[0]+"?" + (str===""?"" : ("state=" + str)) 
+	+ (rewardstr===""?"":("&reward=" + rewardstr))
+
 	navigator.clipboard.writeText(link).then(() => {
 		showToast("링크가 클립보드에 복사되었습니다")
 	})
@@ -419,6 +470,7 @@ function pToPercent(p,digit) {
 function onTreasureChange() {
 	const [maxamt, totalexp, maxprob, minprob] = calcStats()
 	$html("#total-exp", round(totalexp, -4))
+	State.currentExpVal = totalexp
 	$html("#total-max", maxamt)
 	$html("#total-min-prob", pToPercent(minprob))
 	$html("#total-max-prob", pToPercent(maxprob))
@@ -479,6 +531,7 @@ async function simulate() {
 	}
 	$removeClass("#loading", "hidden")
 	$addClass("#sim-result-container", "hidden")
+	$addClass("#growth-container","hidden")
 	$addClass(".lvl-9-report","hidden")
 	gtag("event", "simulation", {})
 	$html("#check-prob-result","")
@@ -517,7 +570,7 @@ async function simulate() {
 	let lvl9record = []
 	let lvl9ExpLine = {}
 	let lvl9totalexp = 0
-	if (avgLvl < 8.3) {
+	if (avgLvl < 8) {
 		for (let i = 0; i < n; ++i) {
 			let total = 0
 			for (const elem of $(".tr-displayed")) {
@@ -557,7 +610,7 @@ async function simulate() {
 		$(".lvl-9-report-val")[0].innerHTML = pToPercent((lvl9totalexp - totalexp) / totalexp,-2)
 		for (const q of quantiles) {
 			let quantile = calculateQuantile(lvl9totalexp, std9, q)
-			quantileDesc9 += `<li>${pToPercent(1 - q)}로 <b>${Math.max(0, round(quantile))}개</b> 이상 획득
+			quantileDesc9 += `<li>${pToPercent(1 - q)}로 최소 <b>${Math.max(0, round(quantile))}개</b> 획득
 			</li>`
 		}
 		$html("#quantiles-9", quantileDesc9)
@@ -575,7 +628,7 @@ async function simulate() {
 	$data(elem, "max", maxtotal)
 	for (const q of quantiles) {
 		let quantile = calculateQuantile(totalexp, std, q)
-		quantileDesc += `<li>${pToPercent(1 - q)}로 <b>${Math.max(0, round(quantile))}개</b> 이상 획득
+		quantileDesc += `<li>${pToPercent(1 - q)}로 최소 <b>${Math.max(0, round(quantile))}개</b> 획득
 		</li>`
 	}
 	$html("#quantiles", quantileDesc)
@@ -590,7 +643,7 @@ async function simulate() {
 			margin: [50, 10, 90, 10],
 		},
 		title: {
-			text: "크리스탈 갯수 예측치",
+			text: "출석보상 갯수 분포",
 		},
 		xAxis: {
 			min: minRange, // Set the minimum value of the x-axis
@@ -600,7 +653,7 @@ async function simulate() {
 			},
 			labels: {
 				style: {
-					fontSize: "15px", // Set the font size for x-axis labels
+					fontSize: "18px", // Set the font size for x-axis labels
 				},
 			},
 			minTickInterval: 1,

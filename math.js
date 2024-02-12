@@ -32,6 +32,10 @@ function erfinv(x) {
 	return sqrt2 * Math.sign(x)
 }
 
+function expGrowthIntegral(currentExpVal,dates){
+    return currentExpVal * ( Math.exp(EXP_PER_CRYSTAL*dates)-1) / EXP_PER_CRYSTAL
+}
+
 function calcStd(numbers) {
 	// Calculate the mean (average) of the numbers
 	const mean = numbers.reduce((acc, val) => acc + val, 0) / numbers.length

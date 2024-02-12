@@ -2,6 +2,9 @@
 <head>
 	<title>쿠키런 크리스탈 기댓값 계산기</title>
 	<link rel="icon" type="image/x-icon" href="img/shop_icon_gem.png" />
+	<meta name="description" 
+	content='쿠키런 for kakao 크리스탈보물 기댓값 계산/출석보상 시뮬레이션/출석보상 분포 예측/성장치 예측'>
+
 
 	<meta charset="utf-8" />
 	<meta content="width=device-width, initial-scale=0.9" name="viewport" />
@@ -15,6 +18,9 @@
 
 	<script src="index.js"></script>
 	<script src="treasures.js"></script>
+	<script src="growth.js"></script>
+	<script src="attendance.js"></script>
+
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-8F7TD8KPXW"></script>
 	<script>
@@ -29,6 +35,7 @@
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 
 	<script src="https://code.highcharts.com/modules/histogram-bellcurve.js"></script>
+	<script></script>
 </head>
 <body>
 	<h1 class="stroke"><img src="img/shop_icon_gem.png" style="width: 30px" />쿠키런 크리스탈 기댓값 계산기</h1>
@@ -156,64 +163,58 @@
 	</div>
 
 	<div class="container">
-		<div class="text-container">
+		<div class="text-container" style="position: relative;">
+			<span id="result-hide-btn" class="btn btn-gray btn-small">숨기기 &#9664;</span>
+			<!-- 펼치기&#9660; -->
 			<h2 class="resulttext">
 				1일 기댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-exp">0</b>개
 			</h2>
-			<h2 class="resulttext">
-				1일 최댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
-			</h2>
-			<span style="font-size: 20px">
-				(확률:<span id="total-max-prob">100%</span>)
-				<!-- <br><span id="total-max-prob-lotto"></span> -->
-			</span>
-			<h2 class="resulttext">
-				1일 최솟값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
-			</h2>
-			<span style="font-size: 20px">(확률:<span id="total-min-prob">100%</span>)</span>
-			<!-- <h2 class="resulttext">표준편차: <b id="total-std"></b></h2> -->
-			<hr />
-			<h2 class="resulttext">한달동안 매일매일 출석하면?</h2>
-			<span class="months"
-				><img src="img/pet_egg.png" height="50px" style="vertical-align: middle" /> 펫 뽑기
-				<b class="months-val">0</b>개</span
-			>
-			<span class="months"
-				><img src="img/ticket.png" height="50px" style="vertical-align: middle" /> 보물 뽑기
-				<b class="months-val">0</b>개</span
-			>
-			<span class="months"
-				><img src="img/treasure_box.png" height="50px" style="vertical-align: middle" /> 6+1 보물 뽑기
-				<b class="months-val">0</b>개</span
-			>
+			<div id="hidden-result" class="">
+				<h2 class="resulttext">
+					1일 최댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
+				</h2>
+				<span style="font-size: 20px">
+					(확률:<span id="total-max-prob">100%</span>)
+					<!-- <br><span id="total-max-prob-lotto"></span> -->
+				</span>
+				<h2 class="resulttext">
+					1일 최솟값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
+				</h2>
+				<span style="font-size: 20px">(확률:<span id="total-min-prob">100%</span>)</span>
+				<!-- <h2 class="resulttext">표준편차: <b id="total-std"></b></h2> -->
+				<hr />
+				<h2 class="resulttext">한달동안 매일매일 출석하면?</h2>
+				<span class="months"
+					><img src="img/pet_egg.png" height="50px" style="vertical-align: middle" /> 펫 뽑기
+					<b class="months-val">0</b>개</span
+				>
+				<span class="months"
+					><img src="img/ticket.png" height="50px" style="vertical-align: middle" /> 보물 뽑기
+					<b class="months-val">0</b>개</span
+				>
+				<span class="months"
+					><img src="img/treasure_box.png" height="50px" style="vertical-align: middle" /> 6+1 보물 뽑기
+					<b class="months-val">0</b>개</span
+				>
+
+			</div>
+			
 		</div>
 		<br /><br />
 		<div>
-			<button class="btn-primary btn" id="save-btn">저장하기</button>
-			<button class="btn-secondary btn" id="share-btn">공유하기</button>
+			<button class="btn-primary btn" id="save-btn">저장</button>
+			<button class="btn-secondary btn" id="share-btn">공유</button>
 			<button class="btn-secondary btn" id="load-btn">불러오기</button>
 			<button class="btn-red btn" id="clear-btn">전체 삭제</button>
 		</div>
 	</div>
-	<br />
-	<div id="share-area"></div>
-	<br />
-	<div class="container">
-		<div style="text-align: left; display: inline-block" id="desc-area">
-			<li>보물 여러개 한번에 추가하는 법:</li>
-			<ol>
-				<li>원하는 보물을 추가한다</li>
-				<li>추가한 보물을 선택한 후 '복제' 클릭</li>
-				<li>원하는 추가량을 입력</li>
-			</ol>
-			<li>저장하기: 브라우저에 보물 세팅을 저장해 언제든 다시 불러올 수 있습니다</li>
-			<li>공유하기: 현재 보물 세팅을 포함한 사이트 링크를 공유할 수 있습니다</li>
-			<li>불러오기: 저장해 놓았던 보물 세팅을 불러옵니다</li>
-		</div>
-	</div>
 
 	<div class="container">
-		<button class="btn-primary btn" id="sim-btn">예상 보상범위 계산</button>
+		<hr>
+		<button class="btn-primary btn btn-small" id="attend-btn">출석보상 생성</button>
+
+		<button class="btn-secondary btn btn-small" id="sim-btn">예상 보상범위 보기</button>
+		<button class="btn-secondary btn btn-small" id="growth-btn">예상 성장치 보기</button>
 	</div>
 	<div class="container hidden" id="loading">
 		<br />
@@ -226,7 +227,7 @@
 		<br />
 		<div id="sim-result" class="">
 			<div>
-				<img src="img/cart.png" width="90px" style="position: absolute; top:10px;right: 10px;" />
+				<img src="img/cart.png" width="90px" style="position: absolute; top: 10px; right: 10px" />
 				<p id="quantiles"></p>
 				<hr />
 
@@ -240,12 +241,80 @@
 				<hr class="lvl-9-report hidden" />
 				<div class="lvl-9-report hidden">
 					<h2 id="lvl-9-report-title ">올 9강시:</h2>
-						<span class="months">기댓값 <b class="lvl-9-report-val"></b> 상승!</span> 
-						<p id="quantiles-9"></p>
-					<button id="to-lvl9-btn" class="btn-primary btn"> 모두 9강으로 변경</button>
+					<span class="months">기댓값 <b class="lvl-9-report-val"></b> 상승!</span>
+					<p id="quantiles-9"></p>
+					<button id="to-lvl9-btn" class="btn-primary btn">모두 9강으로 변경</button>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="container hidden" id="growth-container">
+		<div style="position: relative;">
+			<img src="img/cheer.png" id="cheer-img" > 
+			<div id="growth-graph"></div>
+		</div>
+		<br>
+		<div id="growth-result" class="">
+				<h4>현재: 하루에 <img src="img/shop_icon_gem.png" style="vertical-align: middle" /><b class="growth-val">0</b>개</h4>
+				<h4>모두 9강시: 하루에 <img src="img/shop_icon_gem.png" style="vertical-align: middle" /><b class="growth-val">0</b>개</h4>
+
+				<h4>한달 후: 하루에 <img src="img/shop_icon_gem.png" style="vertical-align: middle" /><b class="growth-val">0</b>개</h4>
+				<h4>6개월 후: 하루에 <img src="img/shop_icon_gem.png" style="vertical-align: middle" /><b class="growth-val">0</b>개</h4>
+				<h4>1년 후: 하루에  <img src="img/shop_icon_gem.png" style="vertical-align: middle" /><b class="growth-val">0</b>개</h4>
+				<h4>1년간 총 예상 획득량: <img src="img/shop_icon_gem.png" style="vertical-align: middle" /><b class="growth-val">0</b>개</h4>
+
+				<hr>
+				<p>
+					다음과 같이 가정한 예측치입니다:
+					<ul>
+						<li>크리스탈을 얻는대로 모두 6+1보물뽑기에 투자(크리스탈 119개)</li>
+						<li>뽑은 보물은 즉시 +9강</li>
+						<li>다른 크리스탈 보상 없음, 매일 빠지지 않고 출석</li>
+						<li>뽑은 보물이 크탈보물일 확률: 1.8%(추정치)</li>
+						<li>"마음에 품은 신성한 크리스탈 검" 과 "진주 크리스탈 귀걸이" 를 제외한 모든 크리스탈 보물은 뽑기 확률 동일</li>
+					</ul>
+				</p>
+		</div>
+	</div>
+	<div class="container">
+		<div style="text-align: left; display: inline-block" id="desc-area">
+			<li>보물 여러개 한번에 추가하는 법:</li>
+			<ol>
+				<li>원하는 보물을 추가한다</li>
+				<li>추가한 보물을 선택한 후 '복제' 클릭</li>
+				<li>원하는 추가량을 입력</li>
+			</ol>
+			<li>저장하기: 브라우저에 보물 세팅을 저장해 언제든 다시 불러올 수 있습니다</li>
+			<li>공유하기: 현재 보물 세팅을 포함한 사이트 링크를 공유할 수 있습니다</li>
+			<li>불러오기: 저장해 놓았던 보물 세팅을 불러옵니다</li>
+		</div>
+	</div>
+	<div class="modal text-container hidden" id="attendance-modal">
+		<div>
+			<span id="attendance-total">출석보상: <b id="attendance-total-val">0</b>개</span>
+			<div id="reward-container">
+				<!-- <div class="reward-item">
+					<div class="tr">
+						<img src="img/frame.png">
+						<img class="tr-img" src="img/tr/14.webp">
+						<img  class="tr-img" src="img/passive.png">
+						<b class="tr-lvl">+1</b>
+					  </div>
+					<div style="padding-top: 7px;">
+						<span><<b>보물</b>>의 효과로</span><br>
+						<span class="reward-item-amt">2 크리스탈이 지급되었습니다</span>
+					</div>
+				</div> -->
+			</div>
+			<div>
+				<button class="btn btn-secondary wide" id="close-attend-btn">확인 </button>
+				<button class="btn btn-secondary" id="share-attend-btn" >공유 </button>
+			</div>
+		</div>
+	</div>
+	<div class="empty-tr" id="tr-add-floating-btn">
+		<div></div>
+		<b class="tr-add">+</b>
 	</div>
 	<div id="toast" class="toast"></div>
 

@@ -30,6 +30,14 @@ html{
 
     box-sizing: content-box;
 }
+.counter{
+    cursor: pointer;
+    background: black;
+    display: inline-block;
+    margin: 20px;
+    padding: 8px;
+    width: 100px;
+}
 body{
     margin: 0;
     min-height: 100vh;
@@ -70,9 +78,9 @@ h1{
 }
 .modal{
     position: fixed;
-    top:50vh;
+    top:10vh;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%,0);
     width: min(90%,1000px);
     height: 600px;
     z-index: 5;
@@ -167,6 +175,11 @@ h1{
 .btn.wide{
     padding: 5px 30px;
 
+}
+.btn-small{
+    font-size: 20px;
+    padding: 5px 10px;
+    border-radius: 30px;
 }
 
 .popup-close{
@@ -366,6 +379,7 @@ h1{
 .resulttext{
     font-family: "cookierun";
     color: rgb(81, 57, 0);
+    margin: 7px;
 }
 #share-area{
     max-height: 200px;
@@ -408,9 +422,9 @@ h1{
     display: inline-block;
 }
 #distribution{
-    height: 600px;
+    height: 500px;
 }
-#sim-result{
+#sim-result,#growth-result{
     text-align: left;
     display: inline-block;
     font-size: large;
@@ -430,10 +444,102 @@ h1{
     display: block;
     font-size: 25px;
 }
+#tr-add-floating-btn{
+    display: none;
+    position: fixed;
+    z-index: 3;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    border:5px solid var(--col-primary-light);
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px 1px;
+    transform: scale(0.9);
+}
+#cheer-img{
+    position: absolute; top:50px;left: 0;z-index: 3;width: 300px;
+}
+#growth-result  h4{
+    margin: 4px;
+    font-family: "cookierun";
+}
+#growth-result  p,#growth-result  li{
+    font-size: 13px;
+    font-family: auto;
+    color: rgb(69, 69, 69);
+}
+#growth-result{
+    display: inline-block;
+}
+#result-hide-btn
+{
+    position: absolute;
+    top:5px;
+    right: 5px;
+
+}
+#attendance-modal{
+    background-color: var(--col-bg);
+    padding: 15px;
+    width: min(85%,700px);
+    height: fit-content;
+    top:25vh;
+    border-radius: 30px;
+
+}
+#attendance-modal>div{
+    background-color: var(--col-bg-light);
+    padding: 25px;
+    border-radius: 25px;
+}
+#reward-container{
+    background-color: var(--col-bg);
+    border-radius: 20px;
+    box-shadow: inset rgba(0, 0, 0, 0.275) 0px 2px 4px 1px;
+
+    height: 300px;
+    overflow: auto;
+    position: relative;
+    padding: 20px;
+}
+#squirrel{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 150px;
+}
+#squirrel-text{
+    position: absolute;
+    bottom: 150px;
+    left: 100px;
+}
+.reward-item{
+    border-bottom: 5px dashed var(--col-bg-dark);
+    padding: 5px;
+    display: grid;
+    font-size: 16px;
+    color: #494949;
+    /* font-family: auto; */
+    text-align: left;
+    grid-template-columns: min-content auto;
+}
+#attendance-total{
+    font-size: 25px;
+    margin: 5px;
+}
+.reward-item-amt{
+    margin: 5px;
+    font-size: 22px;
+}
 @media only screen and (max-width: 700px) {
-    #distribution{
-        height: 400px;
+    #cheer-img{
+        width: 240px;
     }
+    #distribution{
+        height: 300px;
+    }
+    #tr-add-floating-btn{
+        display: block;
+    } 
     #tr-setting{
         position: fixed;
         top:50vh;
