@@ -32,8 +32,8 @@ function erfinv(x) {
 	return sqrt2 * Math.sign(x)
 }
 
-function expGrowthIntegral(currentExpVal,dates){
-    return currentExpVal * ( Math.exp(EXP_PER_CRYSTAL*dates)-1) / EXP_PER_CRYSTAL
+function expGrowthIntegral(currentExpVal,dates,rate){
+    return currentExpVal * ( Math.exp(rate*dates)-1) / rate
 }
 
 function calcStd(numbers) {

@@ -608,6 +608,7 @@ async function simulate() {
 		let quantileDesc9=""
 		$removeClass(".lvl-9-report","hidden")
 		$(".lvl-9-report-val")[0].innerHTML = pToPercent((lvl9totalexp - totalexp) / totalexp,-2)
+		$(".lvl-9-report-val")[1].innerHTML = `${round(totalexp,-2)} -> ${round(lvl9totalexp,-2)}`
 		for (const q of quantiles) {
 			let quantile = calculateQuantile(lvl9totalexp, std9, q)
 			quantileDesc9 += `<li>${pToPercent(1 - q)}로 최소 <b>${Math.max(0, round(quantile))}개</b> 획득
