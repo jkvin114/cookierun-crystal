@@ -52,7 +52,7 @@ function showAttendence(treasures){
         ${treasureBody(tr,lvl)}
           </div>
         <div style="padding-top: 7px;">
-            <span><<b>${tr.name}</b>>의 효과로</span><br>
+            <span><<b>${isRewardTr(tr) ? getRewardTreasureName(tr.minscore) : tr.name}</b>>의 효과로</span><br>
             <span class="reward-item-amt">${amt} 크리스탈이 지급되었습니다</span>
         </div>
     </div>`
