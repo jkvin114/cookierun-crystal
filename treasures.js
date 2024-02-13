@@ -451,14 +451,6 @@ const TREASURES = [
 		minp: 40,
 		maxp: 58,
 		type: TYPE.Trophy
-	},
-	{
-		id: 231,
-		name: "전설1 등급의 레전드 영광 트로피",
-		amt: 1,
-		minp: 40,
-		maxp: 58,
-		type: TYPE.Trophy
 	},{
 		id: 232,
 		name: "전설2 등급의 레전드 영광 트로피",
