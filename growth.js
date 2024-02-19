@@ -26,6 +26,8 @@ for(const tr of gacha_treasures){
 
     // console.log(totalexp)
 }
+
+
 const EXP_PER_CRYSTAL = totalexp * 7 / 119
 const EXP_PER_CRYSTAL_LOW = totalexp_low * 7 / 119
 const EXP_PER_CRYSTAL_HIGH = totalexp_high * 7 / 119
