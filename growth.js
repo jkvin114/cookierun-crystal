@@ -28,7 +28,8 @@ for(const tr of gacha_treasures){
 }
 
 
-const EXP_PER_CRYSTAL = totalexp * 7 / 119
+const EXP_PER_CRYSTAL = 0.1305996478/ 119
+
 const EXP_PER_CRYSTAL_LOW = totalexp_low * 7 / 119
 const EXP_PER_CRYSTAL_HIGH = totalexp_high * 7 / 119
 
@@ -83,7 +84,7 @@ function showGrowth(currentExpVal){
     const dates=365
     const values = simulateGrowth(lvl9totalexp,dates)
     const sum = expGrowthIntegral(currentExpVal,dates,EXP_PER_CRYSTAL)
-    const errorvalues = errorbar(lvl9totalexp,dates)
+   // const errorvalues = errorbar(lvl9totalexp,dates)
     if(values.length===0) return
     
     gtag("event", "growth", {})
@@ -102,10 +103,10 @@ function showGrowth(currentExpVal){
     elems[3].innerHTML = round(halfyear,-2)
     elems[4].innerHTML = round(oneyear,-2)
     elems[5].innerHTML = round(sum)
-    let sum_high = expGrowthIntegral(currentExpVal,dates,EXP_PER_CRYSTAL_HIGH)
+   // let sum_high = expGrowthIntegral(currentExpVal,dates,EXP_PER_CRYSTAL_HIGH)
 
-    $html("#growth-error","(± " + round(errorvalues[0][2] - oneyear,-2) + ")")
-    $html("#growth-sum-error","(± " + round(sum_high - sum,-2) + ")")
+   // $html("#growth-error","(± " + round(errorvalues[0][2] - oneyear,-2) + ")")
+   // $html("#growth-sum-error","(± " + round(sum_high - sum,-2) + ")")
 
     Highcharts.chart('growth-graph', {
         style: {
@@ -156,12 +157,12 @@ function showGrowth(currentExpVal){
             name: '하루 기댓값',
             data: values
         },
-        {
-            name: '오차범위',
-            data: errorvalues,
-            type: 'errorbar',
-            whiskerLength:13
-        },
+        // {
+        //     name: '오차범위',
+        //     data: errorvalues,
+        //     type: 'errorbar',
+        //     whiskerLength:13
+        // },
     ],
         responsive: {
             rules: [{
