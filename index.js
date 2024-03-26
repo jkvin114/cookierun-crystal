@@ -208,6 +208,7 @@ function main() {
 
 	})
 	$onclick("#tr-setting-close", closeModal)
+	
 	$onclick("#tr-add-btn", function () {
 		$removeClass("#tr-setting", "hidden")
 		openSelection()
@@ -219,6 +220,12 @@ function main() {
 	$onclick(".tr-btn", function () {
 		if (isMobile()) closeModal()
 	})
+	$onclick("#gacha-modal-close",function(){
+		$addClass("#gacha-modal", "hidden")
+	})
+	$onclick("#gacha-modal-open-btn",openGacha)
+	$onclick("#gacha-btn", drawFirst)
+	$onclick("#more-gacha-btn", drawAgain)
 	$onclick("#clear-btn", removeAll)
 	$onclick("#save-btn", save)
 	$onclick("#share-btn", share)
@@ -247,6 +254,16 @@ function main() {
 	})
 	$onclick("#close-attend-btn",closeAttendance)
 	$onclick("#share-attend-btn",share)
+	$onclick("#gacha-sim-btn",function(){
+		gtag("event", "gacha-sim")
+		let num = Number($one("#gacha-sim-input").value)
+		if (!num || isNaN(num) || num < 119 || num > 100000) {
+			showToast("119 ~ 100,000 사이 숫자를 입력하세요")
+			return
+		}
+		simulateDraw(num)
+	})
+	$onclick("#gacha-reset-btn",resetGachaState)
 }
 function shareAttendance(){
 
@@ -506,6 +523,13 @@ function calcStats() {
 	return [maxamt, totalexp, maxprob, minprob]
 }
 
+function openGacha(){
+	$removeClass("#gacha-container","hidden")
+    $addClass("#sim-result-container","hidden")
+	$addClass("#growth-container","hidden")
+
+
+}
 function checkProb() {
 	const elem = $one("#check-prob-btn")
 	let std = Number($data(elem, "std"))
@@ -532,6 +556,7 @@ async function simulate() {
 	$removeClass("#loading", "hidden")
 	$addClass("#sim-result-container", "hidden")
 	$addClass("#growth-container","hidden")
+	$addClass("#gacha-container","hidden")
 	$addClass(".lvl-9-report","hidden")
 	gtag("event", "simulation", {})
 	$html("#check-prob-result","")

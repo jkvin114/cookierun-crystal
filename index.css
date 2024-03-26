@@ -305,7 +305,21 @@ h1{
 .tr-lvl.lvl-9{
     color: var(--col-yellow);
 }
+.tr .tr-unknown{
+    font-family: "cookierun black";
 
+    position: absolute;
+    z-index: 2;
+    font-size: 50px;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    -webkit-text-stroke:2px black;
+    color: gray;
+}
+.tr.dark{
+    filter: brightness(0.7);
+}
 #treasures{
     display: inline-grid;
     grid-template-columns: 1fr 1fr;
@@ -584,3 +598,78 @@ h1{
     opacity: 1;
     visibility: visible;
   }
+
+  #gacha-modal-close{
+    display: inline-block;
+    position: absolute;
+    top:5px;
+    right: 5px;;
+    z-index: 1;
+  }
+  #gacha-modal {
+    background-color: var(--col-bg);
+    height: 350px;
+    top: 10%;
+  }
+  #gacha-modal > div{
+    background-color: var(--col-bg-light);
+    border-radius: 20px;
+
+    height: 300px;
+    overflow: auto;
+    position: relative;
+    padding: 10px;
+    padding-top: 40px;
+  }
+  .gacha-treasure-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .gacha-treasure-container .tr:nth-child(1), .gacha-treasure-container .tr:nth-child(7){
+    transform: scale(0.7);
+    margin: -10px;
+    margin-top: 50px;
+  }
+  .gacha-treasure-container .tr:nth-child(2), .gacha-treasure-container .tr:nth-child(6){
+    transform: scale(0.8);
+    margin: -5px;
+    margin-top: 30px;
+  }
+  .gacha-treasure-container .tr:nth-child(3), .gacha-treasure-container .tr:nth-child(5){
+    transform: scale(0.9);
+    margin: -3px;
+    margin-top: 10px;
+  }
+  .gacha-treasure-container .tr:nth-child(4){
+  }
+#more-gacha-btn{
+    font-weight:normal;
+}
+#gacha-container{
+    width: min(1200px,92%);
+}
+.gacha-container-grid{
+    display: grid;
+    grid-template-columns: auto 150px;
+}
+#gacha-treasures-drawn {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+#gacha-treasures-drawn .tr{
+    transform: scale(0.7);
+    margin: -10px;
+}
+.draw-container{
+    background-color: #8786CA;
+    border-radius: 20px;
+    padding-top: 200px;
+    max-height: 400px;
+
+}
+.draw-container >  img{
+    height: 100px;
+}

@@ -102,3 +102,39 @@ function displayMaxProb(maxprob) {
 	if (diff > 1) $html("#total-max-prob-lotto", `로또 1등 확률의 ${round(diff, -1)}배`)
 	else $html("#total-max-prob-lotto", `로또 1등보다 ${round(1 / diff, -1)}배 어려움`)
 }
+
+/**
+ *
+ * @param weights
+ * @returns index of weight array
+ */
+const chooseWeightedRandom = function (weights) {
+	for (let i = 1; i < weights.length; ++i) {
+		weights[i] = weights[i] + weights[i - 1]
+	}
+	let rand = Math.random() * weights[weights.length - 1]
+	for (let i = 0; i < weights.length; ++i) {
+		if (weights[i] > rand) return i
+	}
+	return 0
+	//2 3 5    2 5 10
+}
+
+const shuffle = function (array){
+	var m = array.length,
+		t,
+		i
+
+	// While there remain elements to shuffle…
+	while (m) {
+		// Pick a remaining element…
+		i = Math.floor(Math.random() * m--)
+
+		// And swap it with the current element.
+		t = array[m]
+		array[m] = array[i]
+		array[i] = t
+	}
+
+	return array
+}

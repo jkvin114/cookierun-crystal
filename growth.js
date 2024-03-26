@@ -91,7 +91,7 @@ function showGrowth(currentExpVal){
 
     $removeClass("#growth-container","hidden")
     $addClass("#sim-result-container","hidden")
-    
+    $addClass("#gacha-container","hidden")
     let oneyear = values.at(-1)[1]
     let halfyear = values[182][1]
     let onemonth = values[30][1]

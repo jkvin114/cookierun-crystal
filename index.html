@@ -19,6 +19,7 @@
 	<!-- <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 	<script src="jquery.js"></script>
 	<script src="math.js"></script>
+	<script src="gacha.js"></script>
 
 	<script src="index.js"></script>
 	<script src="treasures.js"></script>
@@ -218,6 +219,7 @@
 	<div class="container">
 		<hr>
 		<button class="btn-primary btn btn-small" id="attend-btn">출석보상 생성</button>
+		<button class="btn-primary btn btn-small" id="gacha-modal-open-btn">보물뽑기(beta)</button>
 
 		<button class="btn-secondary btn btn-small" id="sim-btn">예상 보상범위 보기</button>
 		<button class="btn-secondary btn btn-small" id="growth-btn">예상 성장치 보기</button>
@@ -287,6 +289,35 @@
 			<img src="img/cart.png" width="90px" style="position: absolute; top: 10px; right: 10px" >
 		</div>
 	</div>
+	<div class="container hidden" id="gacha-container">
+		<div class="text-container">
+
+			<div style="text-align: left;">
+
+				<li>소모한 크리스탈: <b class="gacha-crystal-spent-total">0</b>개</li>
+				<li>뽑은 보물 총 기댓값(올 9강시): <b class="gacha-expval">0</b>개</li>
+			</div>
+			<div class="gacha-container-grid">
+				<div id="gacha-treasures-drawn">
+	
+				</div>
+				<div class="draw-container">
+					<img src="img/treasure_box.png" height="50px" /> <br>
+					<button class="btn btn-primary" id="gacha-btn">
+						<img src="img/shop_icon_gem.png" style="vertical-align: middle;">
+						<b style="vertical-align: middle;">119</b>
+					</button>
+	
+				</div>
+			</div>
+			<div>
+				<input type="text" placeholder="크리스탈 갯수 입력" id="gacha-sim-input" /><br />
+				<button class="btn-secondary btn" id="gacha-sim-btn">한번에 뽑기</button><br>
+				<button class="btn-red btn" id="gacha-reset-btn">초기화</button>
+				<li>보물뽑기 확률은 공개된 확률표를 사용했습니다</li>
+			</div>
+		</div>
+	</div>
 	<div class="container">
 		<div style="text-align: left; display: inline-block" id="desc-area">
 			<li>보물 여러개 한번에 추가하는 법:</li>
@@ -323,6 +354,64 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="modal text-container hidden" id="gacha-modal">
+		<span class="btn btn-gray popup-close" id="gacha-modal-close"> &times; </span>
+
+		<div>
+			<div class="gacha-treasure-container">
+				<!-- <div class="tr">
+					<img src="img/frame.png">
+					<img class="tr-img" src="img/tr/14.webp">
+					<img  class="tr-img" src="img/passive.png">
+				</div>
+				<div class="tr">
+					<img src="img/frame.png">
+					<img class="tr-img" src="img/tr/14.webp">
+					<img  class="tr-img" src="img/passive.png">
+				</div>
+				<div class="tr">
+					<img src="img/frame.png">
+					<b class="tr-unknown">?</b>
+				</div>
+				<div class="tr">
+					<img src="img/frame.png">
+					<img class="tr-img" src="img/tr/14.webp">
+					<img  class="tr-img" src="img/passive.png">
+				</div>
+				<div class="tr">
+					<img src="img/frame.png">
+					<img class="tr-img" src="img/tr/14.webp">
+					<img  class="tr-img" src="img/passive.png">
+				</div>
+				<div class="tr">
+					<img src="img/frame.png">
+					<img class="tr-img" src="img/tr/14.webp">
+					<img  class="tr-img" src="img/passive.png">
+				</div>
+				<div class="tr">
+					<img src="img/frame.png">
+					<img class="tr-img" src="img/tr/14.webp">
+					<img  class="tr-img" src="img/passive.png">
+				</div> -->
+
+			</div>
+			
+			<span style="font-size: 20px;">7개의 보물을 모두 받았습니다</span>
+			
+			<div>
+				<!-- <button class="btn btn-secondary" id="share-attend-btn" style="float: left;">공유 </button> -->
+				<button class="btn btn-primary wide" id="more-gacha-btn">
+					<img src="img/shop_icon_gem.png" style="vertical-align: middle;">
+					<b style="vertical-align: middle;">108</b>
+					<span style="font-size: 23px;">개로 한번 더 뽑기</span>
+				 </button>
+				 <br>
+				 <span style="font-size: 18px;">누적 크리스탈 사용: <b class="gacha-crystal-spent"></b>개 </span>
+			</div>
+		</div>
+	</div>
+
 	<div class="empty-tr" id="tr-add-floating-btn">
 		<div></div>
 		<b class="tr-add">+</b>
