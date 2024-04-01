@@ -628,6 +628,7 @@ h1{
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    transform: scale(0.9);
   }
   .gacha-treasure-container .tr:nth-child(1), .gacha-treasure-container .tr:nth-child(7){
     transform: scale(0.7);
