@@ -29,6 +29,8 @@ html{
     zoom: 70%;
 
     box-sizing: content-box;
+    touch-action: manipulation;
+
 }
 .counter{
     cursor: pointer;
@@ -609,7 +611,7 @@ h1{
   #gacha-modal {
     background-color: var(--col-bg);
     height: 350px;
-    top: 10%;
+    transform: translate(-50%,-50%);
   }
   #gacha-modal > div{
     background-color: var(--col-bg-light);
