@@ -198,8 +198,12 @@ function main() {
 	clearSetting()
 	if (isMobile()) closeModal()
 	$onclick(".tr-selection", function (e) {
-		if (isMobile()) $addClass("#tr-setting", "hidden")
-		onModalClose()
+		if (isMobile()){
+			showToast("보물을 추가했습니다")
+		}
+		
+		//$addClass("#tr-setting", "hidden")
+		//onModalClose()
 		let id = Number($data(e.currentTarget, "id"))
 		// console.log(id)
 

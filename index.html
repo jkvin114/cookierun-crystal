@@ -2,6 +2,8 @@
 <html prefix="og: http://ogp.me/ns#">
 	<title>쿠키런 크리스탈 기댓값 계산기</title>
 	<link rel="icon" type="image/x-icon" href="img/shop_icon_gem.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<meta property="og:title" content="쿠키런 크리스탈 기댓값 계산기"/>
 	<meta property="og:type" content="article"/>
 	<meta name="description"
@@ -27,7 +29,7 @@
 	<script src="attendance.js"></script>
 
 	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-8F7TD8KPXW"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-8F7TD8KPXW" ></script>
 	<script>
 		window.dataLayer = window.dataLayer || []
 		function gtag() {
@@ -37,10 +39,10 @@
 
 		gtag("config", "G-8F7TD8KPXW")
 	</script>
-	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js" defer></script>
 
-	<script src="https://code.highcharts.com/highcharts-more.js"></script>
-	<script src="https://code.highcharts.com/modules/histogram-bellcurve.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js" defer></script>
+	<script src="https://code.highcharts.com/modules/histogram-bellcurve.js" defer></script>
 	<script></script>
 </head>
 <body>
@@ -67,7 +69,7 @@
 				<div></div>
 			</div>
 		</div>
-		<div class="popup" id="tr-setting">
+		<div class="popup hidden" id="tr-setting">
 			<div class="popup-toolbar">
 				<b class="popup-title" id="modal-title">보물 추가</b>
 				<span class="btn btn-gray popup-close" id="tr-setting-close"> &times; </span>
@@ -302,6 +304,10 @@
 	
 				</div>
 				<div class="draw-container">
+					<div class="draw-title">
+						<span class="draw-title-1"> 최고급 보물상자</span><br><br>
+						<span class="draw-title-2">6+1개 세트</span>
+					</div>
 					<img src="img/treasure_box.png" height="50px" /> <br>
 					<button class="btn btn-primary" id="gacha-btn">
 						<img src="img/shop_icon_gem.png" style="vertical-align: middle;">
