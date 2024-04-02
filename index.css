@@ -21,7 +21,9 @@ html{
 
     --col-bg:#DAD5CA;
     --col-bg-dark:#BEBDB8;
-    --col-purple:#8958C5;
+    --col-purple:#8786CA;
+    --col-purple-dark:#7463A7;
+    --col-purple-light:#9c9ae8;
     --col-bg-light:#EFEDE8;
     --col-bg-lighter:#f5f3ee;
     --col-yellow:#FFD403;
@@ -58,7 +60,9 @@ input[type=text]{
     border-radius:30px ;
 }
 .stroke{
-    -webkit-text-stroke: 2px rgb(163, 114, 0);
+    /* -webkit-text-stroke: 2px rgb(163, 114, 0); */
+    -webkit-text-stroke: 2px rgb(82, 58, 0);
+
 }
 h1{
     font-family: "cookierun black";
@@ -160,7 +164,17 @@ h1{
     border: 3px solid var(--col-red-dark);
 
 }
+.btn.btn-purple{
+    background: 
+    linear-gradient(155deg,white 0%, white 8px,transparent 13px,transparent 100%),
+    linear-gradient(to bottom,var(--col-purple-light) 0%, var(--col-purple-light) 2%,transparent 10%,transparent 90%,
+    var(--col-purple-light) 98%, var(--col-purple-light) 100%),
+    var(--col-purple);
 
+    -webkit-text-stroke:2px var(--col-purple-dark);
+    border: 3px solid var(--col-purple-dark);
+
+}
 .btn{
     font-family: "cookierun black";
     color: white;
@@ -362,7 +376,7 @@ h1{
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    color: var(--col-purple);
+    color: var(--col-purple-dark);
 }
 .tr-setting-desc{
     font-size: 18px;
@@ -675,7 +689,7 @@ h1{
     background-color: #8786CA;
     border-radius: 20px;
     
-    max-height: 400px;
+    height: 310px;
 }
 .draw-container >  img{
     height: 100px;
@@ -696,5 +710,42 @@ h1{
     margin-top: 5px;
     padding-left: 5px;
     padding-right: 5px;
+
+}
+
+@keyframes scaleAnimation {
+    0% {
+      transform: scale(1);
+    }
+    10% {
+      transform: scale(1.2);
+    }
+    20% {
+        transform: scale(1);
+      } 80% {
+        transform: scale(1);
+      }
+      90% {
+        transform: scale(1.2);
+      }
+      100% {
+          transform: scale(1);
+        }
+  }
+
+#new-ballon{
+    position: absolute;
+    background-color:red;
+    color: var(--col-bg-lighter);
+    font-size: 12px;
+    top:-8px;
+    right: -13px;
+    z-index: 2;
+    -webkit-text-stroke:transparent;
+    border-radius: 14px;
+    padding: 2px 5px;
+    font-family: 'cookierun';
+    transform: rotate(15deg);
+    animation: scaleAnimation 2s infinite;
 
 }

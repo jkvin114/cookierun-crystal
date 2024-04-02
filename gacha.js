@@ -131,6 +131,8 @@ function draw() {
 }
 
 function drawFirst() {
+    if(DRAW_STATE.crystalSpend==0)
+        $html("#gacha-treasures-drawn","")
     DRAW_STATE.crystalSpend += 119
 	draw()
 }

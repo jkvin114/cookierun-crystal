@@ -35,6 +35,7 @@
 <body>
 	<p class="hidden"> 쿠키런 for kakao 크리스탈보물 기댓값 계산/출석보상 시뮬레이션/출석보상 분포 예측/성장치 예측</p>
 	<h1 class="stroke"><img src="img/shop_icon_gem.png" style="width: 30px" />쿠키런 크리스탈 기댓값 계산기</h1>
+	<div><img src="img/banner.png" style="height: 30px; margin-top: -40px;"></div>
 	<div class="shadow hidden"></div>
 
 	<div class="container" id="treasures">
@@ -208,7 +209,7 @@
 	<div class="container">
 		<hr>
 		<button class="btn-primary btn btn-small" id="attend-btn">출석보상 생성</button>
-		<button class="btn-primary btn btn-small" id="gacha-modal-open-btn">보물뽑기</button><br>
+		<button class="btn-primary btn btn-small wide" id="gacha-modal-open-btn" style="position: relative;">보물뽑기<span id="new-ballon">new!</span></button><br>
 
 		<button class="btn-secondary btn btn-small" id="sim-btn">예상 보상범위 보기</button>
 		<button class="btn-secondary btn btn-small" id="growth-btn">예상 성장치 보기</button>
@@ -288,7 +289,7 @@
 			</div>
 			<div class="gacha-container-grid">
 				<div id="gacha-treasures-drawn">
-	
+					<h2 style="color: rgb(164, 164, 164); font-family: cookierun;"> 보물뽑기에서 크리스탈 보물은 몇개가 나올지 시뮬레이션해 보세요!</h2>
 				</div>
 				<div class="draw-container">
 					<div class="draw-title">
@@ -296,7 +297,7 @@
 						<span class="draw-title-2">6+1개 세트</span>
 					</div>
 					<img src="img/treasure_box.png" height="50px" /> <br>
-					<button class="btn btn-primary" id="gacha-btn">
+					<button class="btn btn-purple" id="gacha-btn">
 						<img src="img/shop_icon_gem.png" style="vertical-align: middle;">
 						<b style="vertical-align: middle;">119</b>
 					</button>
@@ -304,9 +305,10 @@
 				</div>
 			</div>
 			<div>
-				<input type="text" placeholder="크리스탈 갯수 입력" id="gacha-sim-input" /><br />
-				<button class="btn-secondary btn" id="gacha-sim-btn">한번에 뽑기</button><br>
-				<button class="btn-red btn" id="gacha-reset-btn">초기화</button>
+				<br>
+				<input type="text" placeholder="크리스탈 갯수 입력" id="gacha-sim-input" />
+				<button class="btn-secondary btn btn-small" id="gacha-sim-btn">한번에 뽑기</button>
+				<button class="btn-red btn btn-small" id="gacha-reset-btn">초기화</button>
 				<li>보물뽑기 확률은 공개된 확률표를 사용했습니다</li>
 			</div>
 		</div>

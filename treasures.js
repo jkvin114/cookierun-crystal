@@ -213,6 +213,39 @@ const TREASURES = [
 		maxp: 15,
 		type: TYPE.Level,
         webp:true
+	},{
+		id: 25,
+		name: "작은 케이크들개 전용 컵케이크",
+		amt: 11,
+		minp: 1,
+		maxp: 11,
+		type: TYPE.CookiePet,
+		fullImage:true
+	},
+	{
+		id: 26,
+		name: "11주년 기념 골드 액자",
+		amt: 11,
+		minp: 1,
+		maxp: 11,
+		type: TYPE.Limited,
+		fullImage:true
+	},{
+		id: 27,
+		name: "11주년 기념 크리스탈 액자",
+		amt: 11,
+		minp: 1,
+		maxp: 11,
+		type: TYPE.Limited,
+		fullImage:true
+	},{
+		id: 28,
+		name: "다람쥐의 반짝이는 크리스탈 보석함",
+		amt: 1,
+		minp: 62,
+		maxp: 72,
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,

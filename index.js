@@ -233,7 +233,9 @@ function main() {
 	$onclick("#clear-btn", removeAll)
 	$onclick("#save-btn", save)
 	$onclick("#share-btn", share)
-	$onclick("#load-btn", load)
+	$onclick("#load-btn", function(){
+		load(false)
+	})
 	$onclick(".shadow", closeModal)
 	$onclick("#sim-btn", simulate)
 	settingEventListener()
@@ -268,7 +270,10 @@ function main() {
 		simulateDraw(num)
 	})
 	$onclick("#gacha-reset-btn",resetGachaState)
+	load(true)
 }
+window.onload = main
+
 function shareAttendance(){
 
 }
@@ -312,11 +317,12 @@ function selectionTreasure(tr) {
 	let src = `img/tr/${tr.id}.` + (tr.webp ? "webp" : "png")
 	if (isReward) src = `img/tr/reward/tr_reward_${tr.minscore}00.` + (tr.webp ? "webp" : "png")
 	let name = !isReward ? tr.name : getRewardTreasureName(tr.minscore)
+	let passivestr =tr.fullImage?"":`<img class="tr-img" src="img/passive.png">`
 	return `
     <div class="tr tr-selection" title="${name}" data-id='${tr.id}'>
         <img src="img/${tr.a ? "frame-a" : "frame"}.png">
         <img class="tr-img" src="${getImg(tr)}">
-        <img class="tr-img" src="img/passive.png">
+        ${passivestr}
 		<b class="tr-lvl lvl-9 hidden">+9</b>
     </div>
     `
@@ -345,11 +351,11 @@ function treasureBody(tr, lvl) {
 	let src = `img/tr/${tr.id}.` + (tr.webp ? "webp" : "png")
 	if (isReward) src = `img/tr/reward/tr_reward_${tr.minscore}00.` + (tr.webp ? "webp" : "png")
 	let lvl9 = lvl === 9 ? "lvl-9" : ""
-
+	let passivestr =tr.fullImage?"":`<img class="tr-img" src="img/passive.png">`
 	let lvltext = lvl > 0 ? '<b class="tr-lvl ' + lvl9 + '">+' + lvl + "</b>" : ""
 	return ` <img src="img/${tr.a ? "frame-a" : "frame"}.png">
     <img class="tr-img" src="${getImg(tr)}">
-    <img class="tr-img" src="img/passive.png">
+    ${passivestr}
     ${lvltext}`
 }
 
@@ -461,21 +467,20 @@ function share() {
 
 	// $html("#share-area", link)
 }
-function load() {
+function load(isInitial) {
 	let str = localStorage.getItem("cookierun-crystal-state")
-	if (!str || str === "") {
+	if (!isInitial && (!str || str === "")) {
 		showToast("저장된 세팅이 없습니다")
 		return
 	}
 	gtag("event", "load", {})
 
-	if (!confirm("저장된 세팅을 불러오시겠습니까? 현재 세팅은 삭제됩니다.")) return
+	if (!isInitial && !confirm("저장된 세팅을 불러오시겠습니까? 현재 세팅은 삭제됩니다.")) return
 	$(".tr-displayed").forEach((e) => e.remove())
 	clearSetting()
 	decodeState(str)
 	window.scroll(0, 0)
 }
-window.onload = main
 
 function pToPercent(p,digit) {
 	if(!digit) digit=-6
@@ -531,7 +536,7 @@ function openGacha(){
 	$removeClass("#gacha-container","hidden")
     $addClass("#sim-result-container","hidden")
 	$addClass("#growth-container","hidden")
-
+	$addClass("#new-ballon","hidden")
 
 }
 function checkProb() {
