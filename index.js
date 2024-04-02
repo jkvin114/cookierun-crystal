@@ -230,6 +230,14 @@ function main() {
 	$onclick("#gacha-modal-open-btn",openGacha)
 	$onclick("#gacha-btn", drawFirst)
 	$onclick("#more-gacha-btn", drawAgain)
+
+	$onclick("#squirrel-modal-close",function(){
+		$addClass("#squirrel-modal", "hidden")
+	})
+	$onclick("#squirrel-modal-open-btn",openSquirrel)
+	$onclick("#squirrel-btn", squirrelDraw)
+
+
 	$onclick("#clear-btn", removeAll)
 	$onclick("#save-btn", save)
 	$onclick("#share-btn", share)
@@ -270,6 +278,20 @@ function main() {
 		simulateDraw(num)
 	})
 	$onclick("#gacha-reset-btn",resetGachaState)
+
+
+
+	$onclick("#squirrel-reset-btn",resetSquirrelGachaState)
+
+	$onclick("#squirrel-sim-btn",function(){
+		let num = Number($one("#squirrel-sim-input").value)
+		if (!num || isNaN(num) || num < 20 || num > 10000) {
+			showToast("20 ~ 10,000 사이 숫자를 입력하세요")
+			return
+		}
+		simulateSquirrelDraw(num)
+	})
+
 	load(true)
 }
 window.onload = main
@@ -537,6 +559,16 @@ function openGacha(){
     $addClass("#sim-result-container","hidden")
 	$addClass("#growth-container","hidden")
 	$addClass("#new-ballon","hidden")
+	$addClass("#squirrel-container","hidden")
+
+}
+
+function openSquirrel(){
+	$addClass("#new-ballon2","hidden")
+	$addClass("#gacha-container","hidden")
+    $addClass("#sim-result-container","hidden")
+	$addClass("#growth-container","hidden")
+	$removeClass("#squirrel-container","hidden")
 
 }
 function checkProb() {
@@ -567,6 +599,8 @@ async function simulate() {
 	$addClass("#growth-container","hidden")
 	$addClass("#gacha-container","hidden")
 	$addClass(".lvl-9-report","hidden")
+	$addClass("#squirrel-container","hidden")
+
 	gtag("event", "simulation", {})
 	$html("#check-prob-result","")
 	await sleep(300)

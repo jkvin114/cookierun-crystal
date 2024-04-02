@@ -28,6 +28,7 @@
 	<script src="treasures.js"></script>
 	<script src="growth.js"></script>
 	<script src="attendance.js"></script>
+	<script src="squirrel.js"></script>
 
 	
 	<script></script>
@@ -209,7 +210,8 @@
 	<div class="container">
 		<hr>
 		<button class="btn-primary btn btn-small" id="attend-btn">출석보상 생성</button>
-		<button class="btn-primary btn btn-small wide" id="gacha-modal-open-btn" style="position: relative;">보물뽑기<span id="new-ballon">new!</span></button><br>
+		<button class="btn-primary btn btn-small wide" id="gacha-modal-open-btn" style="position: relative;">보물뽑기<span id="new-ballon">NEW!</span></button><br>
+		<button class="btn-primary btn btn-small wide" id="squirrel-modal-open-btn" style="position: relative;">다람쥐상점(beta)<span id="new-ballon2">NEW!</span></button><br>
 
 		<button class="btn-secondary btn btn-small" id="sim-btn">예상 보상범위 보기</button>
 		<button class="btn-secondary btn btn-small" id="growth-btn">예상 성장치 보기</button>
@@ -313,6 +315,45 @@
 			</div>
 		</div>
 	</div>
+	<div class="container hidden" id="squirrel-container">
+		<img src='img/squirrel.png' id='squirrel'>
+		<div class="text-container">
+
+			<div style="text-align: left;">
+
+				<li>소모한 크리스탈: <b class="squirrel-crystal-spent-total">0</b>개</li>
+			</div>
+			<div class="gacha-container-grid">
+				<div id="squirrel-reward-container">
+					<div id="squirrel-treasures-drawn">
+
+					</div>
+					<div id="squirrel-others-drawn">
+							<img src="img/squirrel/powder.png" class="squirrel-reward-img"> <b id="squirrel-other-count-0">x 0</b><br>
+							<img src="img/squirrel/ingredient-s.png" class="squirrel-reward-img"> <b id="squirrel-other-count-1">x 0</b><br>
+							<img src="img/squirrel/ingredient-ss.png" class="squirrel-reward-img"> <b id="squirrel-other-count-2">x 0</b><br>
+							<img src="img/squirrel/tr-ticket.png" class="squirrel-reward-img"> <b id="squirrel-other-count-3">x 0</b>
+					</div>
+					<h2 id="squirrel-placeholder" style="color: rgb(164, 164, 164); font-family: cookierun;"> 11주년 다람쥐 상점 보상을 시뮬레이션해 보세요!</h2>
+					
+				</div>
+				<div class="draw-container" style="background-color: #f6e2ae;height: 250px;">
+					<img src="img/squirrel_box.png" height="50px" /> <br>
+					<button class="btn btn-purple" id="squirrel-btn">
+						<img src="img/shop_icon_gem.png" style="vertical-align: middle;">
+						<b style="vertical-align: middle;">20</b>
+					</button>
+				</div>
+			</div>
+			<div style="text-align: right;">
+				<br>
+				<input type="text" placeholder="크리스탈 갯수 입력" id="squirrel-sim-input" /><br>
+				<button class="btn-secondary btn btn-small" id="squirrel-sim-btn">한번에 뽑기</button>
+				<button class="btn-red btn btn-small" id="squirrel-reset-btn">초기화</button>
+			</div>
+		</div>
+	</div>
+	
 	<div class="container">
 		<div style="text-align: left; display: inline-block" id="desc-area">
 			<li>보물 여러개 한번에 추가하는 법:</li>
@@ -349,7 +390,14 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="modal text-container hidden" id="squirrel-modal">
+		<div id="squirrel-modal-result">
+			<!-- <img src="img/sqiurrel/ingredient-s.png"> -->
+			
+		</div>
+		<span id="squirrel-modal-result-text"></span><br>
+		<button class="btn btn-secondary" id="squirrel-modal-close">확인</button>
+	</div>
 	<div class="modal text-container hidden" id="gacha-modal">
 		<span class="btn btn-gray popup-close" id="gacha-modal-close"> &times; </span>
 

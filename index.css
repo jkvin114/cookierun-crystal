@@ -529,7 +529,7 @@ h1{
     height: 300px;
     overflow: auto;
     position: relative;
-    padding: 20px;
+    padding: 6px;
 }
 #squirrel{
     position: absolute;
@@ -681,6 +681,7 @@ h1{
     border-radius: 10px;
     background-color: var(--col-bg);
 }
+
 #gacha-treasures-drawn .tr{
     transform: scale(0.7);
     margin: -10px;
@@ -733,7 +734,7 @@ h1{
         }
   }
 
-#new-ballon{
+#new-ballon,#new-ballon2{
     position: absolute;
     background-color:red;
     color: var(--col-bg-lighter);
@@ -748,4 +749,54 @@ h1{
     transform: rotate(15deg);
     animation: scaleAnimation 2s infinite;
 
+}
+#squirrel-modal-result > img{
+    width: 100px;
+}
+#squirrel-modal{
+    height: fit-content;
+    bottom: 40vh;
+    max-width: 200px;
+}
+#squirrel-modal-result-text{
+    background-color:rgb(84, 13, 13);
+    color: var(--col-bg-lighter);
+    font-size: 16px;
+    border-radius: 14px;
+    padding: 2px 5px;
+    font-family: 'cookierun';
+
+}
+#squirrel-container{
+    position: relative;
+}
+#squirrel-container > #squirrel{
+bottom: 10px;
+}
+.squirrel-reward-img{
+    width: 50px;
+}
+.squirrel-reward-img.dark{
+    filter: brightness(0.7);
+}
+
+#squirrel-reward-container{
+    margin-right: 10px;
+    padding: 5px;;
+    border-radius: 10px;
+    background-color: var(--col-bg);
+
+}
+#squirrel-treasures-drawn{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    flex-direction: row;
+}
+#squirrel-others-drawn{
+    text-align: left;
+    font-size: 25px;
+}
+#squirrel-others-drawn img{
+    vertical-align: middle;
 }

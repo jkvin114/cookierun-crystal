@@ -88,6 +88,7 @@ function showGrowth(currentExpVal){
     if(values.length===0) return
     
     gtag("event", "growth", {})
+	$addClass("#squirrel-container","hidden")
 
     $removeClass("#growth-container","hidden")
     $addClass("#sim-result-container","hidden")
