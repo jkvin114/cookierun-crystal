@@ -6,9 +6,9 @@
 	<meta property="og:title" content="쿠키런 크리스탈 기댓값 계산기"/>
 	<meta property="og:type" content="article"/>
 	<meta name="description"
-	content='쿠키런 for kakao 크리스탈보물 기댓값 계산/출석보상 시뮬레이션/출석보상 분포 예측/성장치 예측'>
+	content='쿠키런 크리스탈보물 기댓값 계산/보물뽑기 시뮬레이션/다람쥐상점'>
 	<meta property="og.description"
-	content='쿠키런 for kakao 크리스탈보물 기댓값 계산/출석보상 시뮬레이션/출석보상 분포 예측/성장치 예측'>
+	content='쿠키런 크리스탈보물 기댓값 계산/보물뽑기 시뮬레이션/다람쥐상점'>
 	<meta property="og:image" content="img/main.png"> 
 	<meta name="google-site-verification" content="j2u46F_6T-eB6dndvcvJviR4GqWkin4nO58_zP0VNZg" />
 	<meta charset="utf-8" />
@@ -34,7 +34,7 @@
 	<script></script>
 </head>
 <body>
-	<p class="hidden"> 쿠키런 for kakao 크리스탈보물 기댓값 계산/출석보상 시뮬레이션/출석보상 분포 예측/성장치 예측</p>
+	<p class="hidden"> 쿠키런 크리스탈보물 기댓값 계산/보물뽑기 시뮬레이션/다람쥐상점</p>
 	<h1 class="stroke"><img src="img/shop_icon_gem.png" style="width: 30px" />쿠키런 크리스탈 기댓값 계산기</h1>
 	<div><img src="img/banner.png" style="height: 30px; margin-top: -40px;"></div>
 	<div class="shadow hidden"></div>
@@ -347,7 +347,7 @@
 			</div>
 			<div style="text-align: right;">
 				<br>
-				<input type="text" placeholder="크리스탈 갯수 입력" id="squirrel-sim-input" /><br>
+				<input type="text" placeholder="크리스탈 갯수 입력" id="squirrel-sim-input" style="width: 250px;"/><br>
 				<button class="btn-secondary btn btn-small" id="squirrel-sim-btn">한번에 뽑기</button>
 				<button class="btn-red btn btn-small" id="squirrel-reset-btn">초기화</button>
 			</div>
@@ -397,6 +397,10 @@
 		</div>
 		<span id="squirrel-modal-result-text"></span><br>
 		<button class="btn btn-secondary" id="squirrel-modal-close">확인</button>
+		<button class="btn btn-purple" id="squirrel-btn-2">
+			<img src="img/shop_icon_gem.png" style="vertical-align: middle;">
+			<b style="vertical-align: middle;">20</b>
+		</button>
 	</div>
 	<div class="modal text-container hidden" id="gacha-modal">
 		<span class="btn btn-gray popup-close" id="gacha-modal-close"> &times; </span>

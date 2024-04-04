@@ -236,6 +236,7 @@ function main() {
 	})
 	$onclick("#squirrel-modal-open-btn",openSquirrel)
 	$onclick("#squirrel-btn", squirrelDraw)
+	$onclick("#squirrel-btn-2", squirrelDraw)
 
 
 	$onclick("#clear-btn", removeAll)
