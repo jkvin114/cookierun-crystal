@@ -250,6 +250,7 @@ function main() {
 	settingEventListener()
 	let query = new URLSearchParams(window.location.search)
 	if (query.has("state")) decodeState(query.get("state"))
+	else load(true)
 	if (query.has("reward")) decodeRewardAndShow(query.get("reward"))
 
 	$one("#lvl-9-checkbox").addEventListener("change", function (e) {
@@ -293,7 +294,6 @@ function main() {
 		simulateSquirrelDraw(num)
 	})
 
-	load(true)
 }
 window.onload = main
 
