@@ -229,7 +229,8 @@ const TREASURES = [
 		minp: 1,
 		maxp: 11,
 		type: TYPE.Limited,
-		fullImage:true
+		fullImage:true,
+		expiration :"2024-12-31"
 	},{
 		id: 27,
 		name: "11주년 기념 크리스탈 액자",
@@ -237,7 +238,9 @@ const TREASURES = [
 		minp: 1,
 		maxp: 11,
 		type: TYPE.Limited,
-		fullImage:true
+		fullImage:true,
+		expiration :"2024-12-31"
+
 	},{
 		id: 28,
 		name: "다람쥐의 반짝이는 크리스탈 보석함",
@@ -654,16 +657,30 @@ function getValues(treasure,lvl)
     return [amt,prob]
 }
 
+function isExpired(treasure){
+	if(treasure.expiration){
+		let date = new Date(treasure.expiration)
+		if(date < new Date()) return true
+	}
+	return false
+}
 function getDesc(treasure,lvl) {
     const [amt,prob] = getValues(treasure,lvl)
-    return `출석시 크리스탈 ${amt}개를 ${prob}% 확률로 획득`
+	let expiration = !treasure.expiration?"":treasure.expiration +"까지 "
+    return `${expiration}출석시 크리스탈 ${amt}개를 ${prob}% 확률로 획득`
 }
 function sample(treasure,lvl){
     const [amt,prob] = getValues(treasure,lvl)
+
+	if(isExpired(treasure)) return 0
+
 	return Math.random() * 100 < prob ? amt :0
 }
 function getExpectedValue(treasure,lvl){
     const [amt,prob] = getValues(treasure,lvl)
+
+	if(isExpired(treasure)) return 0
+
     return round(amt * prob /100,-4)
 }
 function getVar(treasure,lvl){

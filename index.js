@@ -496,7 +496,8 @@ function load(isInitial) {
 		showToast("저장된 세팅이 없습니다")
 		return
 	}
-	gtag("event", "load", {})
+	if(!isInitial)
+		gtag("event", "load", {})
 
 	if (!isInitial && !confirm("저장된 세팅을 불러오시겠습니까? 현재 세팅은 삭제됩니다.")) return
 	$(".tr-displayed").forEach((e) => e.remove())
@@ -547,7 +548,7 @@ function calcStats() {
 		let lvl = Number($data(elem, "lvl"))
 		const tr = TR_DICT.get(id)
 		totalexp += getExpectedValue(tr, lvl)
-		maxamt += getValues(tr, lvl)[0]
+		maxamt += isExpired(tr)? 0 : getValues(tr, lvl)[0]
 		let p = getValues(tr, lvl)[1] / 100
 		maxprob *= p
 		minprob *= 1 - p
