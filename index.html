@@ -13,8 +13,8 @@
 	<meta name="google-site-verification" content="j2u46F_6T-eB6dndvcvJviR4GqWkin4nO58_zP0VNZg" />
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width">
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279870334045811"
-	crossorigin="anonymous"></script>
+	<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279870334045811"
+	crossorigin="anonymous"></script> -->
 	<!-- <meta content="width=device-width, initial-scale=0.9" name="viewport" /> -->
 	<!-- <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
 	<link href="index.css" rel="stylesheet" />
@@ -211,8 +211,12 @@
 	<div class="container">
 		<hr>
 		<button class="btn-primary btn btn-small" id="attend-btn">출석보상 생성</button>
-		<button class="btn-primary btn btn-small wide" id="gacha-modal-open-btn" style="position: relative;">보물뽑기<span id="new-ballon">NEW!</span></button><br>
-		<button class="btn-primary btn btn-small wide" id="squirrel-modal-open-btn" style="position: relative;">다람쥐상점<span id="new-ballon2">NEW!</span></button><br>
+		<button class="btn-primary btn btn-small wide" id="gacha-modal-open-btn" style="position: relative;">보물뽑기
+			<!-- <span id="new-ballon">NEW!</span> -->
+		</button><br>
+		<button class="btn-primary btn btn-small wide" id="squirrel-modal-open-btn" style="position: relative;">다람쥐상점
+			<!-- <span id="new-ballon2">NEW!</span> -->
+		</button><br>
 
 		<button class="btn-secondary btn btn-small" id="sim-btn">예상 보상범위 보기</button>
 		<button class="btn-secondary btn btn-small" id="growth-btn">예상 성장치 보기</button>
@@ -368,6 +372,8 @@
 			<li>불러오기: 저장해 놓았던 보물 세팅을 불러옵니다</li>
 		</div>
 	</div>
+	<div id="disqus_thread" class="container" style="height: auto; position:unset;"></div>
+
 	<div class="modal text-container hidden" id="attendance-modal">
 		<div>
 			<span id="attendance-total">출석보상: <b id="attendance-total-val">0</b>개</span>
@@ -471,6 +477,26 @@
 		<li>버그제보: jkvin114@gmail.com</li>
 	</footer>
 </body>
+<script>
+	const PAGE_URL = "https://jkvin114.github.io/cookierun-crystal/"
+	const PAGE_IDENTIFIER ="cookierun-crystal"
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /**/
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cookierun-crystal.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8F7TD8KPXW" ></script>
 <script>
