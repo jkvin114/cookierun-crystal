@@ -28,7 +28,7 @@ html{
     --col-bg-lighter:#f5f3ee;
     --col-yellow:#FFD403;
     background-color: var(--col-bg-light);
-    zoom: 70%;
+    /* zoom: 70%; */
 
     box-sizing: content-box;
     touch-action: manipulation;
@@ -560,7 +560,17 @@ h1{
     margin: 5px;
     font-size: 22px;
 }
+#disqus_container{
+    position: relative;
+    /* max-width: 1200px; */
+    padding: 20px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
 @media only screen and (max-width: 700px) {
+    #disqus_container{
+        padding: 10px;
+    }
     #cheer-img{
         width: 240px;
     }
