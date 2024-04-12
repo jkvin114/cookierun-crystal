@@ -110,8 +110,8 @@ const TREASURES = [
 		name: "크리스탈을 부르는 수요일의 종 ",
 		amt: 1,
 		maxamt: 2,
-		minp: 14.28,
-		maxp: 14.28,
+		minp: 14.2857,
+		maxp: 14.2857,
 		type: TYPE.Limited,
 	},
 	{
