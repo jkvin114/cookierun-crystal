@@ -7,7 +7,8 @@ const State = {
 	settingTr: -1,
 	resultHidden:false,
 	currentExpVal:0,
-	attendanceReward:""
+	attendanceReward:"",
+	isGridView:true
 }
 const sleep = (m) => new Promise((r) => setTimeout(r, m))
 
@@ -191,6 +192,51 @@ function clearSetting() {
 	$addClass("#tr-next-btn", "disabled")
 	;(State.settingSerial = -1), (State.settingLvl = -1), (State.settingTr = -1)
 }
+
+function updateTreasureSummary(){
+	let trs = $("#treasures .tr-displayed")
+	const counter = new Map() //id => count
+	for(const tr of trs){
+		let id = $data(tr,"id")
+		if(counter.has(id))
+		{
+			counter.set(id,counter.get(id)+1)
+		}
+		else{
+			counter.set(id,1)
+		}
+	}
+	const list = []
+	for(const [id,count] of counter.entries()){
+		list.push({id:id,count:count})
+	}
+	list.sort((a,b)=>b.count-a.count)
+	let htmlmulti = ""
+	let htmlsingle = ""
+	for(const {id,count} of list){
+		if(count <=1){
+			htmlsingle+=`
+			<div class="tr-summary-item single">
+				<div class="tr">
+					${treasureBody(TR_DICT.get(Number(id)), 0)}
+				</div>
+			</div>`
+		}
+		else{
+			htmlmulti+=`
+			<div class="tr-summary-item">
+				<div class="tr">
+					${treasureBody(TR_DICT.get(Number(id)), 0)}
+				</div>
+				<b>x ${count}</b>
+			</div>`
+		}
+
+	}
+	$html("#tr-summary-multi",htmlmulti)
+	$html("#tr-summary-single",htmlsingle)
+
+}
 function main() {
 	$addClass(".tr-btn", "disabled")
 
@@ -209,7 +255,6 @@ function main() {
 
 		addTreasure(id, $one("#lvl-9-checkbox").checked ? 9 : 0)
 		window.scroll(0, 0)
-
 	})
 	$onclick("#tr-setting-close", closeModal)
 	
@@ -281,8 +326,26 @@ function main() {
 	})
 	$onclick("#gacha-reset-btn",resetGachaState)
 
+	$onclick("#grid-btn",function(){
+		if(State.isGridView) return
+		State.isGridView = true
+		$removeClass(".view-type-img","active")
+		$addClass("#grid-btn svg","active")
+		$removeClass("#treasures","hidden")
+		$addClass("#treasures-summary-container","hidden")
+		$removeClass("#tr-add-floating-btn","hidden")
+	})
+	$onclick("#summary-btn",function(){
+		if(!State.isGridView) return
+		State.isGridView = false
+		$removeClass(".view-type-img","active")
+		$addClass("#summary-btn svg","active")
+		$addClass("#treasures","hidden")
+		$removeClass("#treasures-summary-container","hidden")
+		$addClass("#tr-add-floating-btn","hidden")
 
-
+		updateTreasureSummary()
+	})
 	$onclick("#squirrel-reset-btn",resetSquirrelGachaState)
 
 	$onclick("#squirrel-sim-btn",function(){
@@ -422,6 +485,7 @@ function removeAll() {
 	$removeClass(".empty-tr-temp", "hidden")
 	clearSearchQueryString()
 	gtag("event", "remove_all", {})
+	updateTreasureSummary()
 }
 function clearSearchQueryString() {
 	const newUrl = window.location.origin + window.location.pathname
@@ -485,7 +549,7 @@ function share() {
 	navigator.clipboard.writeText(link).then(() => {
 		showToast("링크가 클립보드에 복사되었습니다")
 	})
-	window.history.replaceState({}, document.title, link)
+	//window.history.replaceState({}, document.title, link)
 	gtag("event", "share", {})
 
 	// $html("#share-area", link)

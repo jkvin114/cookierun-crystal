@@ -40,7 +40,52 @@
 	<h1 class="stroke"><img src="img/shop_icon_gem.png" style="width: 30px" />쿠키런 크리스탈 기댓값 계산기</h1>
 	<div><img src="img/banner.png" style="height: 30px; margin-top: -40px;"></div>
 	<div class="shadow hidden"></div>
+	<div class="container" id="topbar">
+		<div class="view-type-container">
+			<span id="grid-btn">
+				<svg class="view-type-img active" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+			</span>
+			<span id="summary-btn">
+				<svg class="view-type-img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+			</span>
+		</div>
+		<div class="toolbar-container">
+			<button class="btn btn-primary"  id="save-btn">				
+				<img src="img/save.svg" class="toolbar-img">
+			</button>		
+			<button class="btn btn-secondary" id="share-btn">		
+				<img src="img/share2.svg" class="toolbar-img">
+			</button>
+			<button class="btn btn-red" id="clear-btn">		
+				<img src="img/trash-2.svg" class="toolbar-img">
+			</button>
+		</div>	
+	</div>
+	<div class="container hidden" id="treasures-summary-container">
+		<div id="treasures-summary">
+			<div class="treasures-summary" id="tr-summary-multi">
 
+				<!-- <div class="tr-summary-item">
+					<div class="tr">
+						<img src="img/frame.png">
+						<img class="tr-img" src="img/tr/14.webp">
+						<img  class="tr-img" src="img/passive.png">
+					</div>
+					<b>x 1</b>
+				</div> -->
+			</div>
+			<div class="treasures-summary" id="tr-summary-single">
+	<!-- 
+				<div class="tr-summary-item single">
+					<div class="tr">
+						<img src="img/frame.png">
+						<img class="tr-img" src="img/tr/14.webp">
+						<img  class="tr-img" src="img/passive.png">
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
 	<div class="container" id="treasures">
 		<div class="treasures">
 			<div class="empty-tr" id="tr-add-btn">
@@ -202,25 +247,26 @@
 		</div>
 		<br /><br />
 		<div>
-			<button class="btn-primary btn" id="save-btn">저장</button>
-			<button class="btn-secondary btn" id="share-btn">현재 세팅 공유</button>
-			<button class="btn-secondary btn" id="load-btn">불러오기</button>
-			<button class="btn-red btn" id="clear-btn">전체 삭제</button>
+			<!-- <button class="btn-primary btn">저장</button>
+			<button class="btn-secondary btn">현재 세팅 공유</button> -->
+			<!-- <button class="btn-red btn">전체 삭제</button> -->
+			<button class="btn-primary btn" id="attend-btn">출석보상 생성</button>
+			<button class="btn-secondary btn" id="load-btn">세팅 불러오기</button>
+
 		</div>
 	</div>
 
 	<div class="container">
 		<hr>
-		<button class="btn-primary btn btn-small" id="attend-btn">출석보상 생성</button>
-		<button class="btn-primary btn btn-small wide" id="gacha-modal-open-btn" style="position: relative;">보물뽑기
+		<button class="btn-primary btn btn-square" id="gacha-modal-open-btn" style="position: relative;">보물뽑기 시뮬레이션
 			<!-- <span id="new-ballon">NEW!</span> -->
-		</button><br>
-		<button class="btn-primary btn btn-small wide" id="squirrel-modal-open-btn" style="position: relative;">다람쥐상점
+		</button>
+		<button class="btn-primary btn btn-square" id="squirrel-modal-open-btn" style="position: relative;">다람쥐상점 시뮬레이션
 			<!-- <span id="new-ballon2">NEW!</span> -->
-		</button><br>
+		</button>
 
-		<button class="btn-secondary btn btn-small" id="sim-btn">예상 보상범위 보기</button>
-		<button class="btn-secondary btn btn-small" id="growth-btn">예상 성장치 보기</button>
+		<button class="btn-secondary btn btn-square" id="sim-btn">예상 보상범위 보기</button>
+		<button class="btn-secondary btn btn-square" id="growth-btn">예상 성장치 보기</button>
 	</div>
 	<div class="container hidden" id="loading">
 		<br />
@@ -467,18 +513,17 @@
 		</div>
 	</div>
 
-	<div class="empty-tr" id="tr-add-floating-btn">
-		<div></div>
-		<b class="tr-add">+</b>
+	<div id="tr-add-floating-btn">
+		<b class="tr-add" style="color: white;">+</b>
 	</div>
 	</div>
-	<div id="toast" class="toast"></div>
+	<div id="toast"  style="zoom:70%;" class="toast"></div>
 
 	<div id="disqus_container">
 		<div id="disqus_thread"></div>
 	</div>
 
-	<footer>
+	<footer  style="zoom:70%;">
 		<li>1~8강 사이의 발동 확률은 100% 정확하지 않을 수 있습니다.</li>
 		<li>버그제보: jkvin114@gmail.com</li>
 	</footer>
