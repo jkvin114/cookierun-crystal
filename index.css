@@ -901,3 +901,33 @@ bottom: 10px;
     color: white;
     font-family: "cookierun black";
 }
+#exp-floating-btn{
+    
+    position: fixed;
+    bottom: 10vh;
+    left: 100px;
+    height: 50px;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    cursor:grabbing;
+    touch-action: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#exp-floating-btn > div{
+    display: inline;
+}
+#exp-floating{
+    background: rgba(0, 0, 0, 0.5);
+    color:white;
+    border-radius: 10px;
+    width: max-content;
+    border: 3px double rgba(0, 0, 0, 0.8);
+    padding: 2px 5px;
+}
+
+#exp-floating > img{
+    vertical-align: middle;
+    height: 13px;
+}

@@ -239,7 +239,7 @@ function updateTreasureSummary(){
 }
 function main() {
 	$addClass(".tr-btn", "disabled")
-
+	addDragEvent()
 	initSelectionWindow()
 	clearSetting()
 	if (isMobile()) closeModal()
@@ -584,6 +584,8 @@ function pToPercent(p,digit) {
 function onTreasureChange() {
 	const [maxamt, totalexp, maxprob, minprob] = calcStats()
 	$html("#total-exp", round(totalexp, -4))
+	$html("#total-exp-2", round(totalexp, -2))
+
 	State.currentExpVal = totalexp
 	$html("#total-max", maxamt)
 	$html("#total-min-prob", pToPercent(minprob))
