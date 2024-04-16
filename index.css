@@ -908,7 +908,7 @@ bottom: 10px;
     left: 100px;
     height: 50px;
     z-index: 9999;
-    transform: translate(-50%, -50%);
+    transform: translate(-20%, -50%);
     cursor:grabbing;
     touch-action: none;
     display: flex;
@@ -919,6 +919,8 @@ bottom: 10px;
     display: inline;
 }
 #exp-floating{
+    pointer-events: none;
+    user-select: none;
     background: rgba(0, 0, 0, 0.5);
     color:white;
     border-radius: 10px;
