@@ -243,7 +243,27 @@ function main() {
 	initSelectionWindow()
 	clearSetting()
 	if (isMobile()) closeModal()
+
 	$onclick(".tr-selection", function (e) {
+
+		if($one("#enter-count-checkbox").checked){
+			let count = prompt("추가할 갯수를 입력하세요", "1")
+			if (count===null || Number(count) < 1 || Number(count) > 100 || isNaN(Number(count))) {
+				showToast("1~100 사이의 숫자를 입력하세요")
+			}
+			else{
+				let id = Number($data(e.currentTarget, "id"))
+				for(let i=0;i<count;++i){
+					addTreasure(id, $one("#lvl-9-checkbox").checked ? 9 : 0)
+				}
+				showToast(`보물 ${count}개를 추가했습니다`)
+				window.scroll(0, 0)
+			}
+
+			return
+		}
+
+		//if($data(e.target,"longpressed")==="true") return
 		if (isMobile()){
 			showToast("보물을 추가했습니다")
 		}
@@ -256,6 +276,9 @@ function main() {
 		addTreasure(id, $one("#lvl-9-checkbox").checked ? 9 : 0)
 		window.scroll(0, 0)
 	})
+	
+
+
 	$onclick("#tr-setting-close", closeModal)
 	
 	$onclick("#tr-add-btn", function () {
@@ -405,7 +428,7 @@ function selectionTreasure(tr) {
 	let name = !isReward ? tr.name : getRewardTreasureName(tr.minscore)
 	let passivestr =tr.fullImage?"":`<img class="tr-img" src="img/passive.png">`
 	return `
-    <div class="tr tr-selection" title="${name}" data-id='${tr.id}'>
+    <div class="tr tr-selection" title="${name}" data-id='${tr.id}'  data-long-press-delay="500">
         <img src="img/${tr.a ? "frame-a" : "frame"}.png">
         <img class="tr-img" src="${getImg(tr)}">
         ${passivestr}

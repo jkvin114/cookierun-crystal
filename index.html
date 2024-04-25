@@ -31,6 +31,7 @@
 	<script src="attendance.js"></script>
 	<script src="squirrel.js"></script>
 	<script src="dragbtn.js"></script>
+	<!-- <script src="longpress.js"></script> -->
 
 	
 	<script></script>
@@ -114,8 +115,12 @@
 			<div class="popup-content">
 				<div class="tr-setting-container" id="tr-selection">
 					<div class="setting-checkbox-container">
-						<input type="checkbox" id="lvl-9-checkbox" />
+						<input type="checkbox" id="lvl-9-checkbox" class="large-checkbox" />
 						<label for="lvl-9-checkbox" style="font-size: 20px">9강으로 추가 </label>
+					</div>
+					<div class="setting-checkbox-container">
+						<input type="checkbox" id="enter-count-checkbox" class="large-checkbox" />
+						<label for="enter-count-checkbox" style="font-size: 20px">여러개씩 추가 </label>
 					</div>
 					<div class="tr-select-category">뽑기 보물</div>
 					<div class="tr-select-container" id="tr-selection-gacha">
@@ -525,11 +530,14 @@
 		</div>
 		<div id="exp-floating-close"></div>
 	</div>
+	<div id="close-floating-btn">
+		&times;
+	</div>
 	<div id="toast"  style="zoom:70%;" class="toast"></div>
 
-	<!-- <div id="disqus_container">
+	<div id="disqus_container">
 		<div id="disqus_thread"></div>
-	</div> -->
+	</div>
 
 	<footer  style="zoom:70%;">
 		<li>1~8강 사이의 발동 확률은 100% 정확하지 않을 수 있습니다.</li>
@@ -537,25 +545,25 @@
 	</footer>
 </body>
 <script>
-	// const PAGE_URL = "https://jkvin114.github.io/cookierun-crystal/"
-	// const PAGE_IDENTIFIER ="cookierun-crystal"
-    // /**
-    // *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    // *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    // /**/
-    // var disqus_config = function () {
-    // this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-    // this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-	// this.language = "ko";
-    // };
+	const PAGE_URL = "https://jkvin114.github.io/cookierun-crystal/"
+	const PAGE_IDENTIFIER ="cookierun-crystal"
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /**/
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	this.language = "ko";
+    };
     
-    // (function() { // DON'T EDIT BELOW THIS LINE
-    // var d = document, s = d.createElement('script');
-    // s.src = 'https://cookierun-crystal.disqus.com/embed.js';
-    // s.setAttribute('data-timestamp', +new Date());
-    // (d.head || d.body).appendChild(s);
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cookierun-crystal.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
 
-    // })();
+    })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <!-- Google tag (gtag.js) -->

@@ -322,6 +322,12 @@ h1{
     font-size: 30px;
     -webkit-text-stroke:2px black;
     color: white;
+    user-select: none;
+    pointer-events: none;
+}
+.tr-selection{
+    touch-action:none;
+
 }
 .tr-lvl.lvl-9{
     color: var(--col-yellow);
@@ -405,8 +411,10 @@ h1{
     flex-wrap:wrap;
     align-content: flex-start;
 }
-
-#lvl-9-checkbox{
+.setting-checkbox-container{
+    display: inline;
+}
+.large-checkbox{
     width: 30px;
     height: 30px;
     vertical-align: middle;
@@ -482,7 +490,7 @@ h1{
 #tr-add-floating-btn{
     display: none;
     position: fixed;
-    z-index: 3;
+    z-index: 4;
     bottom: 20px;
     right: 20px;
     cursor: pointer;
@@ -494,6 +502,7 @@ h1{
     width: 80px;
     height: 80px;
 }
+
 #cheer-img{
     position: absolute; top:50px;left: 0;z-index: 3;width: 300px;
 }
@@ -932,4 +941,23 @@ bottom: 10px;
 #exp-floating > img{
     vertical-align: middle;
     height: 13px;
+}
+#close-floating-btn{
+    display: none;
+    position: fixed;
+    z-index: 9998;
+    bottom: 40px;
+    left: 50%;
+    transform:translate(-50%,0);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 50px;
+}
+#close-floating-btn.active{
+    background: rgba(255, 0, 0, 0.5);
+
 }

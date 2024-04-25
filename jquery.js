@@ -77,6 +77,15 @@ const $onclick = function(q,func){
     let elem = $(q)
     elem.forEach(e=>e.addEventListener("click",func))
 }
+/**
+ * add event listener to all elements
+ * @param {*} q 
+ * @param {*} func 
+ */
+const $on = function(eventname,q,func){
+    let elem = $(q)
+    elem.forEach(e=>e.addEventListener(eventname,func))
+}
 
 function getChildren(n, skipMe){
     var r = [];
