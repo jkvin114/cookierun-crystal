@@ -914,7 +914,7 @@ bottom: 10px;
     
     position: fixed;
     bottom: 10vh;
-    left: 100px;
+    left: 40px;
     height: 50px;
     z-index: 9999;
     transform: translate(-20%, -50%);

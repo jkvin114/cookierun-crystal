@@ -400,6 +400,13 @@ function toggleResult(){
 
 	}
 	else{
+		const floatbtn = $one("#exp-floating-btn")
+		if(floatbtn.style.display==="none"){
+			floatbtn.style.display = "flex"
+			floatbtn.style.left = "40px"
+			floatbtn.style.bottom = "50px"
+		}
+
 		State.resultHidden=true
 		$addClass("#hidden-result","hidden")
 		$html("#result-hide-btn","펼치기 &#9660;")
