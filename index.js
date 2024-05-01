@@ -631,6 +631,10 @@ function onTreasureChange() {
 	val2 = (Math.floor(mohthtotal/108))
 	months[2].innerHTML = val1===val2 ? val1 :  val1+"~" +val2
 
+
+	let x = Math.round((totalexp * 55000 - 148231) / 141048)
+	months[3].innerHTML = x===0?0: (119 + 108*(x-1))
+	months[4].innerHTML = x
 	//  $html("#total-std",round(variance*total,-4))
 }
 

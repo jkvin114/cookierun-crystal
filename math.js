@@ -32,8 +32,8 @@ function erfinv(x) {
 	return sqrt2 * Math.sign(x)
 }
 
-function expGrowthIntegral(currentExpVal,dates,rate){
-    return currentExpVal * ( Math.exp(rate*dates)-1) / rate
+function expGrowthIntegral(currentExpVal, dates, rate) {
+	return (currentExpVal * (Math.exp(rate * dates) - 1)) / rate
 }
 
 function calcStd(numbers) {
@@ -53,28 +53,26 @@ function calcStd(numbers) {
 }
 function calculateQuantile(mean, stdDev, value) {
 	// Calculate the quantile using the CDF of the normal distribution
-    // console.log(mean,stdDev)
+	// console.log(mean,stdDev)
 	//const quantile = erfinv((value - mean) / (stdDev * Math.sqrt(2)))
-    const quantile = erfINV(2 * value - 1) *stdDev* Math.sqrt(2) + mean;
+	const quantile = erfINV(2 * value - 1) * stdDev * Math.sqrt(2) + mean
 	return quantile
 }
 
-function normalcdf(mean, sigma, to) 
-{
-    var z = (to-mean)/Math.sqrt(2*sigma*sigma);
-    var t = 1/(1+0.3275911*Math.abs(z));
-    var a1 =  0.254829592;
-    var a2 = -0.284496736;
-    var a3 =  1.421413741;
-    var a4 = -1.453152027;
-    var a5 =  1.061405429;
-    var erf = 1-(((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-z*z);
-    var sign = 1;
-    if(z < 0)
-    {
-        sign = -1;
-    }
-    return (1/2)*(1+sign*erf);
+function normalcdf(mean, sigma, to) {
+	var z = (to - mean) / Math.sqrt(2 * sigma * sigma)
+	var t = 1 / (1 + 0.3275911 * Math.abs(z))
+	var a1 = 0.254829592
+	var a2 = -0.284496736
+	var a3 = 1.421413741
+	var a4 = -1.453152027
+	var a5 = 1.061405429
+	var erf = 1 - ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp(-z * z)
+	var sign = 1
+	if (z < 0) {
+		sign = -1
+	}
+	return (1 / 2) * (1 + sign * erf)
 }
 
 function floor(num, digit) {
@@ -120,7 +118,7 @@ const chooseWeightedRandom = function (weights) {
 	//2 3 5    2 5 10
 }
 
-const shuffle = function (array){
+const shuffle = function (array) {
 	var m = array.length,
 		t,
 		i
@@ -137,4 +135,75 @@ const shuffle = function (array){
 	}
 
 	return array
+}
+
+class SubsetSumFinder {
+	constructor() {
+		this.result = []
+		this.dp=[]
+	}
+
+	//https://www.geeksforgeeks.org/perfect-sum-problem-print-subsets-given-sum/?ref=lbp
+
+	//  A recursive function to print all subsets with the
+	//  help of dp[][]. list p[] stores current subset.
+	printSubsetsRec(arr, i, sum, p) {
+		//  If we reached end and sum is non-zero. We print
+		//  p[] only if arr[0] is equal to sum OR dp[0][sum]
+		//  is True.
+		if (i === 0 && sum !== 0 && this.dp[0][sum] !== 0) {
+			p.push(arr[i])
+			this.result.push(p)
+			p = []
+			return
+		}
+		//  If sum becomes 0
+		if (i == 0 && sum == 0) {
+			this.result.push(p)
+			p = []
+			return
+		}
+		//  If given sum can be achieved after ignoring
+		//  current element.
+		if (this.dp[i - 1][sum]) {
+			//  Create a new list to store path
+			let b = [...p]
+			this.printSubsetsRec(arr, i - 1, sum, b)
+		}
+		//  If given sum can be achieved after considering
+		//  current element.
+		if (sum >= arr[i] && this.dp[i - 1][sum - arr[i]]) {
+			p.push(arr[i])
+			this.printSubsetsRec(arr, i - 1, sum - arr[i], p)
+		}
+	}
+	//  Prints all subsets of arr[0..n-1] with sum 0.
+	calc(arr, n, sum) {
+		if (n == 0 || sum < 0) return
+
+		//  Sum 0 can always be achieved with 0 elements
+		for (let i = 0; i < n; i++) {
+			this.dp[i] = []
+			for (let j = 0; j < sum + 1; j++) this.dp[i].push(false)
+		}
+		for (let i = 0; i < n; i++) this.dp[i][0] = true
+
+		//  Sum arr[0] can be achieved with single element
+		if (arr[0] <= sum) this.dp[0][arr[0]] = true
+
+		//  Fill rest of the entries in dp[][]
+		for (var i = 1; i < n; i++) {
+			for (let j = 0; j < sum + 1; j++) {
+				if (arr[i] <= j) this.dp[i][j] = this.dp[i - 1][j] || this.dp[i - 1][j - arr[i]]
+				else this.dp[i][j] = this.dp[i - 1][j]
+			}
+		}
+		if (this.dp[n - 1][sum] == false) {
+			return
+		}
+		//  Now recursively traverse dp[][] to find all
+		//  paths from dp[n-1][sum]
+		this.printSubsetsRec(arr, n - 1, sum, [])
+		return this.result
+	}
 }

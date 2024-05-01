@@ -11,6 +11,18 @@ function genAttendenceReward(){
     }
     return treasures
 }
+
+function calcSubsetSum(sumamt){
+    let treasures = []
+    for (const elem of $(".tr-displayed")) {
+        let id = Number($data(elem, "id"))
+        let lvl = Number($data(elem, "lvl"))
+        const tr = TR_DICT.get(id)
+        const [amt,prob] = getValues(tr,lvl)
+        treasures.push(amt)
+    }
+    console.log(new SubsetSumFinder().calc(treasures,treasures.length,sumamt))
+}
 function encodeReward(treasures){
     let str = ""
     for(const [id,lvl] of treasures){
