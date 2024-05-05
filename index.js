@@ -9,8 +9,11 @@ const State = {
 	currentExpVal:0,
 	attendanceReward:"",
 	isGridView:true,
-	simulatedRewards:null,
-	simulated9Rewards:null
+	simulatedRewards:null,  //[보상갯수, 횟수] (내림차순으로 정렬됨)
+	simulatedRewardDict:null,  //보상갯수 => 횟수
+	simulatedTotal:1, //총 시뮬레이션 횟수
+	isUpdatedAfterLastSim:true, //
+	currentAttendanceCount:0 //마지막 출석보상 생성 결과
 }
 const sleep = (m) => new Promise((r) => setTimeout(r, m))
 
@@ -317,6 +320,10 @@ function main() {
 	})
 	$onclick(".shadow", closeModal)
 	$onclick("#sim-btn", simulate)
+	$onclick("#attendance-sim-btn",()=>{
+		showToast("확률 계산 중....")
+		simulate()
+	})
 	settingEventListener()
 	let query = new URLSearchParams(window.location.search)
 	if (query.has("state")) decodeState(query.get("state"))
@@ -648,7 +655,7 @@ function onTreasureChange() {
 		$addClass(".lvl-9-summary","hidden")
 
 	}
-
+	State.isUpdatedAfterLastSim=true
 	//  $html("#total-std",round(variance*total,-4))
 }
 
@@ -693,7 +700,7 @@ function checkProb() {
 	if(!State.simulatedRewards) return
 	const elem = $one("#check-prob-btn")
 	let max = Number($data(elem, "max"))
-	let n = Number($data(elem, "simcount"))
+	let n = State.simulatedTotal
 	let num = Number($one("#check-prob-input").value)
 	if (!num || isNaN(num) || num < 0) {
 		showToast("1 이상 숫자를 입력하세요")
@@ -705,6 +712,7 @@ function checkProb() {
 
 	$html("#check-prob-result",((num > max) ?"0%": (pToPercent(p,-2)))+"(으)로 "+num+"개 이상 획득")
 }
+
 
 async function simulate() {
 	let count = $(".tr-displayed").length
@@ -830,7 +838,9 @@ async function simulate() {
 			record9Dict.set(val,1)
 		}
 	}
-
+	State.simulatedRewardDict = recordDict
+	State.isUpdatedAfterLastSim=false
+	State.simulatedTotal=n
 	State.simulatedRewards= [...recordDict.entries()].sort((a,b)=>a[0]-b[0])
 	simulated9Rewards=[...record9Dict.entries()].sort((a,b)=>a[0]-b[0])
 	//console.log(State.simulatedRewards)
@@ -943,4 +953,5 @@ async function simulate() {
 
 	$addClass("#loading", "hidden")
 	$removeClass("#sim-result-container", "hidden")
+	updateAttendanceAfterSim()
 }

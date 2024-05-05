@@ -69,9 +69,28 @@ function showAttendence(treasures){
         </div>
     </div>`
     }
+    State.currentAttendanceCount = total
     if(total===0)
     str = "<img src='img/squirrel.png' id='squirrel'><span id='squirrel-text'>꽝이다찌</span>"
     $html("#attendance-total-val",total)
     $html("#reward-container",str)
+    if(!State.isUpdatedAfterLastSim && State.simulatedRewards){
+        updateAttendanceAfterSim()
+    }
+    else{
+        $addClass("#attendance-prob","hidden")
+        $removeClass("#attendance-sim-btn","hidden")
+    }
+}
 
+
+function updateAttendanceAfterSim(){
+    let n = State.simulatedTotal
+    let val = State.currentAttendanceCount
+    let quantile = 1-getQualtilePercentFromDict(State.simulatedRewards, n, val)
+    
+    let prob = State.simulatedRewardDict.has(val) ?  (State.simulatedRewardDict.get(val)/n) : 0
+    $html("#attendance-prob",`<br>확률:${pToPercent(prob,-2)} (상위 ${pToPercent(quantile,-2)})`)
+    $removeClass("#attendance-prob","hidden")
+    $addClass("#attendance-sim-btn","hidden")
 }
