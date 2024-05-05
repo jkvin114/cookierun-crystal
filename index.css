@@ -636,6 +636,7 @@ h1{
     visibility: hidden;
     font-size: 20px;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 9999;
   }
   
   .toast.show {

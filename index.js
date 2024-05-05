@@ -8,7 +8,9 @@ const State = {
 	resultHidden:false,
 	currentExpVal:0,
 	attendanceReward:"",
-	isGridView:true
+	isGridView:true,
+	simulatedRewards:null,
+	simulated9Rewards:null
 }
 const sleep = (m) => new Promise((r) => setTimeout(r, m))
 
@@ -612,7 +614,7 @@ function pToPercent(p,digit) {
     recalculate total expected value * 
  */
 function onTreasureChange() {
-	const [maxamt, totalexp, maxprob, minprob] = calcStats()
+	const [maxamt, totalexp, maxprob, minprob,lvl9exp] = calcStats()
 	$html("#total-exp", round(totalexp, -4))
 	$html("#total-exp-2", round(totalexp, -2))
 
@@ -635,6 +637,18 @@ function onTreasureChange() {
 	let x = Math.round((totalexp * 55000 - 148231) / 141048) + 1
 	months[3].innerHTML = 119 + 108*(x-1)
 	months[4].innerHTML = x
+
+	if(lvl9exp > totalexp*1.05){
+		$removeClass(".lvl-9-summary","hidden")
+		$html(".lvl-9-summary-exp",pToPercent((lvl9exp - totalexp) / totalexp,-2))
+		$html(".lvl-9-summary-diff",`${round(lvl9exp,-2)}`)
+
+	}
+	else{
+		$addClass(".lvl-9-summary","hidden")
+
+	}
+
 	//  $html("#total-std",round(variance*total,-4))
 }
 
@@ -643,6 +657,7 @@ function calcStats() {
 	let totalexp = 0
 	let maxprob = 1
 	let minprob = 1
+	let lvl9exp = 0
 	for (const elem of $(".tr-displayed")) {
 		let id = Number($data(elem, "id"))
 		let lvl = Number($data(elem, "lvl"))
@@ -652,8 +667,9 @@ function calcStats() {
 		let p = getValues(tr, lvl)[1] / 100
 		maxprob *= p
 		minprob *= 1 - p
+		lvl9exp += getExpectedValue(tr, 9)
 	}
-	return [maxamt, totalexp, maxprob, minprob]
+	return [maxamt, totalexp, maxprob, minprob,lvl9exp]
 }
 
 function openGacha(){
@@ -674,11 +690,10 @@ function openSquirrel(){
 
 }
 function checkProb() {
+	if(!State.simulatedRewards) return
 	const elem = $one("#check-prob-btn")
-	let std = Number($data(elem, "std"))
-	let mean = Number($data(elem, "mean"))
 	let max = Number($data(elem, "max"))
-	if(!std) return
+	let n = Number($data(elem, "simcount"))
 	let num = Number($one("#check-prob-input").value)
 	if (!num || isNaN(num) || num < 0) {
 		showToast("1 이상 숫자를 입력하세요")
@@ -686,7 +701,8 @@ function checkProb() {
 	}
 	gtag("event", "check_prob", {})
 
-	let p = 1 - normalcdf(mean, std, num)
+	let p = 1-getQualtilePercentFromDict(State.simulatedRewards, n, num)
+
 	$html("#check-prob-result",((num > max) ?"0%": (pToPercent(p,-2)))+"(으)로 "+num+"개 이상 획득")
 }
 
@@ -707,19 +723,25 @@ async function simulate() {
 	$html("#check-prob-result","")
 	await sleep(300)
 
-	let n = 1000 * Math.sqrt(count)
+	let n = 5000 * Math.log2(count)
 	let record = []
 	let maxAmt = 0 //보물 하나당 최대 크리스탈
 	let avgLvl = 0
+
+	const treasures = []
+
+	for (const elem of $(".tr-displayed")) {
+		let id = Number($data(elem, "id"))
+		let lvl = Number($data(elem, "lvl"))
+		const tr = TR_DICT.get(id)
+		treasures.push([tr,lvl])
+	}
 
 	const [maxtotal, totalexp] = calcStats()
 	const quantiles = [0.1, 0.25, 0.5, 0.75]
 	for (let i = 0; i < n; ++i) {
 		let total = 0
-		for (const elem of $(".tr-displayed")) {
-			let id = Number($data(elem, "id"))
-			let lvl = Number($data(elem, "lvl"))
-			const tr = TR_DICT.get(id)
+		for (const [tr,lvl] of treasures) {
 			const [baseamt, _] = getValues(tr, lvl)
 			let amt = sample(tr, lvl)
 			total += amt
@@ -743,9 +765,7 @@ async function simulate() {
 	if (avgLvl < 8) {
 		for (let i = 0; i < n; ++i) {
 			let total = 0
-			for (const elem of $(".tr-displayed")) {
-				let id = Number($data(elem, "id"))
-				const tr = TR_DICT.get(id)
+			for (const [tr,lvl] of treasures) {
 				total += sample(tr, 9)
 				if (i === 0) {
 					lvl9totalexp += getExpectedValue(tr, 9)
@@ -775,16 +795,10 @@ async function simulate() {
 				},
 			},
 		}
-		let quantileDesc9=""
+		
 		$removeClass(".lvl-9-report","hidden")
-		$(".lvl-9-report-val")[0].innerHTML = pToPercent((lvl9totalexp - totalexp) / totalexp,-2)
-		$(".lvl-9-report-val")[1].innerHTML = `${round(totalexp,-2)} -> ${round(lvl9totalexp,-2)}`
-		for (const q of quantiles) {
-			let quantile = calculateQuantile(lvl9totalexp, std9, q)
-			quantileDesc9 += `<li>${pToPercent(1 - q)}로 최소 <b>${Math.max(0, round(quantile))}개</b> 획득
-			</li>`
-		}
-		$html("#quantiles-9", quantileDesc9)
+	////	$(".lvl-9-report-val")[0].innerHTML = pToPercent((lvl9totalexp - totalexp) / totalexp,-2)
+	//	$(".lvl-9-report-val")[1].innerHTML = `${round(totalexp,-2)} -> ${round(lvl9totalexp,-2)}`
 
 	}
 
@@ -794,22 +808,60 @@ async function simulate() {
 	let quantileDesc = ""
 
 	const elem = $one("#check-prob-btn")
-	$data(elem, "mean", totalexp)
-	$data(elem, "std", std)
 	$data(elem, "max", maxtotal)
+	$data(elem, "simcount", n)
+	const recordDict = new Map()
+	const record9Dict = new Map()
+
+	for(const val of record){
+		if(recordDict.has(val)){
+			recordDict.set(val,recordDict.get(val)+1)
+		}
+		else{
+			recordDict.set(val,1)
+		}
+	}
+
+	for(const val of lvl9record){
+		if(record9Dict.has(val)){
+			record9Dict.set(val,record9Dict.get(val)+1)
+		}
+		else{
+			record9Dict.set(val,1)
+		}
+	}
+
+	State.simulatedRewards= [...recordDict.entries()].sort((a,b)=>a[0]-b[0])
+	simulated9Rewards=[...record9Dict.entries()].sort((a,b)=>a[0]-b[0])
+	//console.log(State.simulatedRewards)
 	for (const q of quantiles) {
-		let quantile = calculateQuantile(totalexp, std, q)
+		let quantile = getQualtileValueFromDict(State.simulatedRewards, n, q)
 		quantileDesc += `<li>${pToPercent(1 - q)}로 최소 <b>${Math.max(0, round(quantile))}개</b> 획득
 		</li>`
 	}
+
+	if(avgLvl < 8){
+		let quantileDesc9=""
+		for (const q of quantiles) {
+			let quantile = getQualtileValueFromDict(simulated9Rewards, n, q)
+			quantileDesc9 += `<li>${pToPercent(1 - q)}로 최소 <b>${Math.max(0, round(quantile))}개</b> 획득
+			</li>`
+		}
+		$html("#quantiles-9", quantileDesc9)
+	}
+
+
 	$html("#quantiles", quantileDesc)
 
+	record = populateSeries(recordDict,minRange,maxRange)
+	lvl9record = populateSeries(record9Dict,minRange,maxRange)
+	
 	Highcharts.chart("distribution", {
 		style: {
 			fontSize: "20px",
 		},
 		chart: {
-			type: "bellcurve",
+			type: "areaspline",
 			backgroundColor: "#f5f3ee",
 			margin: [50, 10, 90, 10],
 		},
@@ -860,56 +912,32 @@ async function simulate() {
 		tooltip: {
 			enabled: false, // Disable tooltips
 		},
+		plotOptions: {
+			series: {
+				marker: {
+					enabled: false
+				}
+			}
+		},		
 		series: [
 			{
-				name: "현재 예측치",
-				type: "bellcurve",
-				xAxis: 0,
-				yAxis: 0,
-				baseSeries: 1,
-				intervals: 100,
-				fillOpacity: 0.5,
-				zIndex: -1,
-				area: {
-					states: {
-						hover: {
-							enabled: false,
-						},
-					},
-				},
-			},
-			{
-				name: "Data",
-				type: "scatter",
+				name: '현재 예측치',
+				dashStyle: 'solid',
+				lineWidth: 2,
+				color: '#1E90FF',
 				data: record,
-				visible: false,
-				showInLegend: false,
-			},
-			{
-				name: "올 9강시 예측치",
-				type: "bellcurve",
-				xAxis: 0,
-				yAxis: 0,
-				baseSeries: 3,
-				intervals: 100,
-				color: "#FFD403",
 				fillOpacity: 0.5,
 				zIndex: -1,
-				area: {
-					states: {
-						hover: {
-							enabled: false,
-						},
-					},
-				},
 			},
 			{
-				name: "Data",
-				type: "scatter",
+				name: '올 9강시 예측치',
+				dashStyle: 'solid',
+				lineWidth: 2,
+				color: '#FFD403',
 				data: lvl9record,
-				visible: false,
-				showInLegend: false,
-			},
+				fillOpacity: 0.5,
+				zIndex: -1,
+			}
 		],
 	})
 

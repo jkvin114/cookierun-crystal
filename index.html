@@ -40,7 +40,7 @@
 	<div style="zoom:70%;">
 	<p class="hidden"> 쿠키런 크리스탈보물 기댓값 계산/보물뽑기 시뮬레이션/다람쥐상점</p>
 	<h1 class="stroke"><img src="img/shop_icon_gem.png" style="width: 30px" />쿠키런 크리스탈 기댓값 계산기</h1>
-	<div><img src="img/banner.png" style="height: 30px; margin-top: -40px;"></div>
+	<!-- <div><img src="img/banner.png" style="height: 30px; margin-top: -40px;"></div> -->
 	<div class="shadow hidden"></div>
 	<div class="container" id="topbar">
 		<div class="view-type-container">
@@ -220,7 +220,11 @@
 			<h2 class="resulttext">
 				1일 기댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-exp">0</b>개
 			</h2>
+			
 			<div id="hidden-result" class="">
+				<div class="lvl-9-summary hidden">
+					<span>올 9강시 기댓값 <b class="lvl-9-summary-exp"></b> 상승!(<b class="lvl-9-summary-diff"></b>)</span>
+				</div>
 				<h2 class="resulttext">
 					1일 최댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
 				</h2>
@@ -247,10 +251,10 @@
 					><img src="img/treasure_box.png" height="50px" style="vertical-align: middle" /> 6+1 보물 뽑기
 					<b class="months-val">0</b>개</span
 				>
-				<span class="months">
+				<span class="months" style="font-size:medium;">
 					<span style="color: rgb(62, 62, 62);">이론상 연속뽑기 최고 효율: </span><br>크리스탈 <b class="months-val">0</b>개(뽑기<b class="months-val">0</b>회)만큼 모아서 뽑으세요
 				</span>
-				<a href="https://big-wisteria-204.notion.site/253a258eedfa423ca467cb6078211206" target="_blank">계산방식 보기</a>
+				<!-- <a href="https://big-wisteria-204.notion.site/253a258eedfa423ca467cb6078211206" target="_blank">계산방식 보기</a> -->
 
 			</div>
 			
@@ -297,13 +301,13 @@
 					<input type="text" placeholder="출석보상 갯수 입력" id="check-prob-input" /><br />
 					<button class="btn-secondary btn" id="check-prob-btn">보상 확률 예측</button>
 					<h3 id="check-prob-result"></h3>
-					<sub><li>보물 갯수가 적거나 확률이 너무 낮으면 정확하지 않을 수 있습니다. 참고용으로만 사용하세요.</li> </sub>
+					<!-- <sub><li>보물 갯수가 적거나 확률이 너무 낮으면 정확하지 않을 수 있습니다. 참고용으로만 사용하세요.</li> </sub> -->
 				</div>
 
 				<hr class="lvl-9-report hidden" />
 				<div class="lvl-9-report hidden">
 					<h2 id="lvl-9-report-title ">올 9강시:</h2>
-					<span class="months">기댓값 <b class="lvl-9-report-val"></b> 상승!(<b class="lvl-9-report-val"></b>)</span>
+					<!-- <span class="months">기댓값 <b class="lvl-9-report-val"></b> 상승!(<b class="lvl-9-report-val"></b>)</span> -->
 					<p id="quantiles-9"></p>
 					<button id="to-lvl9-btn" class="btn-primary btn">모두 9강으로 변경</button>
 				</div>

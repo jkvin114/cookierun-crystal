@@ -137,73 +137,59 @@ const shuffle = function (array) {
 	return array
 }
 
-class SubsetSumFinder {
-	constructor() {
-		this.result = []
-		this.dp=[]
+
+function GaussKDE(xi, x, std) {
+	return (1 / (Math.sqrt(2 * Math.PI) * std)) * Math.exp(Math.pow((xi - x) / std, 2) / -2)
+}
+
+function populateSeries(recordDict,min,max){
+	let series = []
+	let range = max-min
+	for (let i=min-1;i<=max;++i){
+		let magnitude = 0
+		for(const [n,count] of recordDict.entries()){
+			magnitude+=GaussKDE(i,n,range/30)*count
+		}
+		series.push([i,magnitude])
+	}
+	series.sort((a,b)=>a[0]-b[0])
+	return series
+}
+/**
+ * 
+ * @param {*} recordTuple sorted in ascending order
+ * @param {*} totalCount 
+ * @param {*} targetQuantile 
+ * @returns 
+ */
+function getQualtileValueFromDict(recordTuple,totalCount,targetQuantile){
+	let curr = 0
+	if(targetQuantile===0){
+		return 0
 	}
 
-	//https://www.geeksforgeeks.org/perfect-sum-problem-print-subsets-given-sum/?ref=lbp
-
-	//  A recursive function to print all subsets with the
-	//  help of dp[][]. list p[] stores current subset.
-	printSubsetsRec(arr, i, sum, p) {
-		//  If we reached end and sum is non-zero. We print
-		//  p[] only if arr[0] is equal to sum OR dp[0][sum]
-		//  is True.
-		if (i === 0 && sum !== 0 && this.dp[0][sum] !== 0) {
-			p.push(arr[i])
-			this.result.push(p)
-			p = []
-			return
-		}
-		//  If sum becomes 0
-		if (i == 0 && sum == 0) {
-			this.result.push(p)
-			p = []
-			return
-		}
-		//  If given sum can be achieved after ignoring
-		//  current element.
-		if (this.dp[i - 1][sum]) {
-			//  Create a new list to store path
-			let b = [...p]
-			this.printSubsetsRec(arr, i - 1, sum, b)
-		}
-		//  If given sum can be achieved after considering
-		//  current element.
-		if (sum >= arr[i] && this.dp[i - 1][sum - arr[i]]) {
-			p.push(arr[i])
-			this.printSubsetsRec(arr, i - 1, sum - arr[i], p)
+	for(const [n,count] of recordTuple){
+		curr += count
+		if(curr/totalCount >= targetQuantile){
+			return n
 		}
 	}
-	//  Prints all subsets of arr[0..n-1] with sum 0.
-	calc(arr, n, sum) {
-		if (n == 0 || sum < 0) return
-
-		//  Sum 0 can always be achieved with 0 elements
-		for (let i = 0; i < n; i++) {
-			this.dp[i] = []
-			for (let j = 0; j < sum + 1; j++) this.dp[i].push(false)
+	return 0
+}
+/**
+ * 
+ * @param {*} recordTuple sorted in ascending order
+ * @param {*} totalCount 
+ * @param {*} targetValue 
+ */
+function getQualtilePercentFromDict(recordTuple,totalCount,targetValue){
+	let curr = 0
+	if(targetValue===0) return 0
+	for(const [n,count] of recordTuple){
+		if(n >= targetValue){
+			return curr/totalCount
 		}
-		for (let i = 0; i < n; i++) this.dp[i][0] = true
-
-		//  Sum arr[0] can be achieved with single element
-		if (arr[0] <= sum) this.dp[0][arr[0]] = true
-
-		//  Fill rest of the entries in dp[][]
-		for (var i = 1; i < n; i++) {
-			for (let j = 0; j < sum + 1; j++) {
-				if (arr[i] <= j) this.dp[i][j] = this.dp[i - 1][j] || this.dp[i - 1][j - arr[i]]
-				else this.dp[i][j] = this.dp[i - 1][j]
-			}
-		}
-		if (this.dp[n - 1][sum] == false) {
-			return
-		}
-		//  Now recursively traverse dp[][] to find all
-		//  paths from dp[n-1][sum]
-		this.printSubsetsRec(arr, n - 1, sum, [])
-		return this.result
+		curr += count
 	}
+	return 1
 }
