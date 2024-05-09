@@ -24,6 +24,9 @@ html{
     --col-purple:#8786CA;
     --col-purple-dark:#7463A7;
     --col-purple-light:#9c9ae8;
+    --col-special:#AF8CED;
+    --col-special-light:#c1a4f3;
+
     --col-bg-light:#EFEDE8;
     --col-bg-lighter:#f5f3ee;
     --col-yellow:#FFD403;
@@ -467,7 +470,7 @@ h1{
 #distribution{
     height: 500px;
 }
-#sim-result,#growth-result{
+#sim-result,#growth-result,#record-summary{
     text-align: left;
     display: inline-block;
     font-size: large;
@@ -481,6 +484,7 @@ h1{
     color:rgb(99, 57, 23);
     /* display: grid;
     grid-template-columns: 100px auto; */
+    min-width: 300px;
     position: relative;
 }
 .months{
@@ -961,4 +965,126 @@ bottom: 10px;
 #close-floating-btn.active{
     background: rgba(255, 0, 0, 0.5);
 
+}
+#record-container{
+}
+.calender{
+    max-width: 600px;
+    width: 98%;
+    display: inline-block;
+    padding: 0;
+    padding-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px 1px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}.calender-grid{
+    display: grid;
+    padding: 4px;
+
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+
+}
+.calender-header{
+    display: flex;
+    background-color:  var(--col-primary);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px 1px;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.calender-header span{
+    -webkit-text-stroke: 1px rgb(14, 10, 0);
+
+    font-family: "cookierun black";
+    font-size:25px;
+    color: rgb(255, 255, 255);
+}
+.calender-weekname{
+    width:84%;
+    margin: 3px;
+    height: 15px;
+    margin-left: 12%;
+
+}
+.calender-day{
+    width:84%;
+    margin-left: 12%;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #aaaaaa;
+    border-top: 3px solid var(--col-bg-dark);
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px 1px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.calender-day.special{
+    background-color: var(--col-special);
+    border-top: 3px solid var(--col-special-light);
+
+}
+.calender-day.passed{
+    filter:opacity(0.5);
+}
+.calender-day.today{
+    outline:  5px solid red;;
+}
+.calender-day .day-badge{
+    position: absolute;
+    border-radius: 50%;
+    top:-5px;
+    left: -6px;
+    color: gold;
+    background-color: #10063e;
+    z-index: 1;
+    padding-left: 5px;
+    padding-right: 5px;
+    transform: rotate(-5deg);
+
+}
+.calender-day .day-badge > span{
+    color: white;
+    font-size: 12px;
+    margin-left: 3px;
+    vertical-align: middle;
+
+}
+.calender-day img{
+    height: 40px;
+    width: 40px;
+        margin-bottom: -20px;
+}
+.calender-day b{
+    font-size:25px;
+    color: white;
+    font-family: "cookierun black";
+    -webkit-text-stroke: 2px rgb(14, 10, 0);
+    /* transform: translate(0,-10px); */
+}
+.calender-day.future b{
+    -webkit-text-stroke: unset;
+    color: rgb(109, 109, 109);
+
+}
+#record-summary{
+    min-height: 200px;
+    width: 95%;
+    max-width: 600px;
+}
+#record-summary >img{
+    position: absolute;
+    bottom: 0;
+    right: 0px;
+    height: 120px;
+}
+#record-dialog-modal{
+    height: fit-content;
+    transform: translate(-50%,-50%);
+    top: 50vh;
 }

@@ -12,6 +12,7 @@ const State = {
 	simulatedRewards:null,  //[보상갯수, 횟수] (내림차순으로 정렬됨)
 	simulatedRewardDict:null,  //보상갯수 => 횟수
 	simulatedTotal:1, //총 시뮬레이션 횟수
+	maxReward:1,
 	isUpdatedAfterLastSim:true, //
 	currentAttendanceCount:0 //마지막 출석보상 생성 결과
 }
@@ -73,6 +74,8 @@ function openSelection() {
 function closeModal() {
 	closeAttendance()
 	$addClass("#tr-setting", "hidden")
+	$addClass("#record-dialog-modal","hidden")
+
 	onModalClose()
 }
 function removeTreasure() {
@@ -388,10 +391,42 @@ function main() {
 		}
 		simulateSquirrelDraw(num)
 	})
-
+	$onclick("#record-dialog-close",function(){
+		$addClass("#record-dialog-modal","hidden")
+		onModalClose()
+	})
+	$onclick("#record-dialog-confirm",function(){
+		let num = Number($one("#record-dialog-input").value)
+		if (!num || isNaN(num) || num < 1) {
+			showToast("1이상 숫자를 입력하세요")
+			return
+		}
+		addTodayRecord(num)
+		$addClass("#record-dialog-modal","hidden")
+		onModalClose()
+		openRecord()
+		window.location.href="#record-container"
+	})
+	$onclick("#record-open-btn",openRecord)
+	tryOpenRecordDialog()
+	$onclick("#open-record-dialog-btn",tryOpenRecordDialog)
+	$onclick("#record-dialog-prob",function(){
+		if(State.isUpdatedAfterLastSim){
+			simulate()
+		}
+		else{
+			updateRecordDialogAfterSim()
+		}
+	})
 }
+
 window.onload = main
 
+function tryOpenRecordDialog(){
+    if(!shouldDisplayAttendenceInput()) return
+    $removeClass("#record-dialog-modal","hidden")
+    onModalOpen()
+}
 function shareAttendance(){
 
 }
@@ -685,7 +720,7 @@ function openGacha(){
 	$addClass("#growth-container","hidden")
 	$addClass("#new-ballon","hidden")
 	$addClass("#squirrel-container","hidden")
-
+	$addClass("#record-container","hidden")
 }
 
 function openSquirrel(){
@@ -694,7 +729,19 @@ function openSquirrel(){
     $addClass("#sim-result-container","hidden")
 	$addClass("#growth-container","hidden")
 	$removeClass("#squirrel-container","hidden")
+	$addClass("#record-container","hidden")
 
+}
+
+function openRecord(){
+	$addClass("#new-ballon","hidden")
+	$addClass("#gacha-container","hidden")
+    $addClass("#sim-result-container","hidden")
+	$addClass("#growth-container","hidden")
+	$addClass("#squirrel-container","hidden")
+	$removeClass("#record-container","hidden")
+	drawCalender()
+	displayRecordSummary()
 }
 function checkProb() {
 	if(!State.simulatedRewards) return
@@ -720,6 +767,8 @@ async function simulate() {
 		showToast("보물이 없습니다")
 		return
 	}
+	$addClass("#record-container","hidden")
+
 	$removeClass("#loading", "hidden")
 	$addClass("#sim-result-container", "hidden")
 	$addClass("#growth-container","hidden")
@@ -841,6 +890,7 @@ async function simulate() {
 	State.simulatedRewardDict = recordDict
 	State.isUpdatedAfterLastSim=false
 	State.simulatedTotal=n
+	State.maxReward=maxtotal
 	State.simulatedRewards= [...recordDict.entries()].sort((a,b)=>a[0]-b[0])
 	simulated9Rewards=[...record9Dict.entries()].sort((a,b)=>a[0]-b[0])
 	//console.log(State.simulatedRewards)
@@ -954,4 +1004,5 @@ async function simulate() {
 	$addClass("#loading", "hidden")
 	$removeClass("#sim-result-container", "hidden")
 	updateAttendanceAfterSim()
+	updateRecordDialogAfterSim()
 }
