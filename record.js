@@ -78,6 +78,7 @@ function addTodayRecord(count){
     localStorage.setItem(LS_RECORD_PREFIX+today,count)
     localStorage.setItem('lastAttendance', getTodayStr());
     showToast("오늘의 출석보상이 저장되었습니다")
+    gtag("event", "record", {})
 }
 
 function displayRecordSummary(){

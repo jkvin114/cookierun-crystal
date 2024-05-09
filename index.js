@@ -411,6 +411,7 @@ function main() {
 	tryOpenRecordDialog()
 	$onclick("#open-record-dialog-btn",tryOpenRecordDialog)
 	$onclick("#record-dialog-prob",function(){
+		gtag("event", "check_prob", {})
 		if(State.isUpdatedAfterLastSim){
 			simulate()
 		}
