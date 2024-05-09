@@ -328,10 +328,16 @@ function main() {
 		simulate()
 	})
 	settingEventListener()
-	let query = new URLSearchParams(window.location.search)
-	if (query.has("state")) decodeState(query.get("state"))
-	else load(true)
-	if (query.has("reward")) decodeRewardAndShow(query.get("reward"))
+	try{
+
+		let query = new URLSearchParams(window.location.search)
+		if (query.has("state")) decodeState(query.get("state"))
+		else load(true)
+		if (query.has("reward")) decodeRewardAndShow(query.get("reward"))
+	}
+	catch(e){
+		console.error(e)
+	}
 
 	$one("#lvl-9-checkbox").addEventListener("change", function (e) {
 		change9Checkbox(e.currentTarget.checked)
