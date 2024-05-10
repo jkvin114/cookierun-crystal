@@ -90,8 +90,8 @@ function removeTreasure() {
 function getCount() {
 	let count = prompt("복제할 갯수를 입력하세요", "1")
 	if (count === null) return 0
-	if (Number(count) < 1 || Number(count) > 100 || isNaN(Number(count))) {
-		showToast("1~100 사이의 숫자를 입력하세요")
+	if (Number(count) < 1 || Number(count) > 500 || isNaN(Number(count))) {
+		showToast("1~500 사이의 숫자를 입력하세요")
 		return 0
 	}
 	return Number(count)
@@ -256,8 +256,8 @@ function main() {
 
 		if($one("#enter-count-checkbox").checked){
 			let count = prompt("추가할 갯수를 입력하세요", "1")
-			if (count===null || Number(count) < 1 || Number(count) > 100 || isNaN(Number(count))) {
-				showToast("1~100 사이의 숫자를 입력하세요")
+			if (count===null || Number(count) < 1 || Number(count) > 500 || isNaN(Number(count))) {
+				showToast("1~500 사이의 숫자를 입력하세요")
 			}
 			else{
 				let id = Number($data(e.currentTarget, "id"))
