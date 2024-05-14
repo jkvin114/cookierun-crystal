@@ -403,8 +403,8 @@ function main() {
 	})
 	$onclick("#record-dialog-confirm",function(){
 		let num = Number($one("#record-dialog-input").value)
-		if (!num || isNaN(num) || num < 1) {
-			showToast("1이상 숫자를 입력하세요")
+		if (!num || isNaN(num) || num < 0) {
+			showToast("0이상 숫자를 입력하세요")
 			return
 		}
 		addTodayRecord(num)
@@ -826,6 +826,7 @@ async function simulate() {
 	let lvl9record = []
 	let lvl9ExpLine = {}
 	let lvl9totalexp = 0
+	let lvl9std = 0
 	if (avgLvl < 8) {
 		for (let i = 0; i < n; ++i) {
 			let total = 0
@@ -839,6 +840,7 @@ async function simulate() {
 		}
 
 		const [mean9, std9] = calcStd(lvl9record)
+		lvl9std=std9
 		let range9 = Math.max(1.5, std9 * 3)
 		maxRange = Math.max(maxRange, mean9 + Math.max(maxAmt + 1, range9))
 
@@ -916,12 +918,10 @@ async function simulate() {
 		}
 		$html("#quantiles-9", quantileDesc9)
 	}
-
-
 	$html("#quantiles", quantileDesc)
 
-	record = populateSeries(recordDict,minRange,maxRange)
-	lvl9record = populateSeries(record9Dict,minRange,maxRange)
+	record = populateSeries(recordDict,minRange,maxRange,std)
+	lvl9record = populateSeries(record9Dict,minRange,maxRange,lvl9std)
 	
 	Highcharts.chart("distribution", {
 		style: {
