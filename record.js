@@ -14,8 +14,8 @@ function shouldDisplayAttendenceInput() {
 function updateRecordDialogAfterSim(){
     let n = State.simulatedTotal
     let val = Number($one("#record-dialog-input").value)
-	if (!val || isNaN(val) || val < 1) {
-        showToast("1이상 숫자를 입력하세요")
+	if (val===null || val===undefined || val==="" || isNaN(val) || val < 0) {
+        showToast("0이상 숫자를 입력하세요")
 		return
 	}
     let quantile = 1-getQualtilePercentFromDict(State.simulatedRewards, n, val)

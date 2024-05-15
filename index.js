@@ -403,7 +403,7 @@ function main() {
 	})
 	$onclick("#record-dialog-confirm",function(){
 		let num = Number($one("#record-dialog-input").value)
-		if (!num || isNaN(num) || num < 0) {
+		if (num===null || num===undefined || num==="" || isNaN(num) || num < 0) {
 			showToast("0이상 숫자를 입력하세요")
 			return
 		}
