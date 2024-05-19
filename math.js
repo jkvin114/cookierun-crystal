@@ -142,13 +142,17 @@ function GaussKDE(xi, x, std) {
 	return (1 / (Math.sqrt(2 * Math.PI) * std)) * Math.exp(Math.pow((xi - x) / std, 2) / -2)
 }
 
-function populateSeries(recordDict,min,max){
+function populateSeries(recordDict,min,max,std){
 	let series = []
 	let range = max-min
+	let totalcount = [...recordDict.values()].reduce((p,c)=>p+c,0)
+	console.log(totalcount)
+	const bandwidth = 1.06 * std * totalcount ** (-1/5)
+	console.log(bandwidth)
 	for (let i=min-1;i<=max;++i){
 		let magnitude = 0
 		for(const [n,count] of recordDict.entries()){
-			magnitude+=GaussKDE(i,n,range/30)*count
+			magnitude+=GaussKDE(i,n,bandwidth)*count
 		}
 		series.push([i,magnitude])
 	}

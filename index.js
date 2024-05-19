@@ -415,7 +415,7 @@ function main() {
 	})
 	$onclick("#record-open-btn",openRecord)
 	tryOpenRecordDialog()
-	$onclick("#open-record-dialog-btn",tryOpenRecordDialog)
+	$onclick("#open-record-dialog-btn",openRecordDialog)
 	$onclick("#record-dialog-prob",function(){
 		gtag("event", "check_prob", {})
 		if(State.isUpdatedAfterLastSim){
@@ -431,7 +431,10 @@ window.onload = main
 
 function tryOpenRecordDialog(){
     if(!shouldDisplayAttendenceInput()) return
-    $removeClass("#record-dialog-modal","hidden")
+    openRecordDialog()
+}
+function openRecordDialog(){
+	$removeClass("#record-dialog-modal","hidden")
     onModalOpen()
 }
 function shareAttendance(){

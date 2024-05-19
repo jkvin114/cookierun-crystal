@@ -96,10 +96,12 @@ function displayRecordSummary(){
     values[2].innerHTML=count===0?0:round(total/count,-2)
     if(shouldDisplayAttendenceInput())
     {
-        $removeClass("#open-record-dialog-btn","hidden")
+        $html("#open-record-dialog-btn","오늘의 보상 기록하기")
+     //   $removeClass("#open-record-dialog-btn","hidden")
     }
     else{
-        $addClass("#open-record-dialog-btn","hidden")
+        $html("#open-record-dialog-btn","오늘의 보상 수정하기")
+    //    $addClass("#open-record-dialog-btn","hidden")
     }
 
 }
