@@ -249,6 +249,15 @@ const TREASURES = [
 		maxp: 72,
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 29,
+		name: "2024 여름한정 크리스탈 딸기빙수",
+		amt: 2,
+		minp: 50,
+		maxp: 78,
+		type: TYPE.Limited,
+		fullImage:true,
+		expiration :"2024-08-31"
 	},
 	{
 		id: 201,
