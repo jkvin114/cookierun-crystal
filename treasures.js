@@ -129,7 +129,9 @@ const TREASURES = [
 		minp: 5,
 		maxp: 50,
 		type: TYPE.Limited,
-        webp:true
+        webp:true,
+		expiration :"2016-12-31"
+
 	},
 	{
 		id: 15,
@@ -258,6 +260,15 @@ const TREASURES = [
 		type: TYPE.Limited,
 		fullImage:true,
 		expiration :"2024-08-31"
+	},{
+		id: 30,
+		name: "용감한 쿠키군을 위한 생일 케이크",
+		amt: 15,
+		minp: 6,
+		maxp: 15,
+		type: TYPE.Limited,
+		fullImage:true,
+		expiration :"2024-12-31"
 	},
 	{
 		id: 201,
