@@ -269,6 +269,15 @@ const TREASURES = [
 		type: TYPE.Limited,
 		fullImage:true,
 		expiration :"2024-12-31"
+	},{
+		id: 31,
+		name: "생일 기념! 영롱한 딸기 보석캔디",
+		amt: 15,
+		minp: 6,
+		maxp: 15,
+		type: TYPE.Limited,
+		fullImage:true,
+		expiration :"2024-12-31"
 	},
 	{
 		id: 201,
