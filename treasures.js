@@ -693,6 +693,13 @@ function isExpired(treasure){
 	}
 	return false
 }
+function isExpiredAsOf(treasure,targetDate){
+	if(treasure.expiration){
+		let date = new Date(treasure.expiration)
+		if(date < targetDate) return true
+	}
+	return false
+}
 function getDesc(treasure,lvl) {
     const [amt,prob] = getValues(treasure,lvl)
 	let expiration = !treasure.expiration?"":treasure.expiration +"까지 "
@@ -709,6 +716,19 @@ function getExpectedValue(treasure,lvl){
     const [amt,prob] = getValues(treasure,lvl)
 
 	if(isExpired(treasure)) return 0
+
+    return round(amt * prob /100,-4)
+}
+const addOneDay = (date) => {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1);
+    return newDate;
+};
+
+function getExpectedValueAfter(treasure,lvl,date){
+    const [amt,prob] = getValues(treasure,lvl)
+
+	if(isExpiredAsOf(treasure,addOneDay(date))) return 0
 
     return round(amt * prob /100,-4)
 }

@@ -700,6 +700,32 @@ function onTreasureChange() {
 		$addClass(".lvl-9-summary","hidden")
 
 	}
+
+
+	//calculate expirations
+	const targetDates=new Set()
+	for (const elem of $(".tr-displayed")) {
+		let id = Number($data(elem, "id"))
+		const tr = TR_DICT.get(id)
+		if(tr.expiration) targetDates.add(tr.expiration)
+	}
+	let html = ""
+	for(const date of [...targetDates].sort((a,b)=>new Date(a)-new Date(b))){
+		let dateexp = 0
+		const d=new Date(date)
+		if(d<new Date()) continue //skip days before today
+		for (const elem of $(".tr-displayed")) {
+			let id = Number($data(elem, "id"))
+			let lvl = Number($data(elem, "lvl"))
+			const tr = TR_DICT.get(id)
+			dateexp += getExpectedValueAfter(tr, lvl,d)
+		}
+		html+=`<li>${date} 이후: <b>${round(dateexp, -2)}</b></li>`
+
+	}
+	$html("#expire-result",html)
+
+
 	State.isUpdatedAfterLastSim=true
 	//  $html("#total-std",round(variance*total,-4))
 }
