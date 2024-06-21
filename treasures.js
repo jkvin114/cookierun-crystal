@@ -278,6 +278,14 @@ const TREASURES = [
 		type: TYPE.Limited,
 		fullImage:true,
 		expiration :"2024-12-31"
+	},{
+		id: 32,
+		name: "카드게임 전용 스페셜 크리스탈 카드",
+		amt: 9,
+		minp: 7,
+		maxp: 14,
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,
