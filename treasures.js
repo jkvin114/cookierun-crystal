@@ -289,7 +289,7 @@ const TREASURES = [
 	},{
 		id: 33,
 		name: "다람쥐의 크리스탈 에이드 디스펜서",
-		amt: 5,
+		amt: 2,
 		minp: 31,
 		maxp: 36,
 		type: TYPE.Limited,
