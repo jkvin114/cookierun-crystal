@@ -286,6 +286,14 @@ const TREASURES = [
 		maxp: 14,
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 33,
+		name: "다람쥐의 크리스탈 에이드 디스펜서",
+		amt: 5,
+		minp: 31,
+		maxp: 36,
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,

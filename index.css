@@ -556,7 +556,7 @@ h1{
 #squirrel{
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 10px;
     height: 150px;
 }
 #squirrel-text{
