@@ -294,6 +294,16 @@ const TREASURES = [
 		maxp: 36,
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 34,
+		name: "영양듬뿍 크리스탈 뚝배기 삼계탕",
+		amt: 5,
+		minp: 30,
+		maxp: 100,
+		type: TYPE.Limited,
+		fullImage:true,
+		expiration :"2024-08-14"
+
 	},
 	{
 		id: 201,
