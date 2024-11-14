@@ -304,6 +304,15 @@ const TREASURES = [
 		fullImage:true,
 		expiration :"2024-08-14"
 
+	},{
+		id: 35,
+		name: "천하를 품은 자의 크리스탈 장식 부채",
+		amt: 9,
+		minp: 7,
+		maxp: 14,
+		type: TYPE.Limited,
+		fullImage:true
+
 	},
 	{
 		id: 201,

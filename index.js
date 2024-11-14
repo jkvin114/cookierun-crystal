@@ -532,6 +532,7 @@ function treasureBody(tr, lvl) {
 function initSelectionWindow() {
 	let $gacha = ""
 	let $cookiepet = ""
+	let limited=[]
 	let $limited = ""
 	let $level = ""
 	let $reward = ""
@@ -542,10 +543,12 @@ function initSelectionWindow() {
 		const str = selectionTreasure(tr)
 		if (tr.type === TYPE.Gacha) $gacha += str
 		else if (tr.type === TYPE.CookiePet) $cookiepet += str
-		else if (tr.type === TYPE.Limited) $limited += str
+		else if (tr.type === TYPE.Limited) limited.push(str)
 		else if (tr.type === TYPE.Level) $level += str
 		else if (tr.type === TYPE.Trophy) $trophy += str
 	}
+	$limited = limited.reverse().join("")
+
 	for (const tr of REWARD_TREASURES) {
 		TR_DICT.set(tr.id, tr)
 		$reward += selectionTreasure(tr)
