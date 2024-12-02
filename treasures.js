@@ -313,6 +313,15 @@ const TREASURES = [
 		type: TYPE.Limited,
 		fullImage:true
 
+	},{
+		id: 36,
+		name: "다람쥐의 크리스탈 별 오너먼트",
+		amt: 2,
+		minp: 31,
+		maxp: 36,
+		type: TYPE.Limited,
+		fullImage:true
+
 	},
 	{
 		id: 201,
