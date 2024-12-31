@@ -322,6 +322,16 @@ const TREASURES = [
 		type: TYPE.Limited,
 		fullImage:true
 
+	},{
+		id: 37,
+		name: "2025 크리스탈 푸른뱀",
+		amt: 1,
+		minp: 5,
+		maxp: 50,
+		type: TYPE.Limited,
+		fullImage:true,
+		expiration :"2025-12-31"
+
 	},
 	{
 		id: 201,
