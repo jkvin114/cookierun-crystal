@@ -332,6 +332,15 @@ const TREASURES = [
 		fullImage:true,
 		expiration :"2025-12-31"
 
+	},{
+		id: 38,
+		name: "다람쥐의 반짝반짝 크리스탈 윷",
+		amt: 2,
+		minp: 31,
+		maxp: 36,
+		type: TYPE.Limited,
+		fullImage:true
+
 	},
 	{
 		id: 201,
