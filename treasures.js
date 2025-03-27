@@ -346,7 +346,16 @@ const TREASURES = [
 		name: "12주년 기념 골드 액자",
 		amt: 12,
 		minp: 1,
-		maxp: 11,
+		maxp: 12,
+		type: TYPE.Limited,
+		fullImage:true,
+		expiration :"2025-12-31"
+	},{
+		id: 40,
+		name: "12주년 기념 크리스탈 액자",
+		amt: 12,
+		minp: 1,
+		maxp: 12,
 		type: TYPE.Limited,
 		fullImage:true,
 		expiration :"2025-12-31"
