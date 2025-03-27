@@ -341,6 +341,15 @@ const TREASURES = [
 		type: TYPE.Limited,
 		fullImage:true
 
+	},{
+		id: 39,
+		name: "12주년 기념 골드 액자",
+		amt: 12,
+		minp: 1,
+		maxp: 11,
+		type: TYPE.Limited,
+		fullImage:true,
+		expiration :"2025-12-31"
 	},
 	{
 		id: 201,
