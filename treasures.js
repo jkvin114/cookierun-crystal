@@ -359,6 +359,14 @@ const TREASURES = [
 		type: TYPE.Limited,
 		fullImage:true,
 		expiration :"2025-12-31"
+	},{
+		id: 41,
+		name: "영롱한 크리스탈 토끼 키링",
+		amt: 9,
+		minp: 7,
+		maxp: 14,
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,
