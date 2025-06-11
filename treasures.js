@@ -367,6 +367,14 @@ const TREASURES = [
 		maxp: 14,
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 42,
+		name: "반짝반짝 용감한 쿠키군의 생일 케이크",
+		amt: 16,
+		minp: 6,
+		maxp: 16,
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,
