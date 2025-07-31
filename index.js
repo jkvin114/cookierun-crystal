@@ -32,7 +32,9 @@ function setSetting(id, lvl) {
 	$html("#tr-setting-tr-name", name)
 	$html("#tr-setting-tr", html)
 	$html("#tr-setting-desc", getDesc(tr, lvl))
-	$html("#tr-setting-exp", getExpectedValue(tr, lvl))
+	$html("#tr-setting-exp", getExpectedValueNoExpiration(tr, lvl))
+	
+	$html("#tr-setting-desc-expired",isExpired(tr)?"유효기간이 지난 보물입니다": "&nbsp;")
 	$removeClass(".tr-btn", "disabled")
 	$removeClass(".tr-btn", "selected")
 	$addClass("#tr-" + lvl + "-btn", "selected")
@@ -193,6 +195,7 @@ function clearSetting() {
 	$addClass("#tr-setting-tr", "hidden")
 	$html("#tr-setting-desc", "..")
 	$html("#tr-setting-exp", "?")
+	$html("#tr-setting-desc-expired", "&nbsp;")
 	$addClass(".tr-btn", "disabled")
 	$removeClass(".tr-btn", "selected")
 	$html("#tr-setting-tr-name", "보물을 선택하세요")
@@ -413,6 +416,25 @@ function main() {
 		openRecord()
 		window.location.href="#record-container"
 	})
+
+	$onclick("#record-modify-dialog-close",function(){
+		$addClass("#record-modify-dialog-modal","hidden")
+		onModalClose()
+	})
+
+	$onclick("#record-modify-dialog-confirm",function(){
+		let num = Number($one("#record-modify-dialog-input").value)
+		if (num===null || num===undefined || num==="" || isNaN(num) || num < 0) {
+			showToast("0이상 숫자를 입력하세요")
+			return
+		}
+		setDateRecord($one("#record-modify-date").innerHTML,num)
+
+		$addClass("#record-modify-dialog-modal","hidden")
+		onModalClose()
+		openRecord()
+	})
+
 	$onclick("#record-open-btn",openRecord)
 	tryOpenRecordDialog()
 	$onclick("#open-record-dialog-btn",openRecordDialog)
@@ -425,6 +447,21 @@ function main() {
 			updateRecordDialogAfterSim()
 		}
 	})
+
+	document.addEventListener("click", function (event) {
+		const target = event.target.closest(".calender-day.special");
+
+		const target2 = event.target.closest(".calender-day.passed");
+		if (target) {
+			openRecordModifyDialog($data(target,"date"), $data(target,"record"))
+		}
+		if (target2) {
+			
+			openRecordModifyDialog($data(target2,"date"))
+		}
+	});
+
+
 }
 
 window.onload = main
@@ -435,6 +472,12 @@ function tryOpenRecordDialog(){
 }
 function openRecordDialog(){
 	$removeClass("#record-dialog-modal","hidden")
+    onModalOpen()
+}
+function openRecordModifyDialog(date,currRecord){
+	$removeClass("#record-modify-dialog-modal","hidden")
+	$html("#record-modify-date",date)
+	$one("#record-modify-dialog-input").value = currRecord ?? ""
     onModalOpen()
 }
 function shareAttendance(){
@@ -669,7 +712,7 @@ function pToPercent(p,digit) {
     recalculate total expected value * 
  */
 function onTreasureChange() {
-	const [maxamt, totalexp, maxprob, minprob,lvl9exp] = calcStats()
+	const [maxamt, totalexp, maxprob, minprob,lvl9exp,lvl9coins] = calcStats()
 	$html("#total-exp", round(totalexp, -4))
 	$html("#total-exp-2", round(totalexp, -2))
 
@@ -693,9 +736,14 @@ function onTreasureChange() {
 	months[3].innerHTML = 119 + 108*(x-1)
 	months[4].innerHTML = x
 
+	let lvl9coins10K = Math.floor(lvl9coins/10000)
+
 	if(lvl9exp > totalexp*1.05){
 		$removeClass(".lvl-9-summary","hidden")
 		$html(".lvl-9-summary-exp",pToPercent((lvl9exp - totalexp) / totalexp,-2))
+		$html(".lvl-9-summary-coins",`${lvl9coins10K}만 ${lvl9coins%10000}`)
+		$html(".to-lvl9-coins",`${lvl9coins10K}만 ${lvl9coins%10000}`)
+
 		$html(".lvl-9-summary-diff",`${round(lvl9exp,-2)}`)
 
 	}
@@ -739,6 +787,7 @@ function calcStats() {
 	let maxprob = 1
 	let minprob = 1
 	let lvl9exp = 0
+	let lvl9coins = 0
 	for (const elem of $(".tr-displayed")) {
 		let id = Number($data(elem, "id"))
 		let lvl = Number($data(elem, "lvl"))
@@ -749,8 +798,9 @@ function calcStats() {
 		maxprob *= p
 		minprob *= 1 - p
 		lvl9exp += getExpectedValue(tr, 9)
+		lvl9coins += tr.a ? fullUpgradeExpCoinsA[lvl]: fullUpgradeExpCoins[lvl]
 	}
-	return [maxamt, totalexp, maxprob, minprob,lvl9exp]
+	return [maxamt, totalexp, maxprob, minprob,lvl9exp,lvl9coins]
 }
 
 function openGacha(){

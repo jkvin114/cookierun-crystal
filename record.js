@@ -80,7 +80,12 @@ function addTodayRecord(count){
     showToast("오늘의 출석보상이 저장되었습니다")
     gtag("event", "record", {})
 }
-
+function setDateRecord(date,count){
+    const d = new Date(date).toLocaleString('en-US').split(',')[0];
+    console.log(d)
+    localStorage.setItem(LS_RECORD_PREFIX+d,count)
+    showToast("출석보상이 수정되었습니다")
+}
 function displayRecordSummary(){
     let values = $(".record-summary-val")
     const records = getRecords()
@@ -122,10 +127,11 @@ function drawCalender(){
         const d = new Date(year,month,i).toLocaleString('en-US', {timeZone: 'Asia/Seoul'}).split(',')[0];
         
         if(records.has(d)){
-            html+=`<div class="calender-day special ${new Date(d).valueOf()===new Date(today).valueOf()?"today":""}">
+            let record = records.get(d)
+            html+=`<div class="calender-day special ${new Date(d).valueOf()===new Date(today).valueOf()?"today":""}" data-date="${year}-${month+1}-${i}" data-record=${record}>
             <span class="day-badge">${i}<span>일</span></span>
             <img src="img/shop_icon_gem.png">
-            <b>${records.get(d)}</b>
+            <b>${record}</b>
         </div>`
         }
         else if(new Date(d)>=new Date(today)){
@@ -137,7 +143,7 @@ function drawCalender(){
         }
         else{
             html += `
-            <div class="calender-day passed">
+            <div class="calender-day passed" data-date="${year}-${month+1}-${i}" >
                 <span class="day-badge">${i}<span>일</span></span>
             </div>
             `
@@ -146,4 +152,19 @@ function drawCalender(){
     }
     $html("#calender-grid",html)
 
+    // const elements = document.querySelectorAll(".calender-day.special");
+
+    // elements.forEach(el => {
+    //     el.addEventListener("click", () => 
+    //         openRecordModifyDialog($data(el,"date"), $data(el,"record"))
+    //     );
+    // });
+
+    // const elementspast = document.querySelectorAll(".calender-day.passed");
+
+    // elementspast.forEach(el => {
+    //     el.addEventListener("click", () => 
+    //         openRecordModifyDialog( $data(el,"date"))
+    //     );
+    // });
 }

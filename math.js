@@ -1,4 +1,18 @@
-var _a = (8 * (Math.PI - 3)) / (3 * Math.PI * (4 - Math.PI))
+const _a = (8 * (Math.PI - 3)) / (3 * Math.PI * (4 - Math.PI))
+
+const upgradeExpCoins = [17000,21000,25000,27000*2,29000*2,31000*2,33000*4,35000*5,Math.floor(38000*(1/0.15))]
+
+const upgradeExpCoinsA = [9600,12300,15200,17000*(3/4),20000*(3/4),23000*(3/4),25200*2,26000*4,27500*5]
+
+const fullUpgradeExpCoins = [0,1,2,3,4,5,6,7,8,9]
+.map(i=>sum(upgradeExpCoins.slice(i))) 
+
+const fullUpgradeExpCoinsA = [0,1,2,3,4,5,6,7,8,9]
+.map(i=>sum(upgradeExpCoinsA.slice(i))) 
+
+function sum(nums){
+	return nums.reduce((p,c)=>p+c,0)
+}
 
 function erfINV(inputX) {
 	var _x = parseFloat(inputX)
@@ -197,3 +211,4 @@ function getQualtilePercentFromDict(recordTuple,totalCount,targetValue){
 	}
 	return 1
 }
+

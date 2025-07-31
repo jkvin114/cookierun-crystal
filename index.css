@@ -1027,10 +1027,11 @@ bottom: 10px;
 .calender-day.special{
     background-color: var(--col-special);
     border-top: 3px solid var(--col-special-light);
-
+    cursor: pointer;
 }
 .calender-day.passed{
     filter:opacity(0.5);
+    cursor: pointer;
 }
 .calender-day.today{
     outline:  5px solid red;;
@@ -1083,7 +1084,7 @@ bottom: 10px;
     right: 0px;
     height: 120px;
 }
-#record-dialog-modal{
+#record-dialog-modal,#record-modify-dialog-modal{
     height: fit-content;
     transform: translate(-50%,-50%);
     top: 50vh;

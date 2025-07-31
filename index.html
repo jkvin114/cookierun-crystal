@@ -166,6 +166,7 @@
 					<div style="font-size: 20px">
 						1일 기댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /><b id="tr-setting-exp"> 0.43</b
 						>개
+						<br><b id="tr-setting-desc-expired" style="font-size: 15px;color:red">&nbsp;</b>
 					</div>
 					<div></div>
 					<div>
@@ -231,7 +232,8 @@
 				<div  id="expire-result">
 				</div>
 				<div class="lvl-9-summary hidden">
-					<span>올 9강시 기댓값 <b class="lvl-9-summary-exp"></b> 상승!(<b class="lvl-9-summary-diff"></b>)</span>
+					<span>올 9강시 기댓값 <b class="lvl-9-summary-exp"></b> 상승!(<b class="lvl-9-summary-diff"></b>)</span><br>
+					<span>예상 필요 코인: <b class="lvl-9-summary-coins"></b>코인</span>
 				</div>
 				<h2 class="resulttext">
 					1일 최댓값:<img src="img/shop_icon_gem.png" style="vertical-align: middle" /> <b id="total-max">0</b>개
@@ -319,7 +321,8 @@
 					<h2 id="lvl-9-report-title ">올 9강시:</h2>
 					<!-- <span class="months">기댓값 <b class="lvl-9-report-val"></b> 상승!(<b class="lvl-9-report-val"></b>)</span> -->
 					<p id="quantiles-9"></p>
-					<button id="to-lvl9-btn" class="btn-primary btn">모두 9강으로 변경</button>
+					<button id="to-lvl9-btn" class="btn-primary btn">모두 9강으로 변경</button><br>
+					<span>예상 필요 코인: <b class="to-lvl9-coins"></b>코인</span>
 				</div>
 				<br>
 				<a href="https://big-wisteria-204.notion.site/253a258eedfa423ca467cb6078211206" target="_blank">계산방식 보기</a>
@@ -549,6 +552,15 @@
 		<button class="btn btn-secondary" id="record-dialog-confirm">기록</button>
 		<button class="btn btn-secondary" id="record-dialog-prob">확률 보기</button>
 		<button class="btn btn-red" id="record-dialog-close">닫기</button>
+	</div>
+	<div class="modal text-container hidden" id="record-modify-dialog-modal">
+				
+		<p style="position: relative; display: inline-block;padding-right: 30px;font-size: medium;">
+			출석 보상 수정하기 <br>날짜: <b id="record-modify-date">2025-07-03</b>
+		</p>
+		<br><input type="text" placeholder="출석크리스탈 갯수 입력" id="record-modify-dialog-input" /><br>
+		<button class="btn btn-secondary" id="record-modify-dialog-confirm">수정</button>
+		<button class="btn btn-red" id="record-modify-dialog-close">닫기</button>
 	</div>
 
 	<div class="modal text-container hidden" id="gacha-modal">

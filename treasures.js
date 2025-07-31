@@ -375,6 +375,14 @@ const TREASURES = [
 		maxp: 16,
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 43,
+		name: "파티런 크리스탈 기념 티켓 1",
+		amt: 9,
+		minp: 7,
+		maxp: 14,
+		type: TYPE.Limited,
+		expiration :"2025-12-31"
 	},
 	{
 		id: 201,
@@ -813,6 +821,11 @@ function getExpectedValue(treasure,lvl){
     const [amt,prob] = getValues(treasure,lvl)
 
 	if(isExpired(treasure)) return 0
+
+    return round(amt * prob /100,-4)
+}
+function getExpectedValueNoExpiration(treasure,lvl){
+    const [amt,prob] = getValues(treasure,lvl)
 
     return round(amt * prob /100,-4)
 }
