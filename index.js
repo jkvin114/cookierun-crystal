@@ -78,6 +78,7 @@ function closeModal() {
 	$addClass("#tr-setting", "hidden")
 	$addClass("#record-dialog-modal","hidden")
 
+	$addClass("#record-modify-dialog-modal","hidden")
 	onModalClose()
 }
 function removeTreasure() {
