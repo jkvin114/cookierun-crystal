@@ -383,6 +383,14 @@ const TREASURES = [
 		maxp: 14,
 		type: TYPE.Limited,
 		expiration :"2025-12-31"
+	},{
+		id: 44,
+		name: "신묘한 생명의 약수병",
+		amt: 1,
+		minp: 60,
+		maxp: 90,
+		type: TYPE.Limited,
+		expiration :"2025-12-31"
 	},
 	{
 		id: 201,
