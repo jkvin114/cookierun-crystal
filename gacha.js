@@ -23,7 +23,8 @@ const TR_PROBS = [
 
 const DRAW_STATE = {
 	crystalSpend: 0,
-    expValue:0
+    expValue:0,
+    coinNeeded:0
 }
 
 function drawSTreasureId() {
@@ -73,6 +74,7 @@ function setResultTreasures(trs) {
 function resetGachaState(){
     DRAW_STATE.crystalSpend = 0
     DRAW_STATE.expValue = 0
+    DRAW_STATE.coinNeeded=0
     $html("#gacha-treasures-drawn","")
     $html(".gacha-treasure-container", "")
     $html(".gacha-crystal-spent",0)
@@ -104,6 +106,7 @@ function simulateDraw(crystals){
             if(tr<0) continue
             const trobj = TR_DICT.get(tr)
             DRAW_STATE.expValue += getExpectedValue(trobj,9)
+            DRAW_STATE.coinNeeded += (trobj.a ? fullUpgradeExpCoinsA[0]: fullUpgradeExpCoins[0])
         }
         alltrs.push(...result.filter(t=>t>=0))
     }
@@ -112,7 +115,8 @@ function simulateDraw(crystals){
     onAfterDraw()
 }
 function onAfterDraw(){
-
+    let lvl9coins10K = Math.floor(DRAW_STATE.coinNeeded/10000)
+    $html(".gacha-coins",`${lvl9coins10K}만 ${DRAW_STATE.coinNeeded%10000}`)
     $html(".gacha-crystal-spent-total",DRAW_STATE.crystalSpend)
     $html(".gacha-expval",round(DRAW_STATE.expValue,-2))
 }
@@ -126,6 +130,8 @@ function draw() {
         if(tr<0) continue
         const trobj = TR_DICT.get(tr)
         DRAW_STATE.expValue += getExpectedValue(trobj,9)
+
+        DRAW_STATE.coinNeeded += (trobj.a ? fullUpgradeExpCoinsA[0]: fullUpgradeExpCoins[0])
     }
     onAfterDraw()
 }
