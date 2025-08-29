@@ -374,8 +374,7 @@ const TREASURES = [
 		minp: 6,
 		maxp: 16,
 		type: TYPE.Limited,
-		fullImage:true,
-		expiration :"2025-12-31"
+		fullImage:true
 	},{
 		id: 43,
 		name: "파티런 크리스탈 기념 티켓 1",
@@ -392,6 +391,14 @@ const TREASURES = [
 		maxp: 90,
 		type: TYPE.Limited,
 		expiration :"2025-12-31"
+	},{
+		id: 45,
+		name: "파티런 크리스탈 기념 티켓 2",
+		amt: 9,
+		minp: 7,
+		maxp: 14,
+		type: TYPE.Limited,
+		expiration :"2026-01-31"
 	},
 	{
 		id: 201,
