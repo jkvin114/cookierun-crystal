@@ -382,7 +382,8 @@ const TREASURES = [
 		minp: 7,
 		maxp: 14,
 		type: TYPE.Limited,
-		expiration :"2025-12-31"
+		expiration :"2025-12-31",
+		fullImage:true
 	},{
 		id: 44,
 		name: "신묘한 생명의 약수병",
@@ -390,7 +391,8 @@ const TREASURES = [
 		minp: 60,
 		maxp: 90,
 		type: TYPE.Limited,
-		expiration :"2025-12-31"
+		expiration :"2025-12-31",
+		fullImage:true
 	},{
 		id: 45,
 		name: "파티런 크리스탈 기념 티켓 2",
@@ -398,7 +400,16 @@ const TREASURES = [
 		minp: 7,
 		maxp: 14,
 		type: TYPE.Limited,
-		expiration :"2026-01-31"
+		expiration :"2026-01-31",
+		fullImage:true
+	},{
+		id: 46,
+		name: "다람쥐의 크리스탈 노리개",
+		amt: 1,
+		minp: 31,
+		maxp: 36,
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,
