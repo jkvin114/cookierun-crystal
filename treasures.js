@@ -405,7 +405,7 @@ const TREASURES = [
 	},{
 		id: 46,
 		name: "다람쥐의 크리스탈 노리개",
-		amt: 1,
+		amt: 2,
 		minp: 31,
 		maxp: 36,
 		type: TYPE.Limited,
