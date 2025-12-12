@@ -40,7 +40,7 @@ function getSquirrelRewardImg(id){
         case SQUIRREL_REWARD.Treasure3:
             return "img/squirrel/3.png"
         case SQUIRREL_REWARD.Treasure4:
-            return "img/tr/46.png"
+            return "img/tr/36.png"
     }
 }
 function getSquirrelRewardName(id){
@@ -54,13 +54,13 @@ function getSquirrelRewardName(id){
         case SQUIRREL_REWARD.Ticket:
             return "최고급 보물뽑기권"
         case SQUIRREL_REWARD.Treasure1:
-            return "다람쥐의 잘 익은 전통 곶감"
+            return "다람쥐 가루솔솔 솔방울"
         case SQUIRREL_REWARD.Treasure2:
-            return "다람쥐의 둥실둥실 방패 연"
+            return "다람쥐의 마시멜로 산타 초코케이크"
         case SQUIRREL_REWARD.Treasure3:
-            return "다람쥐의 도토리 깨송편"
+            return "다람쥐의 도토리 오너먼트"
         case SQUIRREL_REWARD.Treasure4:
-            return "다람쥐의 크리스탈 노리개"
+            return "다람쥐의 크리스탈 별 오너먼트"
     }
 }
 function addSquirrelState(rewards){
