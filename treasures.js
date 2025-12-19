@@ -411,6 +411,15 @@ const TREASURES = [
 		maxp: 36,
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 47,
+		name: "영광의 파티런 방울 트로피",
+		amt: 9,
+		minp: 7,
+		maxp: 14,
+		expiration :"2026-06-30",
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,
