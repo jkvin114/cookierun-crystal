@@ -420,6 +420,15 @@ const TREASURES = [
 		expiration :"2026-06-30",
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 48,
+		name: "소망이 반짝이는 크리스탈 과자집",
+		amt: 1,
+		minp: 13,
+		maxp: 25,
+		expiration :"2026-12-24",
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,
