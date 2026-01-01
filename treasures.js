@@ -429,6 +429,15 @@ const TREASURES = [
 		expiration :"2026-12-24",
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 49,
+		name: "2026 크리스탈 붉은말",
+		amt: 1,
+		minp: 5,
+		maxp: 50,
+		expiration :"2026-12-31",
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,
