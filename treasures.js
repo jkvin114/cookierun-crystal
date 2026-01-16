@@ -438,6 +438,15 @@ const TREASURES = [
 		expiration :"2026-12-31",
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 50,
+		name: "매화단청빛 신년 복주머니",
+		amt: 6,
+		minp: 8.5,
+		maxp: 13,
+		expiration :"2026-12-31",
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,
