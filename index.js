@@ -733,7 +733,7 @@ function onTreasureChange() {
 	months[2].innerHTML = val1===val2 ? val1 :  val1+"~" +val2
 
 
-	let x = Math.round((totalexp * 55000 - 115997) / 110376) + 1
+	let x = Math.round((totalexp * 1250 - 2043) / 1944) + 1
 	months[3].innerHTML = 119 + 108*(x-1)
 	months[4].innerHTML = x
 
