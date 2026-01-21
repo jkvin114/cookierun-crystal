@@ -14,11 +14,11 @@ const TR_PROBS = [
 	0.08 / S_PROB,
 	0.08 / S_PROB,
 	0.08 / S_PROB,
+	0.08 / S_PROB,
 	0.11 / S_PROB,
 	0.11 / S_PROB,
-	0.11 / S_PROB,
-	0.57 / S_PROB,
-	97.289,
+	0.3 / S_PROB,
+	99.08,
 ]
 
 const DRAW_STATE = {
