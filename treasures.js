@@ -447,6 +447,22 @@ const TREASURES = [
 		expiration :"2026-12-31",
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 51,
+		name: "미니 크리스탈 피규어 2nd",
+		amt:9,
+		minp: 7,
+		maxp: 14,
+		type: TYPE.Limited
+	},{
+		id: 52,
+		name: "영롱한 빛의 파티런 인증서",
+		amt:9,
+		minp: 7,
+		maxp: 14,
+		expiration :"2026-07-31",
+		type: TYPE.Limited,
+		fullImage:true
 	},
 	{
 		id: 201,
