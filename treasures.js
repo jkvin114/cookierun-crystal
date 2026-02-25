@@ -463,6 +463,15 @@ const TREASURES = [
 		expiration :"2026-07-31",
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id: 53,
+		name: "크리스탈 파티 방울 컬렉션 피규어",
+		amt: 9,
+		minp: 7,
+		maxp: 14,
+		type: TYPE.Limited,
+		expiration :"2026-08-31",
+		fullImage:true
 	},
 	{
 		id: 201,
