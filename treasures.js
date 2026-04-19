@@ -517,7 +517,7 @@ const TREASURES = [
 		fullImage:true
 	},{
 		id: 59,
-		name: "(미출시)파티런 시즌5 패스보상",
+		name: "파티의 제왕 크리스탈 크라운",
 		amt:9,
 		minp: 7,
 		maxp: 14,
