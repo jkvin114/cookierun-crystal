@@ -517,7 +517,7 @@ const TREASURES = [
 		fullImage:true
 	},{
 		id: 59,
-		name: "대롱대롱 크리스탈 방울 키링",
+		name: "파티의 제왕 크리스탈 크라운",
 		amt:9,
 		minp: 7,
 		maxp: 14,
@@ -526,7 +526,7 @@ const TREASURES = [
 		fullImage:true
 	},{
 		id:60,
-		name: "파티의 제왕 크리스탈 크라운",
+		name: "대롱대롱 크리스탈 방울 키링",
 		amt:9,
 		minp: 7,
 		maxp: 14,
