@@ -517,6 +517,15 @@ const TREASURES = [
 		fullImage:true
 	},{
 		id: 59,
+		name: "대롱대롱 크리스탈 방울 키링",
+		amt:9,
+		minp: 7,
+		maxp: 14,
+		expiration :"2026-11-30",
+		type: TYPE.Limited,
+		fullImage:true
+	},{
+		id:60,
 		name: "파티의 제왕 크리스탈 크라운",
 		amt:9,
 		minp: 7,
