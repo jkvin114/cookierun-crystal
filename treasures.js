@@ -521,7 +521,7 @@ const TREASURES = [
 		amt:9,
 		minp: 7,
 		maxp: 14,
-		expiration :"2026-11-30",
+		expiration :"2026-10-31",
 		type: TYPE.Limited,
 		fullImage:true
 	},{
@@ -530,7 +530,7 @@ const TREASURES = [
 		amt:9,
 		minp: 7,
 		maxp: 14,
-		expiration :"2026-10-31",
+		expiration :"2026-11-30",
 		type: TYPE.Limited,
 		fullImage:true
 	},
