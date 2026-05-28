@@ -437,7 +437,7 @@ function main() {
 	})
 
 	$onclick("#record-open-btn",openRecord)
-	tryOpenRecordDialog()
+	//tryOpenRecordDialog()
 	$onclick("#open-record-dialog-btn",openRecordDialog)
 	$onclick("#record-dialog-prob",function(){
 		gtag("event", "check_prob", {})
@@ -581,7 +581,10 @@ function initSelectionWindow() {
 	let $level = ""
 	let $reward = ""
 	let $trophy=""
+	let partyrun=[]
+	let $partyrun=""
 
+	let $eggtrophy=""
 	for (const tr of TREASURES) {
 		TR_DICT.set(tr.id, tr)
 		const str = selectionTreasure(tr)
@@ -590,9 +593,12 @@ function initSelectionWindow() {
 		else if (tr.type === TYPE.Limited) limited.push(str)
 		else if (tr.type === TYPE.Level) $level += str
 		else if (tr.type === TYPE.Trophy) $trophy += str
+		else if (tr.type === TYPE.DragonEggTrophy) $eggtrophy += str
+		else if (tr.type === TYPE.Partyrun) partyrun.push(str)
 	}
 	$limited = limited.reverse().join("")
-
+	$partyrun = partyrun.reverse().join("")
+	
 	for (const tr of REWARD_TREASURES) {
 		TR_DICT.set(tr.id, tr)
 		$reward += selectionTreasure(tr)
@@ -605,6 +611,8 @@ function initSelectionWindow() {
 	$one("#tr-selection-level").innerHTML = $level
 	$one("#tr-selection-reward").innerHTML = $reward
 	$one("#tr-selection-trophy").innerHTML = $trophy
+	$one("#tr-selection-eggtrophy").innerHTML = $eggtrophy
+	$one("#tr-selection-partyrun").innerHTML = $partyrun
 
 }
 function removeAll() {

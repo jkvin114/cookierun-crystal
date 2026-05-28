@@ -3,7 +3,9 @@ const TYPE = {
 	CookiePet: 1,
 	Level: 2,
 	Limited: 3,
-	Trophy:4
+	Trophy:4,
+	DragonEggTrophy:5,
+	Partyrun:6
 }
 const TREASURES = [
 	{
@@ -382,9 +384,8 @@ const TREASURES = [
 		amt: 9,
 		minp: 7,
 		maxp: 14,
-		type: TYPE.Limited,
-		expiration :"2025-12-31",
-		fullImage:true
+		type: TYPE.Partyrun,
+		expiration :"2025-12-31"
 	},{
 		id: 44,
 		name: "신묘한 생명의 약수병",
@@ -392,17 +393,15 @@ const TREASURES = [
 		minp: 60,
 		maxp: 90,
 		type: TYPE.Limited,
-		expiration :"2025-12-31",
-		fullImage:true
+		expiration :"2025-12-31"
 	},{
 		id: 45,
 		name: "파티런 크리스탈 기념 티켓 2",
 		amt: 9,
 		minp: 7,
 		maxp: 14,
-		type: TYPE.Limited,
-		expiration :"2026-01-31",
-		fullImage:true
+		type: TYPE.Partyrun,
+		expiration :"2026-01-31"
 	},{
 		id: 46,
 		name: "다람쥐의 크리스탈 노리개",
@@ -418,7 +417,7 @@ const TREASURES = [
 		minp: 7,
 		maxp: 14,
 		expiration :"2026-06-30",
-		type: TYPE.Limited,
+		type: TYPE.Partyrun,
 		fullImage:true
 	},{
 		id: 48,
@@ -461,7 +460,7 @@ const TREASURES = [
 		minp: 7,
 		maxp: 14,
 		expiration :"2026-07-31",
-		type: TYPE.Limited,
+		type: TYPE.Partyrun,
 		fullImage:true
 	},{
 		id: 53,
@@ -469,7 +468,7 @@ const TREASURES = [
 		amt: 9,
 		minp: 7,
 		maxp: 14,
-		type: TYPE.Limited,
+		type: TYPE.Partyrun,
 		expiration :"2026-08-31",
 		fullImage:true
 	},{
@@ -479,7 +478,7 @@ const TREASURES = [
 		minp: 7,
 		maxp: 14,
 		expiration :"2026-09-30",
-		type: TYPE.Limited,
+		type: TYPE.Partyrun,
 		fullImage:true
 	},{
 		id: 55,
@@ -522,7 +521,7 @@ const TREASURES = [
 		minp: 7,
 		maxp: 14,
 		expiration :"2026-10-31",
-		type: TYPE.Limited,
+		type: TYPE.Partyrun,
 		fullImage:true
 	},{
 		id:60,
@@ -531,8 +530,39 @@ const TREASURES = [
 		minp: 7,
 		maxp: 14,
 		expiration :"2026-11-30",
-		type: TYPE.Limited,
+		type: TYPE.Partyrun,
 		fullImage:true
+	},{
+		id:61,
+		name: "용감한 쿠키군 한정 생일 포토카드",
+		amt:17,
+		minp: 7,
+		maxp: 17,
+		expiration :"2026-12-31",
+		type: TYPE.Limited
+	},{
+		id:62,
+		name: "(미출시 보물)",
+		amt:17,
+		minp: 7,
+		maxp: 17,
+		expiration :"2026-12-31",
+		type: TYPE.Limited
+	},{
+		id:63,
+		name: "(미출시 보물)",
+		amt: 9,
+		minp: 7,
+		maxp: 14,
+		type: TYPE.Limited
+	},{
+		id:64,
+		name: "(미출시) 파티런 시즌 7 패스보상",
+		amt:9,
+		minp: 7,
+		maxp: 14,
+		expiration :"2026-12-31",
+		type: TYPE.Partyrun
 	},
 	{
 		id: 201,
@@ -807,6 +837,48 @@ const TREASURES = [
 		minp: 40,
 		maxp: 60,
 		type: TYPE.Trophy
+	},{
+		id: 301,
+		name: "신 등급의 휘황찬란한 용의 알",
+		amt: 1,
+		minp: 40,
+		maxp: 60,
+		type: TYPE.DragonEggTrophy
+	},{
+		id: 302,
+		name: "전설 등급의 레전드 용의 알",
+		amt: 1,
+		minp: 40,
+		maxp: 58,
+		type: TYPE.DragonEggTrophy
+	},{
+		id: 303,
+		name: "제왕 등급의 환상적인 용의 알",
+		amt: 1,
+		minp: 40,
+		maxp: 56,
+		type: TYPE.DragonEggTrophy
+	},{
+		id: 304,
+		name: "초인 등급의 위대한 용의 알",
+		amt: 1,
+		minp: 40,
+		maxp: 54,
+		type: TYPE.DragonEggTrophy
+	},{
+		id: 305,
+		name: "영웅 등급의 히어로 용의 알",
+		amt: 1,
+		minp: 40,
+		maxp: 53,
+		type: TYPE.DragonEggTrophy
+	},{
+		id: 306,
+		name: "고수 등급의 엄청난 용의 알",
+		amt: 1,
+		minp: 40,
+		maxp: 52,
+		type: TYPE.DragonEggTrophy
 	},
 ]
 const REWARD_TREASURES = [
@@ -1034,6 +1106,7 @@ function getImg(tr){
 	let isReward = isRewardTr(tr)
 	let src = `img/tr/${tr.id}.` + (tr.webp ? "webp" : "png")
 	if (isReward) src = `img/tr/reward/tr_reward_${tr.minscore}00.` + (tr.webp ? "webp" : "png")
-	if(tr.id>=200) src = `img/tr/trophy/trophy (${tr.id-200}).png`
+	if(tr.id>=300) src = `img/tr/dragon_egg/egg (${tr.id-300}).png`
+	else if(tr.id>=200) src = `img/tr/trophy/trophy (${tr.id-200}).png`
 	return src
 }
