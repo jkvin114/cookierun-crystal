@@ -542,7 +542,7 @@ const TREASURES = [
 		type: TYPE.Limited
 	},{
 		id:62,
-		name: "(미출시 보물)",
+		name: "(미출시) 용감한 생일 맞이 크리스탈 컵케이크",
 		amt:17,
 		minp: 7,
 		maxp: 17,
@@ -550,7 +550,7 @@ const TREASURES = [
 		type: TYPE.Limited
 	},{
 		id:63,
-		name: "(미출시 보물)",
+		name: "(미출시) 카드 게임 전용 콜렉터블 크리스탈 카드",
 		amt: 9,
 		minp: 7,
 		maxp: 14,
