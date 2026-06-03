@@ -19,8 +19,160 @@ const State = {
 const sleep = (m) => new Promise((r) => setTimeout(r, m))
 
 const TR_DICT = new Map() // id => treasure obj
+const HUB_MESSAGE = {
+	STATE_CHANGED: "COOKIE_RUN_HUB_CRYSTAL_STATE_CHANGED",
+	SAVE_REQUEST: "COOKIE_RUN_HUB_CRYSTAL_SAVE_REQUEST",
+	SAVE_RESPONSE: "COOKIE_RUN_HUB_CRYSTAL_SAVE_RESPONSE",
+	LOAD_REQUEST: "COOKIE_RUN_HUB_CRYSTAL_LOAD_REQUEST",
+	LOAD_RESPONSE: "COOKIE_RUN_HUB_CRYSTAL_LOAD_RESPONSE",
+}
+
 function isMobile() {
 	return window.innerWidth < 700
+}
+function isHubEmbed() {
+	return window.self !== window.top && new URLSearchParams(window.location.search).get("hub") === "1"
+}
+function isAllowedHubOrigin(origin) {
+	return (
+		origin === "https://www.cookierunhub.com" ||
+		origin === "https://cookierunhub.com" ||
+		/^http:\/\/localhost:\d+$/.test(origin) ||
+		/^http:\/\/127\.0\.0\.1:\d+$/.test(origin)
+	)
+}
+function getHubParentOrigin() {
+	try {
+		const origin = new URL(document.referrer).origin
+		return isAllowedHubOrigin(origin) ? origin : null
+	} catch (e) {
+		return null
+	}
+}
+function setHubDialogStatus(message) {
+	const el = $one("#hub-dialog-status")
+	if (el) el.textContent = message
+}
+function getTreasureDisplayName(tr) {
+	return !isRewardTr(tr) ? tr.name : getRewardTreasureName(tr.minscore)
+}
+function getCurrentHubPayload() {
+	const encodedState = encodeCurrentState()
+	const grouped = new Map()
+
+	for (const elem of $(".tr-displayed")) {
+		const id = Number($data(elem, "id"))
+		const lvl = Number($data(elem, "lvl"))
+		const tr = TR_DICT.get(id)
+		if (!tr) continue
+
+		const key = `${id}-${lvl}`
+		if (!grouped.has(key)) {
+			grouped.set(key, {
+				crystal_treasure_id: id,
+				enhancement: lvl,
+				quantity: 0,
+				name: getTreasureDisplayName(tr),
+				image_url: new URL(getImg(tr), window.location.href).href,
+			})
+		}
+		grouped.get(key).quantity += 1
+	}
+
+	return {
+		expected_crystal: round(State.currentExpVal || 0, -4),
+		encoded_state: encodedState,
+		treasures: [...grouped.values()],
+	}
+}
+function postHubMessage(message) {
+	if (!isHubEmbed()) return
+	const parentOrigin = getHubParentOrigin()
+	if (!parentOrigin) return
+	window.parent.postMessage(message, parentOrigin)
+}
+function postHubStateChanged() {
+	postHubMessage({
+		type: HUB_MESSAGE.STATE_CHANGED,
+		payload: getCurrentHubPayload(),
+	})
+}
+function openHubDialog() {
+	setHubDialogStatus("HUB 계정에 현재 보물 세팅을 저장하거나 불러옵니다.")
+	$removeClass("#hub-dialog-modal", "hidden")
+}
+function closeHubDialog() {
+	$addClass("#hub-dialog-modal", "hidden")
+}
+function requestHubSave() {
+	const payload = getCurrentHubPayload()
+	if (!payload.encoded_state) {
+		showToast("저장할 세팅이 없습니다")
+		return
+	}
+	setHubDialogStatus("HUB에 저장 중입니다...")
+	postHubMessage({
+		type: HUB_MESSAGE.SAVE_REQUEST,
+		payload,
+	})
+}
+function requestHubLoad() {
+	if (!confirm("HUB에 저장된 세팅을 불러오시겠습니까? 현재 세팅은 삭제됩니다.")) return
+	setHubDialogStatus("HUB 데이터를 불러오는 중입니다...")
+	postHubMessage({
+		type: HUB_MESSAGE.LOAD_REQUEST,
+	})
+}
+function applyHubState(payload) {
+	if (!payload || !payload.encoded_state) {
+		setHubDialogStatus("HUB에 저장된 세팅이 없습니다.")
+		showToast("HUB에 저장된 세팅이 없습니다")
+		return
+	}
+
+	$(".tr-displayed").forEach((e) => e.remove())
+	clearSetting()
+	decodeState(payload.encoded_state)
+	updateTreasureSummary()
+	onTreasureChange()
+	window.scroll(0, 0)
+	closeHubDialog()
+	showToast("HUB 세팅을 불러왔습니다")
+}
+function handleHubMessage(event) {
+	if (!isHubEmbed() || !isAllowedHubOrigin(event.origin)) return
+	const data = event.data
+	if (!data || typeof data !== "object") return
+
+	if (data.type === HUB_MESSAGE.SAVE_RESPONSE) {
+		if (data.ok) {
+			setHubDialogStatus("HUB에 저장되었습니다.")
+			showToast("HUB에 저장되었습니다")
+			setTimeout(closeHubDialog, 500)
+		} else {
+			setHubDialogStatus(data.error || "HUB 저장에 실패했습니다.")
+			showToast(data.error || "HUB 저장 실패")
+		}
+	}
+
+	if (data.type === HUB_MESSAGE.LOAD_RESPONSE) {
+		if (data.ok) {
+			applyHubState(data.payload)
+		} else {
+			setHubDialogStatus(data.error || "HUB 데이터를 불러오지 못했습니다.")
+			showToast(data.error || "HUB 불러오기 실패")
+		}
+	}
+}
+function initHubBridge() {
+	if (!isHubEmbed()) return
+	$removeClass("#hub-save-btn", "hidden")
+	$onclick("#hub-save-btn", openHubDialog)
+	$onclick("#hub-dialog-close", closeHubDialog)
+	$onclick("#hub-dialog-save", requestHubSave)
+	$onclick("#hub-dialog-load", requestHubLoad)
+	window.addEventListener("message", handleHubMessage)
+	postHubStateChanged()
 }
 function setSetting(id, lvl) {
 	$addClass("#tr-setting-empty-tr", "hidden")
@@ -325,6 +477,7 @@ function main() {
 	$onclick("#load-btn", function(){
 		load(false)
 	})
+	initHubBridge()
 	$onclick(".shadow", closeModal)
 	$onclick("#sim-btn", simulate)
 	$onclick("#attendance-sim-btn",()=>{
@@ -787,6 +940,7 @@ function onTreasureChange() {
 
 
 	State.isUpdatedAfterLastSim=true
+	postHubStateChanged()
 	//  $html("#total-std",round(variance*total,-4))
 }
 

@@ -56,6 +56,7 @@
 			</span>
 		</div>
 		<div class="toolbar-container">
+			<button class="btn btn-primary hidden" id="hub-save-btn">HUB</button>
 			<button class="btn btn-primary"  id="save-btn">				
 				<img src="img/save.svg" class="toolbar-img">
 			</button>		
@@ -566,6 +567,16 @@
 		<br><input type="text" placeholder="출석크리스탈 갯수 입력" id="record-modify-dialog-input" /><br>
 		<button class="btn btn-secondary" id="record-modify-dialog-confirm">수정</button>
 		<button class="btn btn-red" id="record-modify-dialog-close">닫기</button>
+	</div>
+	<div class="modal text-container hidden" id="hub-dialog-modal">
+		<p style="position: relative; display: inline-block;padding-right: 30px;font-size: medium;">
+			쿠키런HUB 저장<br>
+			<span id="hub-dialog-status">HUB 계정에 현재 보물 세팅을 저장하거나 불러옵니다.</span>
+		</p>
+		<br>
+		<button class="btn btn-secondary" id="hub-dialog-save">저장</button>
+		<button class="btn btn-secondary" id="hub-dialog-load">불러오기</button>
+		<button class="btn btn-red" id="hub-dialog-close">닫기</button>
 	</div>
 
 	<div class="modal text-container hidden" id="gacha-modal">
