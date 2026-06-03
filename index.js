@@ -91,11 +91,15 @@ function postHubMessage(message) {
 	if (!parentOrigin) return
 	window.parent.postMessage(message, parentOrigin)
 }
+let hubStateChangedTimeout = null;
 function postHubStateChanged() {
-	postHubMessage({
-		type: HUB_MESSAGE.STATE_CHANGED,
-		payload: getCurrentHubPayload(),
-	})
+	if (hubStateChangedTimeout) clearTimeout(hubStateChangedTimeout);
+	hubStateChangedTimeout = setTimeout(() => {
+		postHubMessage({
+			type: HUB_MESSAGE.STATE_CHANGED,
+			payload: getCurrentHubPayload(),
+		})
+	}, 300);
 }
 function openHubDialog() {
 	setHubDialogStatus("HUB 계정에 현재 보물 세팅을 저장하거나 불러옵니다.")
@@ -130,16 +134,24 @@ function applyHubState(payload) {
 		return
 	}
 
-	$(".tr-displayed").forEach((e) => e.remove())
-	clearSetting()
-	decodeState(payload.encoded_state)
-	updateTreasureSummary()
-	onTreasureChange()
-	window.scroll(0, 0)
-	closeHubDialog()
-	showToast("HUB 세팅을 불러왔습니다")
+	try {
+		$(".tr-displayed").forEach((e) => e.remove())
+		clearSetting()
+		decodeState(payload.encoded_state)
+		updateTreasureSummary()
+		onTreasureChange()
+		window.scroll(0, 0)
+		closeHubDialog()
+		showToast("HUB 세팅을 불러왔습니다")
+	} catch (error) {
+		console.error("HUB load failed:", error)
+		showToast("HUB 데이터 디코딩에 실패했습니다.")
+		setHubDialogStatus("데이터 복구 실패")
+		return
+	}
 }
 function handleHubMessage(event) {
+	if (event.source !== window.parent) return;
 	if (!isHubEmbed() || !isAllowedHubOrigin(event.origin)) return
 	const data = event.data
 	if (!data || typeof data !== "object") return
