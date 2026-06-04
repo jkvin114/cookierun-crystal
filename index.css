@@ -1084,7 +1084,7 @@ bottom: 10px;
     right: 0px;
     height: 120px;
 }
-#record-dialog-modal,#record-modify-dialog-modal{
+#record-dialog-modal,#record-modify-dialog-modal,#hub-dialog-modal{
     height: fit-content;
     transform: translate(-50%,-50%);
     top: 50vh;
