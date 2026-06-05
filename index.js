@@ -78,13 +78,17 @@ function parseEncodedState(encodedString, options) {
 		if (strict) throw e
 		return []
 	}
-	return str
-		.split(",")
-		.map((item) => {
-			const [id, lvl] = item.split("-").map(Number)
-			return { id, lvl }
-		})
-		.filter(({ id, lvl }) => Number.isFinite(id) && Number.isFinite(lvl) && (!requireKnown || TR_DICT.has(id)))
+	const entries = []
+	for (const item of str.split(",")) {
+		if (!item || item === "") continue
+		const [id, lvl] = item.split("-").map(Number)
+		if (!Number.isFinite(id) || !Number.isFinite(lvl) || (requireKnown && !TR_DICT.has(id))) {
+			if (strict) throw new Error("Invalid encoded state")
+			continue
+		}
+		entries.push({ id, lvl })
+	}
+	return entries
 }
 function buildHubPayload(entries, encodedState) {
 	const grouped = new Map()
