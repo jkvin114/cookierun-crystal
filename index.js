@@ -67,12 +67,15 @@ function getHubTreasureLayers(tr) {
 		full_image: !!tr.fullImage,
 	}
 }
-function parseEncodedState(encodedString) {
+function parseEncodedState(encodedString, options) {
+	const strict = !options || options.strict !== false
+	const requireKnown = !!(options && options.requireKnown)
 	if (!encodedString || typeof encodedString !== "string") return []
 	let str = ""
 	try {
 		str = atob(encodedString)
 	} catch (e) {
+		if (strict) throw e
 		return []
 	}
 	return str
@@ -81,7 +84,7 @@ function parseEncodedState(encodedString) {
 			const [id, lvl] = item.split("-").map(Number)
 			return { id, lvl }
 		})
-		.filter(({ id, lvl }) => Number.isFinite(id) && Number.isFinite(lvl) && TR_DICT.has(id))
+		.filter(({ id, lvl }) => Number.isFinite(id) && Number.isFinite(lvl) && (!requireKnown || TR_DICT.has(id)))
 }
 function buildHubPayload(entries, encodedState) {
 	const grouped = new Map()
@@ -124,13 +127,14 @@ function getCurrentHubPayload() {
 }
 function getStoredBrowserHubPayload() {
 	const encodedState = localStorage.getItem("cookierun-crystal-state")
-	return buildHubPayload(parseEncodedState(encodedState), encodedState || "")
+	return buildHubPayload(parseEncodedState(encodedState, { strict: false, requireKnown: true }), encodedState || "")
 }
 function postHubMessage(message) {
-	if (!isHubEmbed()) return
+	if (!isHubEmbed()) return false
 	const parentOrigin = getHubParentOrigin()
-	if (!parentOrigin) return
+	if (!parentOrigin) return false
 	window.parent.postMessage(message, parentOrigin)
+	return true
 }
 let hubStateChangedTimeout = null;
 let hubPendingTimeout = null;
@@ -158,6 +162,7 @@ function openHubDialog() {
 	$removeClass("#hub-dialog-modal", "hidden")
 }
 function closeHubDialog() {
+	clearHubPendingTimeout()
 	$addClass("#hub-dialog-modal", "hidden")
 }
 function requestHubSave() {
@@ -167,11 +172,15 @@ function requestHubSave() {
 		return
 	}
 	setHubDialogStatus("HUB에 저장 중입니다...")
-	postHubMessage({
+	if (postHubMessage({
 		type: HUB_MESSAGE.SAVE_REQUEST,
 		payload,
-	})
-	scheduleHubPendingTimeout("HUB 저장 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.")
+	})) {
+		scheduleHubPendingTimeout("HUB 저장 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.")
+	} else {
+		setHubDialogStatus("HUB 연결을 확인할 수 없습니다.")
+		showToast("HUB 연결 실패")
+	}
 }
 function requestHubLegacyBrowserSave() {
 	const payload = getStoredBrowserHubPayload()
@@ -186,19 +195,27 @@ function requestHubLegacyBrowserSave() {
 		)
 	) return
 	setHubDialogStatus("기존 브라우저 저장을 HUB에 연동 중입니다...")
-	postHubMessage({
+	if (postHubMessage({
 		type: HUB_MESSAGE.SAVE_REQUEST,
 		payload,
-	})
-	scheduleHubPendingTimeout("HUB 연동 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.")
+	})) {
+		scheduleHubPendingTimeout("HUB 연동 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.")
+	} else {
+		setHubDialogStatus("HUB 연결을 확인할 수 없습니다.")
+		showToast("HUB 연결 실패")
+	}
 }
 function requestHubLoad() {
 	if (!confirm("HUB에 저장된 세팅을 불러오시겠습니까? 현재 세팅은 삭제됩니다.")) return
 	setHubDialogStatus("HUB 데이터를 불러오는 중입니다...")
-	postHubMessage({
+	if (postHubMessage({
 		type: HUB_MESSAGE.LOAD_REQUEST,
-	})
-	scheduleHubPendingTimeout("HUB 불러오기 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.")
+	})) {
+		scheduleHubPendingTimeout("HUB 불러오기 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.")
+	} else {
+		setHubDialogStatus("HUB 연결을 확인할 수 없습니다.")
+		showToast("HUB 연결 실패")
+	}
 }
 function applyHubState(payload) {
 	if (!payload || !payload.encoded_state) {
