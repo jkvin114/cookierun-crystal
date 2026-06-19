@@ -557,7 +557,7 @@ const TREASURES = [
 		type: TYPE.Limited
 	},{
 		id:64,
-		name: "(미출시) 파티런 시즌 7 패스보상",
+		name: "크리스탈 방울 감사패",
 		amt:9,
 		minp: 7,
 		maxp: 14,
