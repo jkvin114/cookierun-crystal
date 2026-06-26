@@ -563,6 +563,15 @@ const TREASURES = [
 		maxp: 14,
 		expiration :"2026-12-31",
 		type: TYPE.Partyrun
+	},{
+		id: 65,
+		name: "2026 여름한정 크리스탈 멜론빙수",
+		amt: 2,
+		minp: 50,
+		maxp: 78,
+		type: TYPE.Limited,
+		fullImage:true,
+		expiration :"2026-08-31"
 	},
 	{
 		id: 201,
