@@ -556,14 +556,6 @@ const TREASURES = [
 		maxp: 14,
 		type: TYPE.Limited
 	},{
-		id:64,
-		name: "크리스탈 방울 감사패",
-		amt:9,
-		minp: 7,
-		maxp: 14,
-		expiration :"2026-12-31",
-		type: TYPE.Partyrun
-	},{
 		id: 65,
 		name: "2026 여름한정 크리스탈 멜론빙수",
 		amt: 2,
@@ -572,6 +564,14 @@ const TREASURES = [
 		type: TYPE.Limited,
 		fullImage:true,
 		expiration :"2026-08-31"
+	},{
+		id:66,
+		name: "파티 기념 크리스탈 각인 주화",
+		amt:9,
+		minp: 7,
+		maxp: 14,
+		expiration :"2027-01-31",
+		type: TYPE.Partyrun
 	},
 	{
 		id: 201,
