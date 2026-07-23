@@ -56,16 +56,49 @@ function setHubDialogStatus(message) {
 function getTreasureDisplayName(tr) {
 	return !isRewardTr(tr) ? tr.name : getRewardTreasureName(tr.minscore)
 }
-function getCurrentHubPayload() {
-	const encodedState = encodeCurrentState()
+function getAbsoluteAssetUrl(path) {
+	return new URL(path, window.location.href).href
+}
+function getHubTreasureLayers(tr) {
+	return {
+		image_url: getAbsoluteAssetUrl(getImg(tr)),
+		frame_url: getAbsoluteAssetUrl(`img/${tr.a ? "frame-a" : "frame"}.png`),
+		passive_url: tr.fullImage ? null : getAbsoluteAssetUrl("img/passive.png"),
+		full_image: !!tr.fullImage,
+	}
+}
+function parseEncodedState(encodedString, options) {
+	const strict = !options || options.strict !== false
+	const requireKnown = !!(options && options.requireKnown)
+	if (!encodedString || typeof encodedString !== "string") return []
+	let str = ""
+	try {
+		str = atob(encodedString)
+	} catch (e) {
+		if (strict) throw e
+		return []
+	}
+	const entries = []
+	for (const item of str.split(",")) {
+		if (!item || item === "") continue
+		const [id, lvl] = item.split("-").map(Number)
+		if (!Number.isFinite(id) || !Number.isFinite(lvl) || (requireKnown && !TR_DICT.has(id))) {
+			if (strict) throw new Error("Invalid encoded state")
+			continue
+		}
+		entries.push({ id, lvl })
+	}
+	return entries
+}
+function buildHubPayload(entries, encodedState) {
 	const grouped = new Map()
+	let expectedCrystal = 0
 
-	for (const elem of $(".tr-displayed")) {
-		const id = Number($data(elem, "id"))
-		const lvl = Number($data(elem, "lvl"))
+	for (const { id, lvl } of entries) {
 		const tr = TR_DICT.get(id)
 		if (!tr) continue
 
+		expectedCrystal += getExpectedValue(tr, lvl)
 		const key = `${id}-${lvl}`
 		if (!grouped.has(key)) {
 			grouped.set(key, {
@@ -73,25 +106,52 @@ function getCurrentHubPayload() {
 				enhancement: lvl,
 				quantity: 0,
 				name: getTreasureDisplayName(tr),
-				image_url: new URL(getImg(tr), window.location.href).href,
+				...getHubTreasureLayers(tr),
 			})
 		}
 		grouped.get(key).quantity += 1
 	}
 
 	return {
-		expected_crystal: round(State.currentExpVal || 0, -4),
+		expected_crystal: round(expectedCrystal || 0, -4),
 		encoded_state: encodedState,
 		treasures: [...grouped.values()],
 	}
 }
+function getCurrentHubPayload() {
+	const encodedState = encodeCurrentState()
+	const entries = []
+	for (const elem of $(".tr-displayed")) {
+		entries.push({
+			id: Number($data(elem, "id")),
+			lvl: Number($data(elem, "lvl")),
+		})
+	}
+	return buildHubPayload(entries, encodedState)
+}
+function getStoredBrowserHubPayload() {
+	const encodedState = localStorage.getItem("cookierun-crystal-state")
+	return buildHubPayload(parseEncodedState(encodedState, { strict: false, requireKnown: true }), encodedState || "")
+}
 function postHubMessage(message) {
-	if (!isHubEmbed()) return
+	if (!isHubEmbed()) return false
 	const parentOrigin = getHubParentOrigin()
-	if (!parentOrigin) return
+	if (!parentOrigin) return false
 	window.parent.postMessage(message, parentOrigin)
+	return true
 }
 let hubStateChangedTimeout = null;
+let hubPendingTimeout = null;
+function clearHubPendingTimeout() {
+	if (hubPendingTimeout) clearTimeout(hubPendingTimeout)
+	hubPendingTimeout = null
+}
+function scheduleHubPendingTimeout(message) {
+	clearHubPendingTimeout()
+	hubPendingTimeout = setTimeout(() => {
+		setHubDialogStatus(message)
+	}, 10000)
+}
 function postHubStateChanged() {
 	if (hubStateChangedTimeout) clearTimeout(hubStateChangedTimeout);
 	hubStateChangedTimeout = setTimeout(() => {
@@ -106,6 +166,7 @@ function openHubDialog() {
 	$removeClass("#hub-dialog-modal", "hidden")
 }
 function closeHubDialog() {
+	clearHubPendingTimeout()
 	$addClass("#hub-dialog-modal", "hidden")
 }
 function requestHubSave() {
@@ -115,17 +176,50 @@ function requestHubSave() {
 		return
 	}
 	setHubDialogStatus("HUB에 저장 중입니다...")
-	postHubMessage({
+	if (postHubMessage({
 		type: HUB_MESSAGE.SAVE_REQUEST,
 		payload,
-	})
+	})) {
+		scheduleHubPendingTimeout("HUB 저장 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.")
+	} else {
+		setHubDialogStatus("HUB 연결을 확인할 수 없습니다.")
+		showToast("HUB 연결 실패")
+	}
+}
+function requestHubLegacyBrowserSave() {
+	const payload = getStoredBrowserHubPayload()
+	if (!payload.encoded_state || payload.treasures.length === 0) {
+		setHubDialogStatus("브라우저에 저장된 기존 세팅이 없습니다.")
+		showToast("브라우저 저장 세팅이 없습니다")
+		return
+	}
+	if (
+		!confirm(
+			"기존 브라우저 저장값을 읽어 쿠키런HUB 서버에 저장합니다. 현재 화면의 보물 세팅은 바뀌지 않습니다. 계속할까요?"
+		)
+	) return
+	setHubDialogStatus("기존 브라우저 저장을 HUB에 연동 중입니다...")
+	if (postHubMessage({
+		type: HUB_MESSAGE.SAVE_REQUEST,
+		payload,
+	})) {
+		scheduleHubPendingTimeout("HUB 연동 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.")
+	} else {
+		setHubDialogStatus("HUB 연결을 확인할 수 없습니다.")
+		showToast("HUB 연결 실패")
+	}
 }
 function requestHubLoad() {
 	if (!confirm("HUB에 저장된 세팅을 불러오시겠습니까? 현재 세팅은 삭제됩니다.")) return
 	setHubDialogStatus("HUB 데이터를 불러오는 중입니다...")
-	postHubMessage({
+	if (postHubMessage({
 		type: HUB_MESSAGE.LOAD_REQUEST,
-	})
+	})) {
+		scheduleHubPendingTimeout("HUB 불러오기 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.")
+	} else {
+		setHubDialogStatus("HUB 연결을 확인할 수 없습니다.")
+		showToast("HUB 연결 실패")
+	}
 }
 function applyHubState(payload) {
 	if (!payload || !payload.encoded_state) {
@@ -157,6 +251,7 @@ function handleHubMessage(event) {
 	if (!data || typeof data !== "object") return
 
 	if (data.type === HUB_MESSAGE.SAVE_RESPONSE) {
+		clearHubPendingTimeout()
 		if (data.ok) {
 			setHubDialogStatus("HUB에 저장되었습니다.")
 			showToast("HUB에 저장되었습니다")
@@ -168,6 +263,7 @@ function handleHubMessage(event) {
 	}
 
 	if (data.type === HUB_MESSAGE.LOAD_RESPONSE) {
+		clearHubPendingTimeout()
 		if (data.ok) {
 			applyHubState(data.payload)
 		} else {
@@ -183,6 +279,7 @@ function initHubBridge() {
 	$onclick("#hub-dialog-close", closeHubDialog)
 	$onclick("#hub-dialog-save", requestHubSave)
 	$onclick("#hub-dialog-load", requestHubLoad)
+	$onclick("#hub-dialog-link-browser", requestHubLegacyBrowserSave)
 	window.addEventListener("message", handleHubMessage)
 	postHubStateChanged()
 }
@@ -797,13 +894,9 @@ function clearSearchQueryString() {
 }
 
 function decodeState(encodedString) {
-	var str = atob(encodedString)
-
-	const trs = str.split(",")
+	const trs = parseEncodedState(encodedString)
 	for (const tr of trs.reverse()) {
-		if (!tr || tr === "") continue
-		const [id, lvl] = tr.split("-")
-		addTreasure(Number(id), Number(lvl))
+		addTreasure(Number(tr.id), Number(tr.lvl))
 	}
 }
 
@@ -860,8 +953,8 @@ function share() {
 }
 function load(isInitial) {
 	let str = localStorage.getItem("cookierun-crystal-state")
-	if (!isInitial && (!str || str === "")) {
-		showToast("저장된 세팅이 없습니다")
+	if (!str || str === "") {
+		if (!isInitial) showToast("저장된 세팅이 없습니다")
 		return
 	}
 	if(!isInitial)
