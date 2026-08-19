@@ -590,6 +590,15 @@ const TREASURES = [
 		expiration :"2027-07-31",
 		type: TYPE.Limited,
 		fullImage:true
+	},{
+		id:68,
+		name: "크리스탈빛 VIP 메달",
+		amt:9,
+		minp: 7,
+		maxp: 14,
+		expiration :"2027-02-28",
+		type: TYPE.Partyrun,
+		fullImage:true
 	},
 	{
 		id: 201,
