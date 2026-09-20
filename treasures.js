@@ -579,8 +579,7 @@ const TREASURES = [
 		minp: 7,
 		maxp: 14,
 		expiration :"2027-01-31",
-		type: TYPE.Partyrun,
-		fullImage:true
+		type: TYPE.Partyrun
 	},{
 		id:67,
 		name: "천축행 크리스탈 지도",
