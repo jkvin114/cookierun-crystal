@@ -599,6 +599,15 @@ const TREASURES = [
 		expiration :"2027-02-28",
 		type: TYPE.Partyrun,
 		fullImage:true
+	},{
+		id:69,
+		name: "엘레강스 크리스탈 방울 액자",
+		amt:9,
+		minp: 7,
+		maxp: 14,
+		expiration :"2027-03-31",
+		type: TYPE.Partyrun,
+		fullImage:true
 	},
 	{
 		id: 201,
