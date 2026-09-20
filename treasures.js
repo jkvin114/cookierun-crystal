@@ -321,8 +321,7 @@ const TREASURES = [
 		amt: 2,
 		minp: 31,
 		maxp: 36,
-		type: TYPE.Limited,
-		fullImage:true
+		type: TYPE.Limited
 
 	},{
 		id: 37,
@@ -376,7 +375,6 @@ const TREASURES = [
 		minp: 6,
 		maxp: 16,
 		type: TYPE.Limited,
-		fullImage:true,
 		expiration :"2025-12-31"
 	},{
 		id: 43,
@@ -486,8 +484,7 @@ const TREASURES = [
 		amt:6,
 		minp: 2,
 		maxp: 18,
-		type: TYPE.Gacha,
-		fullImage:true
+		type: TYPE.Gacha
 	},{
 		id: 56,
 		name: "Lv. 110 로얄 쿠키스 클럽 트로피",
@@ -587,8 +584,7 @@ const TREASURES = [
 		minp: 7,
 		maxp: 11,
 		expiration :"2027-07-31",
-		type: TYPE.Limited,
-		fullImage:true
+		type: TYPE.Limited
 	},{
 		id:68,
 		name: "크리스탈빛 VIP 메달",
