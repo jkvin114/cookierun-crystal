@@ -65,6 +65,9 @@ input[type=text]{
 ul {
   list-style: none;
 }
+li {
+  list-style: none;
+}
 .stroke{
     /* -webkit-text-stroke: 2px rgb(163, 114, 0); */
     -webkit-text-stroke: 2px rgb(82, 58, 0);
