@@ -603,6 +603,14 @@ const TREASURES = [
 		expiration :"2027-03-31",
 		type: TYPE.Partyrun,
 		fullImage:true
+	},{
+		id:70,
+		name: "천상의 크리스탈 방울 귀걸이",
+		amt:9,
+		minp: 7,
+		maxp: 14,
+		expiration :"2027-04-30",
+		type: TYPE.Partyrun
 	},
 	{
 		id: 201,
