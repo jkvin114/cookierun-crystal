@@ -611,6 +611,15 @@ const TREASURES = [
 		maxp: 14,
 		expiration :"2027-04-30",
 		type: TYPE.Partyrun
+	},{
+		id:71,
+		name: "지롱이 크리스탈 감지 돋보기",
+		amt:2,
+		minp: 12,
+		maxp: 25,
+		expiration :"2027-10-31",
+		type: TYPE.Partyrun,
+		fullImage:true
 	},
 	{
 		id: 201,
