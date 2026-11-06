@@ -618,7 +618,7 @@ const TREASURES = [
 		minp: 12,
 		maxp: 25,
 		expiration :"2027-10-31",
-		type: TYPE.Partyrun,
+		type: TYPE.Limited,
 		fullImage:true
 	},
 	{
