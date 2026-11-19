@@ -618,8 +618,15 @@ const TREASURES = [
 		minp: 12,
 		maxp: 25,
 		expiration :"2027-10-31",
-		type: TYPE.Limited,
-		fullImage:true
+		type: TYPE.Limited
+	},{
+		id:72,
+		name: "파티런 시즌12 패스보상",
+		amt:9,
+		minp: 7,
+		maxp: 14,
+		expiration :"2027-05-31",
+		type: TYPE.Partyrun
 	},
 	{
 		id: 201,
