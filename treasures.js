@@ -621,7 +621,7 @@ const TREASURES = [
 		type: TYPE.Limited
 	},{
 		id:72,
-		name: "파티런 시즌12 패스보상",
+		name: "크리스탈 챔피언 밸트",
 		amt:9,
 		minp: 7,
 		maxp: 14,
